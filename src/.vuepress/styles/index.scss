@@ -1,0 +1,40 @@
+@font-face {
+  font-family: 'Comic';
+  src: url('/fonts/comic/comicbd.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Comic';
+  src: url('/fonts/comic/comic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'HuaWenKaiTi';
+  src: url('/fonts/STXINGKA.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+.vp-blog-mask {
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+.vp-blog-hero-title,
+.vp-site-name{
+  font-family: 'Comic', 'Comic Sans MS', serif;
+}

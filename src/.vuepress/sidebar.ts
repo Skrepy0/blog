@@ -22,8 +22,7 @@ export default sidebar({
       collapsible: true,
       expanded: true,
       prefix: "articles/",
-      link: "articles/",
-      children: "structure",
+      children: "structure"
     },
     "intro",
     {

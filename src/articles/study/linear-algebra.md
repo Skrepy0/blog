@@ -105,7 +105,7 @@ $A$与$B$等价的充要条件是**他们具有相同的标准形**
 $A$与$B$等价,则他们的秩相等
 
 $$
-\begin{cases}奇异方阵、降秩方阵，\;|A|=0\\非奇异方阵、满秩方阵，\;|A|\not=0\end{cases}
+\begin{cases}\text{奇异方阵、降秩方阵，}\;|A|=0\\ \text{非奇异方阵、满秩方阵，}\;|A|\not=0\end{cases}
 $$
 
 若$A\in R^{m\times n},\;B\in R^{n\times s}$ , 且$AB=0$，则

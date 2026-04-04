@@ -133,10 +133,11 @@ export default hopeTheme({
   plugins: {
     blog: true,
     slimsearch: {
+      indexContent: true, // 关键：开启全文搜索索引
       hotKeys: [
         {
           key: "k",
-          ctrl: true,
+          ctrl: true, // 自定义快捷键，如 Ctrl + K
         },
       ],
     },

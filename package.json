@@ -14,7 +14,7 @@
     "@vuepress/bundler-vite": "2.0.0-rc.28",
     "@vuepress/plugin-markdown-math": "^2.0.0-rc.128",
     "@vuepress/plugin-register-components": "^2.0.0-rc.128",
-    "@vuepress/plugin-slimsearch": "^2.0.0-rc.129",
+    "@vuepress/plugin-slimsearch": "^2.0.0-rc.128",
     "katex": "^0.16.44",
     "sass-embedded": "^1.98.0",
     "vue": "^3.5.31",

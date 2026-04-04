@@ -55,7 +55,7 @@ export default hopeTheme({
 
   // 多语言配置
   metaLocales: {
-    editLink: "TODO还没想好写啥",
+    editLink: "此处有隐藏成就：[提交！]",
   },
 
   // 如果想要实时查看任何改变，启用它。注: 这对更新性能有很大负面影响

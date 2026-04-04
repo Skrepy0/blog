@@ -19,15 +19,15 @@ projects:
     desc: 一些MCMod和其他乱七八糟的东西
     link: https://github.com/Skrepy0?tab=repositories
 
-  - icon: book
-    name: 书籍名称
-    desc: 书籍详细描述
-    link: https://你的书籍链接
+  - icon: mingcute:github-line
+    name: Github Profile
+    desc: Github主页
+    link: https://github.com/Skrepy0
 
-  - icon: newspaper
-    name: 文章名称
-    desc: 文章详细描述
-    link: https://你的文章链接
+  - icon: simple-icons:modrinth
+    name: Modrinth Profile
+    desc: Skrepy の Minecraft Mods
+    link: https://modrinth.com/user/Skrepy2233
 
   - icon: user-group
     name: 伙伴名称

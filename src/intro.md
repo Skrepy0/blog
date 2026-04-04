@@ -1,8 +1,8 @@
 ---
-icon: circle-info
-cover: /assets/images/cover3.jpg
+icon: line-md:star-filled
+# cover: /assets/images/test.jpg
 ---
 
-# 介绍页
+# 介绍
 
 // TODO介绍页 

@@ -5,6 +5,7 @@ export default navbar([
   // "/demo/",
   "/articles/",
   // "/notes/",
+  "/intro",
   {
     text: "项目链接",
     icon: "ix:project-history",

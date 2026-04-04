@@ -132,15 +132,24 @@ export default hopeTheme({
   // 在这里配置主题提供的插件
   plugins: {
     blog: true,
-    slimsearch: {
-      indexContent: false, 
-      hotKeys: [
-        {
-          key: "k",
-          ctrl: true, // 自定义快捷键，如 Ctrl + K
-        },
-      ],
+    search: {
+      // 快捷键
+      hotKeys: ["s", "/"],
+      // 最大搜索建议数
+      maxSuggestions: 10,
+      // 自定义搜索字段
+      fields: ["title", "tags", "categories"],
     },
+    // slimsearch: {
+    //   worker: undefined,
+    //   indexContent: true,
+    //   hotKeys: [
+    //     {
+    //       key: "k",
+    //       ctrl: true,
+    //     },
+    //   ],
+    // },
     components: {
       components: ["Badge", "VPCard"],
     },

@@ -1,4 +1,4 @@
-import { isPlainObject as e } from "vuepress/shared";
+const e = (val) => Object.prototype.toString.call(val) === "[object Object]";
 const t = (e) => Array.isArray(e),
   { entries: n } = Object,
   { fromEntries: r } = Object,

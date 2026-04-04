@@ -1,4 +1,6 @@
 ---
+index: false
+article: false
 icon: line-md:star-filled
 # cover: /assets/images/test.jpg
 ---

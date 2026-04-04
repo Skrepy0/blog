@@ -49,3 +49,6 @@
 .vp-back-to-top-button:active {
   transform: scale(0.95);
 }
+.search-box>.suggestions{
+  animation: DropIn 0.3s ease forwards;
+}

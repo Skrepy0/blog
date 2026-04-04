@@ -133,12 +133,13 @@ export default hopeTheme({
   plugins: {
     blog: true,
     search: {
+
       // 快捷键
       hotKeys: ["s", "/"],
       // 最大搜索建议数
       maxSuggestions: 10,
-      // 自定义搜索字段
-      fields: ["title", "tags", "categories"],
+      // 自定义哪些页面可以被搜索
+      isSearchable: (page) => page.path !== "/",
     },
     // slimsearch: {
     //   worker: undefined,

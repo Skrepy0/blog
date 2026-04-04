@@ -133,6 +133,7 @@ export default hopeTheme({
   plugins: {
     blog: true,
     slimsearch: {
+      worker:false ,
       indexContent: true, // 关键：开启全文搜索索引
       hotKeys: [
         {

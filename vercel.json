@@ -1,13 +1,11 @@
 {
-  "headers": [
+  "routes": [
     {
-      "source": "/slimsearch.worker.js",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/javascript"
-        }
-      ]
+      "src": "/slimsearch.worker.js",
+      "headers": {
+        "Content-Type": "application/javascript"
+      },
+      "dest": "/slimsearch.worker.js"
     }
   ]
 }

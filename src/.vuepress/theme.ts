@@ -133,6 +133,7 @@ export default hopeTheme({
   plugins: {
     blog: true,
     slimsearch: {
+      worker: "worker.js",
       indexContent: true,
       hotKeys: [
         {

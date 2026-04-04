@@ -1,1 +1,17 @@
-// you can change colors here
+$mask-bg: rgba(0, 0, 0, 0.3);
+
+:root {
+  --vp-c-bg: #F0F1F3; 
+  --vp-c-text: #2c3e50; 
+
+  --bp-w-bg-f:#f0f2f5
+  --bp-w-bg-s:#e0e4e8
+}
+
+[data-theme="dark"] {
+  --vp-c-bg: #1b1b1f; 
+  --vp-c-text: #e0e0e0; 
+
+  --bp-w-bg-f:#f0f2f5
+  --bp-w-bg-s:#e0e4e8
+}

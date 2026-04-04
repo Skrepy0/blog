@@ -1,4 +1,4 @@
-import { defineUserConfig } from "vuepress";
+import { defineUserConfig, Page } from "vuepress";
 import { searchPlugin } from "@vuepress/plugin-search";
 import theme from "./theme.js";
 import { getDirname, path } from "vuepress/utils";
@@ -27,7 +27,7 @@ export default defineUserConfig({
     searchPlugin({
       locales: {
         "/": {
-          placeholder: "搜索文章",
+          placeholder: "Ctrl+K搜索",
         },
       },
       hotKeys: [
@@ -36,6 +36,7 @@ export default defineUserConfig({
           ctrl: true,
         },
       ],
+      maxSuggestions: 10,
     }),
   ],
 });

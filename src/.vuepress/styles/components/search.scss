@@ -1,0 +1,15 @@
+@use "./animation.scss" as *;
+.search-box{
+  transition: all 0.3s;
+  &:active{
+    transform: scale(0.98);
+  }
+  input{
+    animation: scaleWiden 0.3s ease forwards;
+    transition: all 0.3s;
+    &:hover{
+      border-color: var(--bp-w-bg-f);
+    }
+  }
+}
+

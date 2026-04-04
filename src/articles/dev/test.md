@@ -2,6 +2,7 @@
 icon: ic:outline-bug-report
 date: 2026-04-04
 star: true   # 星标测试QAQ
+excerpt: Blog测试-摘要
 category:
   - 开发
   - 项目

@@ -29,10 +29,10 @@ projects:
     desc: Skrepy の Minecraft Mods
     link: https://modrinth.com/user/Skrepy2233
 
-  - icon: user-group
-    name: 伙伴名称
-    desc: 伙伴详细介绍
-    link: https://你的伙伴链接
+  - icon: -null
+    name: -null
+    desc: 还没想好放啥
+    link: #
 
   - icon: https://theme-hope-assets.vuejs.press/logo.svg
     name: 技术支持

@@ -5,7 +5,7 @@ import sidebar from "./sidebar.js";
 
 export default hopeTheme({
   hostname: "https://blog.skrepy.dpdns.org",
-
+  darkmode: "switch",
   author: {
     name: "Skrepy",
     url: "https://skrepy.dpdns.org",
@@ -96,14 +96,6 @@ export default hopeTheme({
     tasklist: true,
     vPre: true,
 
-    // 取消注释它们如果你需要 TeX 支持
-    // math: {
-    //   // 启用前安装 katex
-    //   type: "katex",
-    //   // 或者安装 @mathjax/src
-    //   type: "mathjax",
-    // },
-
     // 如果你需要幻灯片，安装 @vuepress/plugin-revealjs 并取消下方注释
     // revealjs: {
     //   plugins: ["highlight", "math", "search", "notes", "zoom"],
@@ -138,12 +130,6 @@ export default hopeTheme({
   plugins: {
     blog: true,
     search: true,
-    // 启用之前需安装 @waline/client
-    // 警告: 这是一个仅供演示的测试服务，在生产环境中请自行部署并使用自己的服务！
-    // comment: {
-    //   provider: "Waline",
-    //   serverURL: "https://waline-comment.vuejs.press",
-    // },
 
     components: {
       components: ["Badge", "VPCard"],

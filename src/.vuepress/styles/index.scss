@@ -1,68 +1,43 @@
-@font-face {
-  font-family: 'Comic';
-  src: url('/fonts/comic/comicbd.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Comic';
-  src: url('/assets/fonts/comic/comic.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'HuaWenKaiTi';
-  src: url('/assets/fonts/STXINGKA.TTF') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
+@use "./palette.scss" as *;
+@import "./components/search.scss";
+@import "./components/fonts.scss";
+@import "./components/nav-links.scss";
+@import "./components/sidebar-links.scss";
 .cursor-solid {
-  cursor: url('/assets/cursors/cursor_solid.cur'), auto !important;
+  cursor: url("/assets/cursors/cursor_solid.cur"), auto !important;
 }
 .cursor-normal {
-  cursor: url('/assets/cursors/cursor.cur'), auto !important;
+  cursor: url("/assets/cursors/cursor.cur"), auto !important;
 }
 
 .vp-blog-mask {
-
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.3);
+    background: $mask-bg;
     pointer-events: none;
     z-index: 0;
   }
 }
 .vp-blogger-name,
-.vp-site-name{
-  font-family: Comic, 'Comic Sans MS', serif;
+.vp-site-name {
+  font-family: Comic, "Comic Sans MS", serif;
 }
 
-html,body{
+html,
+body {
   @extend .cursor-normal;
 }
-.vp-star-article-wrapper>.title,
-.vp-blog-type-icon-wrapper,a,button{
+.vp-star-article-wrapper > .title,
+.vp-blog-type-icon-wrapper,a,
+button {
   @extend .cursor-solid;
 }
-:root {
-  /* 确保每个变量都有合理的后备值 */
-  --search-c-bg: var(--vp-c-bg, #ffffff);
-  --search-c-accent: var(--vp-c-accent, #3eaf7c);
-  --search-c-text: var(--vp-c-text, #2c3e50);
-  --search-c-divider: var(--vp-c-divider, #eaecef);
-  --search-c-item-text: var(--vp-c-text-subtle, #4e6e8e);
-  --search-c-item-focus: var(--vp-c-bg-alt, #f6f8fa);
-  --search-input-width: clamp(8rem, 20vw, 16rem);   /* 响应式宽度 */
-  --search-result-width: min(20rem, 90vw);          /* 移动端自适应 */
-  --search-transition-duration: 0.2s;               /* 统一过渡时长 */
-  --search-easing: cubic-bezier(0.2, 0.9, 0.4, 1.1); /* 弹性缓动 */
+
+.blog-page-wrapper {
+  background: linear-gradient(to bottom right, var(--bp-w-bg-f), var(--bp-w-bg-s));
 }

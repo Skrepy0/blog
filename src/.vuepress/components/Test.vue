@@ -6,18 +6,18 @@ const counter = ref(0);
   <button class="test-button" @click="counter++">{{ counter }}</button>
 </template>
 <style lang="scss">
-@import url("../styles/index.scss");
+@import "../styles/palette.scss";
 .test-button {
   height: 30px;
   width: 50px;
-  background-color: rgba(4, 41, 41);
+  background-color: var(--cp-test-btn);
   border-radius: 12px;
   border: none;
   font-size: 14.4px;
   transition: all 0.3s;
   &:hover {
     transform: translateY(-5px);
-    background-color: rgba(25, 255, 213);
+    background-color: #19ffd5;
   }
   &:active{
     transform:scale(0.9);

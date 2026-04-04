@@ -29,7 +29,7 @@ projects:
     desc: Skrepy の Minecraft Mods
     link: https://modrinth.com/user/Skrepy2233
 
-  - icon: -null
+  - icon: carbon:null-sign
     name: -null
     desc: 还没想好放啥
     link: #

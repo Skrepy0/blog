@@ -1,5 +1,5 @@
 ---
-title: 笔记
+title: 文章
 index: false
 icon: laptop-code
 ---

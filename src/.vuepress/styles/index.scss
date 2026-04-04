@@ -1,16 +1,19 @@
 @use "./palette.scss" as *;
+@import "./components/animation.scss";
+@import "./components/cursors.scss";
 @import "./components/search.scss";
 @import "./components/fonts.scss";
 @import "./components/nav-links.scss";
 @import "./components/sidebar-links.scss";
-.cursor-solid {
-  cursor: url("/assets/cursors/cursor_solid.cur"), auto !important;
+@import "./components/blogs.scss";
+.vp-action-link {
+  transition: all 0.3s;
 }
-.cursor-normal {
-  cursor: url("/assets/cursors/cursor.cur"), auto !important;
+.route-link {
+  animation: DropIn 0.3s ease forwards;
 }
-
 .vp-blog-mask {
+  animation: bgScaleIn 1s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
   &::before {
     content: "";
     position: absolute;
@@ -28,16 +31,21 @@
   font-family: Comic, "Comic Sans MS", serif;
 }
 
-html,
-body {
-  @extend .cursor-normal;
-}
 .vp-star-article-wrapper > .title,
-.vp-blog-type-icon-wrapper,a,
-button {
-  @extend .cursor-solid;
-}
-
+.vp-blog-type-icon-wrapper,
 .blog-page-wrapper {
-  background: linear-gradient(to bottom right, var(--bp-w-bg-f), var(--bp-w-bg-s));
+  background: linear-gradient(
+    to bottom right,
+    var(--bp-w-bg-f),
+    var(--bp-w-bg-s)
+  );
+}
+.vp-back-to-top-button {
+  transition: all 0.5s !important;
+}
+.vp-back-to-top-button:hover {
+  transform: scale(1.05);
+}
+.vp-back-to-top-button:active {
+  transform: scale(0.95);
 }

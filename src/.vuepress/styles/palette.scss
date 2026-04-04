@@ -1,17 +1,32 @@
 $mask-bg: rgba(0, 0, 0, 0.3);
 
 :root {
-  --vp-c-bg: #F0F1F3; 
-  --vp-c-text: #2c3e50; 
 
-  --bp-w-bg-f:#f0f2f5
-  --bp-w-bg-s:#e0e4e8
+  
+  --vp-c-bg: #F0F1F3; 
+  --vp-c-text: #2c3e50;
+
+  --bp-w-bg-f: #f0f2f5;
+  --bp-w-bg-s: #e0e4e8;
+
+  --cp-test-btn: #e1fcfc;
+
+  --sidebar-bg: rgba(184, 173, 212, 0.1);
+
+  --cursor-normal:url("/assets/cursors/cursor_black.cur");
 }
 
 [data-theme="dark"] {
   --vp-c-bg: #1b1b1f; 
   --vp-c-text: #e0e0e0; 
+  --vp-c-bg-elv:#1b1c24; 
 
-  --bp-w-bg-f:#f0f2f5
-  --bp-w-bg-s:#e0e4e8
+  --bp-w-bg-f:#1b1c24;
+  --bp-w-bg-s:#0c0d13;
+
+  --cp-test-btn:#042929;
+
+  --sidebar-bg: rgb(27, 28, 36);
+
+  --cursor-normal:url("/assets/cursors/cursor_white.cur");
 }

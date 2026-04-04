@@ -55,7 +55,7 @@ export default hopeTheme({
 
   // 多语言配置
   metaLocales: {
-    editLink: "此处有隐藏成就：[提交！]",
+    editLink: "此处有隐藏成就：[提交!]",
   },
 
   // 如果想要实时查看任何改变，启用它。注: 这对更新性能有很大负面影响
@@ -96,6 +96,9 @@ export default hopeTheme({
     tasklist: true,
     vPre: true,
 
+    math: {
+      type: "katex",
+    },
     // 如果你需要幻灯片，安装 @vuepress/plugin-revealjs 并取消下方注释
     // revealjs: {
     //   plugins: ["highlight", "math", "search", "notes", "zoom"],
@@ -129,8 +132,14 @@ export default hopeTheme({
   // 在这里配置主题提供的插件
   plugins: {
     blog: true,
-    search: true,
-
+    slimsearch: {
+      hotKeys: [
+        {
+          key: "k",
+          ctrl: true,
+        },
+      ],
+    },
     components: {
       components: ["Badge", "VPCard"],
     },

@@ -29,10 +29,10 @@ projects:
     desc: Skrepy の Minecraft Mods
     link: https://modrinth.com/user/Skrepy2233
 
-  - icon: carbon:null-sign
-    name: -null
-    desc: 还没想好放啥
-    link: #
+  - icon: line-md:star-filled
+    name: 认识一下~
+    desc: introduce
+    link: /intro
 
   - icon: https://theme-hope-assets.vuejs.press/logo.svg
     name: 技术支持

@@ -14,6 +14,8 @@
 }
 .vp-blog-mask {
   animation: bgScaleIn 1s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+  will-change: transform;
+
   &::before {
     content: "";
     position: absolute;
@@ -22,6 +24,9 @@
     width: 100%;
     height: 100%;
     background: $mask-bg;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     pointer-events: none;
     z-index: 0;
   }
@@ -49,6 +54,6 @@
 .vp-back-to-top-button:active {
   transform: scale(0.95);
 }
-.search-box>.suggestions{
+.search-box > .suggestions {
   animation: DropIn 0.3s ease forwards;
 }

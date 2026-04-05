@@ -2,9 +2,20 @@
 index: false
 article: false
 icon: line-md:star-filled
-# cover: /assets/images/test.jpg
+containerClass: home
+home: true
+bgImage: /assets/images/intro.jpg
+portfolio: true
+sidebar: false
+avatar: avatar.png
+heroImageStyle:         
+  width: 120px
+  height: auto
+welcome: 你好，这里是
+name: Skrepy
+title: 介绍
+titles:
+    - 欢迎来到intro页
 ---
 
-# 介绍
-
-// TODO介绍页 
+// TODO 还没做完QAQ

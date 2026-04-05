@@ -1,6 +1,6 @@
-@use "../palette.scss" as *;
+@use '../palette.scss' as *;
 .cursor-solid {
-  cursor: url("/assets/cursors/cursor_green.cur"), auto !important;
+  cursor: url('/assets/cursors/cursor_green.cur'), auto !important;
 }
 .cursor-normal {
   cursor: var(--cursor-normal), auto !important;

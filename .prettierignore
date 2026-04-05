@@ -1,0 +1,12 @@
+.github/*
+.vercel/*
+node_modules/*
+.env
+.env.local
+src/.vuepress/.cache/*
+src/.vuepress/.temp/*
+src/.vuepress/dist/*
+src/.vuepress/public/*
+src/articles/*
+src/*.md
+

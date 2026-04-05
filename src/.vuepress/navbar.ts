@@ -1,48 +1,48 @@
-import { navbar } from "vuepress-theme-hope";
+import { navbar } from 'vuepress-theme-hope'
 
 export default navbar([
-  "/",
+  '/',
   // "/demo/",
-  "/articles/",
+  '/articles/',
   // "/notes/",
-  "/intro",
+  '/intro',
   {
-    text: "项目链接",
-    icon: "ix:project-history",
-    prefix: "/projects/",
+    text: '项目链接',
+    icon: 'ix:project-history',
+    prefix: '/projects/',
     children: [
       {
-        text: "印刷登记工具",
-        icon: "ix:project",
-        link: "https://github.com/Skrepy0/Print-Registration-System",
+        text: '印刷登记工具',
+        icon: 'ix:project',
+        link: 'https://github.com/Skrepy0/Print-Registration-System',
       },
       {
-        text: "PhyPlot",
-        icon: "ix:project",
-        link: "https://github.com/Skrepy0/PhyPlot",
+        text: 'PhyPlot',
+        icon: 'ix:project',
+        link: 'https://github.com/Skrepy0/PhyPlot',
       },
       {
-        text: "HNU大一期末大作业",
-        icon: "ix:project",
-        link: "https://github.com/Skrepy0/Dormitory-Management-System",
+        text: 'HNU大一期末大作业',
+        icon: 'ix:project',
+        link: 'https://github.com/Skrepy0/Dormitory-Management-System',
       },
       {
-        text: "Minecraft Mods",
+        text: 'Minecraft Mods',
         children: [
           {
-            text: "Random Enchant",
-            icon: "ix:project",
-            link: "https://github.com/Skrepy0/Random-Enchant-Neoforge",
+            text: 'Random Enchant',
+            icon: 'ix:project',
+            link: 'https://github.com/Skrepy0/Random-Enchant-Neoforge',
           },
           {
-            text: "Grapnel",
-            icon: "ix:project",
-            link: "https://github.com/Skrepy0/Grapnel-Neoforge",
+            text: 'Grapnel',
+            icon: 'ix:project',
+            link: 'https://github.com/Skrepy0/Grapnel-Neoforge',
           },
           {
-            text: "Level Fix",
-            icon: "ix:project",
-            link: "https://github.com/Skrepy0/LevelFix-Neoforge",
+            text: 'Level Fix',
+            icon: 'ix:project',
+            link: 'https://github.com/Skrepy0/LevelFix-Neoforge',
           },
         ],
       },
@@ -94,4 +94,4 @@ export default navbar([
   //   icon: "book",
   //   link: "https://theme-hope.vuejs.press/zh/",
   // },
-]);
+])

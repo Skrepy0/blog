@@ -1,6 +1,39 @@
-@use "./animation.scss" as *;
-@import "./cursors.scss";
-.slimsearch-button {
+@use './animation.scss' as *;
+@import './cursors.scss';
+.DocSearch-Hit-source {
+  color: var(--vp-c-accent);
+}
+#docsearch-container {
+  transition: all 0.3s !important;
+  animation: DropIn 0.3s ease forwards;
+  button {
+    border-radius: 16px;
+    transition: all 0.3s !important;
+    &:hover {
+      transform: translateY(-1px);
+      border-color: var(--vp-c-accent);
+    }
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+.docsearch-placeholder {
+  transition: all 0.3s !important;
+  animation: DropIn 0.3s ease forwards;
+  button {
+    border-radius: 16px;
+    transition: all 0.3s !important;
+    &:hover {
+      transform: translateY(-1px);
+      border-color: var(--theme-color);
+    }
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+.DocSearch-MagnifierLabel {
   transition: all 0.5s;
   &:active {
     transform: scale(0.95) !important;
@@ -8,35 +41,56 @@
   animation: scaleWiden 0.3s ease forwards;
 }
 
-.slimsearch-modal {
+.DocSearch-Clear,
+.DocSearch-Hit-Select-Icon {
+  transition: all 0.5s;
+  &:active {
+    transform: scale(0.95) !important;
+  }
+  animation: DropIn 0.3s ease forwards;
+}
+.DocSearch-Form {
+  border-radius: 20px !important;
+}
+.DocSearch-Footer {
+  border-bottom-left-radius: 20px !important;
+  border-bottom-right-radius: 20px !important;
+}
+.DocSearch-Modal {
   animation: DropIn 0.3s ease forwards;
   border-radius: 20px !important;
-  .slimsearch-input {
-    border-radius: 50px !important;
-  }
-  .slimsearch-hints {
-    border-radius: 20px !important;
-  }
+}
+.DocSearch-Input {
+  border-radius: 50px !important;
+}
+.DocSearch-Hit > a {
+  border-radius: 16px !important;
 }
 
-.slimsearch-record-matches {
+.DocSearch-Hit {
   border-radius: 16px !important;
   opacity: 0;
-  animation: slideIn 0.4s ease forwards;
-  transition: all 0.33s;
+  animation: slideIn 0.3s ease forwards;
+  .DocSearch-Hit-Container {
+    transition: all 0.33s !important;
+    &:active {
+      transform: scale(0.98) !important;
+    }
+  }
+  transition: all 0.33s !important;
 }
-.slimsearch-record-matches:nth-child(1) {
+.DocSearch-Hit:nth-child(1) {
   animation-delay: 0s;
 }
-.slimsearch-record-matches:nth-child(2) {
+.DocSearch-Hit:nth-child(2) {
   animation-delay: 0.1s;
 }
-.slimsearch-record-matches:nth-child(3) {
+.DocSearch-Hit:nth-child(3) {
   animation-delay: 0.2s;
 }
-.slimsearch-record-matches:nth-child(4) {
+.DocSearch-Hit:nth-child(4) {
   animation-delay: 0.3s;
 }
-.slimsearch-record-matches:nth-child(5) {
+.DocSearch-Hit:nth-child(5) {
   animation-delay: 0.4s;
 }

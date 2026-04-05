@@ -1,21 +1,22 @@
-import { hopeTheme } from "vuepress-theme-hope";
-
-import navbar from "./navbar.js";
-import sidebar from "./sidebar.js";
+import { hopeTheme } from 'vuepress-theme-hope'
+import { config } from 'dotenv'
+config()
+import navbar from './navbar.js'
+import sidebar from './sidebar.js'
 
 export default hopeTheme({
-  hostname: "https://blog.skrepy.dpdns.org",
-  darkmode: "switch",
+  hostname: 'https://blog.skrepy.dpdns.org',
+  darkmode: 'switch',
   author: {
-    name: "Skrepy",
-    url: "https://skrepy.dpdns.org",
+    name: 'Skrepy',
+    url: 'https://skrepy.dpdns.org',
   },
 
-  logo: "/avatar.png",
+  logo: '/avatar.png',
 
-  repo: "Skrepy0/blog",
+  repo: 'Skrepy0/blog',
 
-  docsDir: "src",
+  docsDir: 'src',
 
   // 导航栏
   navbar,
@@ -24,38 +25,38 @@ export default hopeTheme({
   sidebar,
 
   // 页脚
-  footer: "Skrepy2233",
+  footer: 'Skrepy2233',
   displayFooter: true,
 
   // 博客相关
   blog: {
-    description: "description",
-    intro: "/intro.html",
+    description: '今朝有酒今朝醉，明日愁来明日愁',
+    intro: '/intro.html',
     medias: {
-      BiliBili: "https://space.bilibili.com/3546594102217461",
-      GitHub: "https://github.com/Skrepy0/",
-      Gmail: "skrepyaelly@gmail.com",
-      Twitter: "https://x.com/Skrepy2233",
+      BiliBili: 'https://space.bilibili.com/3546594102217461',
+      GitHub: 'https://github.com/Skrepy0/',
+      Gmail: 'skrepyaelly@gmail.com',
+      Twitter: 'https://x.com/Skrepy2233',
       Modrinth: {
-        icon: "https://cdn.simpleicons.org/modrinth/1bd96a",
-        link: "https://modrinth.com/user/Skrepy2233",
+        icon: 'https://cdn.simpleicons.org/modrinth/1bd96a',
+        link: 'https://modrinth.com/user/Skrepy2233',
       },
     },
   },
-
+  pageInfo: ['Author', 'Date', 'Word', 'ReadingTime', 'Category', 'Tag'],
   // 加密配置
   encrypt: {
     config: {
-      "/demo/encrypt.html": {
-        hint: "Password: 1234",
-        password: "1234",
+      '/demo/encrypt.html': {
+        hint: 'Password: 1234',
+        password: '1234',
       },
     },
   },
 
   // 多语言配置
   metaLocales: {
-    editLink: "此处有隐藏成就：[提交!]",
+    editLink: '此处有隐藏成就：[提交!]',
   },
 
   // 如果想要实时查看任何改变，启用它。注: 这对更新性能有很大负面影响
@@ -78,14 +79,14 @@ export default hopeTheme({
     spoiler: true,
     stylize: [
       {
-        matcher: "Recommended",
+        matcher: 'Recommended',
         replacer: ({ tag }) => {
-          if (tag === "em") {
+          if (tag === 'em') {
             return {
-              tag: "Badge",
-              attrs: { type: "tip" },
-              content: "Recommended",
-            };
+              tag: 'Badge',
+              attrs: { type: 'tip' },
+              content: 'Recommended',
+            }
           }
         },
       },
@@ -97,7 +98,7 @@ export default hopeTheme({
     vPre: true,
 
     math: {
-      type: "katex",
+      type: 'katex',
     },
     // 如果你需要幻灯片，安装 @vuepress/plugin-revealjs 并取消下方注释
     // revealjs: {
@@ -131,28 +132,21 @@ export default hopeTheme({
 
   // 在这里配置主题提供的插件
   plugins: {
-    blog: true,
-    // search: {
-
-    //   // 快捷键
-    //   hotKeys: ["s", "/"],
-    //   // 最大搜索建议数
-    //   maxSuggestions: 10,
-    //   // 自定义哪些页面可以被搜索
-    //   isSearchable: (page) => page.path !== "/",
-    // },
+    blog: {
+      excerpt: true,
+    },
 
     components: {
-      components: ["Badge", "VPCard"],
+      components: ['Badge', 'VPCard'],
     },
 
     icon: {
-      prefix: "fa6-solid:",
+      prefix: 'fa6-solid:',
     },
     docsearch: {
-      appId: process.env.AppId,
-      apiKey: process.env.ApiKey,
-      indexName: "blog-prod-crawler",
+      appId: process.env.AppId || '',
+      apiKey: process.env.ApiKey || '',
+      indexName: 'blog-prod-crawler',
     },
     // 如果你需要 PWA。安装 @vuepress/plugin-pwa 并取消下方注释
     // pwa: {
@@ -211,4 +205,4 @@ export default hopeTheme({
     //   },
     // },
   },
-});
+})

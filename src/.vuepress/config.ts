@@ -1,23 +1,16 @@
-import { defineUserConfig, Page } from "vuepress";
-import theme from "./theme.js";
-import { viteBundler } from "@vuepress/bundler-vite";
-import { getDirname, path } from "vuepress/utils";
-import { registerComponentsPlugin } from "@vuepress/plugin-register-components";
-import { docsearchPlugin } from "@vuepress/plugin-docsearch";
-const __dirname = import.meta.dirname || getDirname(import.meta.url);
+import { defineUserConfig, Page } from 'vuepress'
+import theme from './theme.js'
+import { viteBundler } from '@vuepress/bundler-vite'
+import { getDirname, path } from 'vuepress/utils'
+import { registerComponentsPlugin } from '@vuepress/plugin-register-components'
+import { docsearchPlugin } from '@vuepress/plugin-docsearch'
+const __dirname = import.meta.dirname || getDirname(import.meta.url)
 export default defineUserConfig({
-  head: [
-    // 添加 Algolia 站点验证 meta 标签
-    [
-      "meta",
-      { name: "algolia-site-verification", content: "E10BC9E7938E90E4" },
-    ],
-  ],
-  base: "/",
+  base: '/',
   bundler: viteBundler(),
-  lang: "zh-CN",
-  title: "SkrepyのBlog",
-  description: "SkrepyのBlog",
+  lang: 'zh-CN',
+  title: 'SkrepyのBlog',
+  description: 'SkrepyのBlog',
 
   theme,
 
@@ -26,8 +19,7 @@ export default defineUserConfig({
 
   plugins: [
     registerComponentsPlugin({
-      componentsDir: path.resolve(__dirname, "./components"),
+      componentsDir: path.resolve(__dirname, './components'),
     }),
-    
   ],
-});
+})

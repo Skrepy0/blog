@@ -1,23 +1,32 @@
-@use "./palette.scss" as *;
-@import "./components/animation.scss";
-@import "./components/cursors.scss";
-@import "./components/search.scss";
-@import "./components/fonts.scss";
-@import "./components/nav-links.scss";
-@import "./components/sidebar-links.scss";
-@import "./components/blogs.scss";
+@use './palette.scss' as *;
+@import './components/animation.scss';
+@import './components/cursors.scss';
+@import './components/search.scss';
+@import './components/fonts.scss';
+@import './components/nav-links.scss';
+@import './components/sidebar-links.scss';
+@import './components/blogs.scss';
+@import './components/intro.scss';
 .vp-action-link {
   transition: all 0.3s;
 }
 .route-link {
   animation: DropIn 0.3s ease forwards;
 }
+.vp-blogger-description {
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  animation: typing 3s steps(18) forwards;
+  font-size: 0.98rem;
+  font-family: HuaWenKaiTi, Courier, monospace;
+}
 .vp-blog-mask {
   animation: bgScaleIn 1s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
   will-change: transform;
 
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
@@ -31,19 +40,16 @@
     z-index: 0;
   }
 }
+
 .vp-blogger-name,
 .vp-site-name {
-  font-family: Comic, "Comic Sans MS", serif;
+  font-family: Comic, 'Comic Sans MS', serif;
 }
 
 .vp-star-article-wrapper > .title,
 .vp-blog-type-icon-wrapper,
 .blog-page-wrapper {
-  background: linear-gradient(
-    to bottom right,
-    var(--bp-w-bg-f),
-    var(--bp-w-bg-s)
-  );
+  background: linear-gradient(to bottom right, var(--bp-w-bg-f), var(--bp-w-bg-s));
 }
 .vp-back-to-top-button {
   transition: all 0.5s !important;
@@ -56,4 +62,13 @@
 }
 .search-box > .suggestions {
   animation: DropIn 0.3s ease forwards;
+}
+.vp-category-item,
+.vp-category,
+.page-category-item {
+  border-radius: 6px;
+}
+::selection {
+  background-color: var(--st-c-bg);
+  color: var(--st-c-fg);
 }

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref } from "vue";
-const counter = ref(0);
+import { ref } from 'vue'
+const counter = ref(0)
 </script>
 <template>
   <button class="test-button" @click="counter++">{{ counter }}</button>
 </template>
 <style lang="scss">
-@import "../styles/palette.scss";
+@import '../styles/palette.scss';
 .test-button {
   height: 30px;
   width: 50px;
@@ -19,8 +19,8 @@ const counter = ref(0);
     transform: translateY(-5px);
     background-color: #19ffd5;
   }
-  &:active{
-    transform:scale(0.9);
+  &:active {
+    transform: scale(0.9);
   }
 }
 </style>

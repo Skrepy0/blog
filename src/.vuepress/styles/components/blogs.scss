@@ -1,15 +1,15 @@
-@import "./animation.scss";
+@import './animation.scss';
 .vp-sidebar-group,
 .vp-sidebar-link,
 .toggle-sidebar-wrapper,
 .vp-sidebar-header {
   transition: all 0.3s;
 }
-#sidebar{
+#sidebar {
   background-color: var(--sidebar-bg);
 }
 
 .vp-toc-wrapper.open {
-  opacity: 0; 
+  opacity: 0;
   animation: DropIn 0.3s ease forwards;
 }

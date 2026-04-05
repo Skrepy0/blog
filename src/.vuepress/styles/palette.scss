@@ -1,9 +1,10 @@
 $mask-bg: rgba(0, 0, 0, 0.3);
 
 :root {
+  --st-c-bg: rgba(138, 237, 255, 0.3);
+  --st-c-fg: rgba(0, 0, 0, 0.8);
 
-  
-  --vp-c-bg: #F0F1F3; 
+  --vp-c-bg: #f0f1f3;
   --vp-c-text: #2c3e50;
 
   --bp-w-bg-f: #f0f2f5;
@@ -13,20 +14,23 @@ $mask-bg: rgba(0, 0, 0, 0.3);
 
   --sidebar-bg: rgba(184, 173, 212, 0.1);
 
-  --cursor-normal:url("/assets/cursors/cursor_black.cur");
+  --cursor-normal: url('/assets/cursors/cursor_black.cur');
 }
 
-[data-theme="dark"] {
-  --vp-c-bg: #1b1b1f; 
-  --vp-c-text: #e0e0e0; 
-  --vp-c-bg-elv:#1b1c24; 
+[data-theme='dark'] {
+  --st-c-bg: rgba(138, 255, 237, 0.3);
+  --st-c-fg: rgba(255, 255, 255, 0.8);
 
-  --bp-w-bg-f:#1b1c24;
-  --bp-w-bg-s:#0c0d13;
+  --vp-c-bg: #1b1b1f;
+  --vp-c-text: #e0e0e0;
+  --vp-c-bg-elv: #1b1c24;
 
-  --cp-test-btn:#042929;
+  --bp-w-bg-f: #1b1c24;
+  --bp-w-bg-s: #0c0d13;
+
+  --cp-test-btn: #042929;
 
   --sidebar-bg: rgb(27, 28, 36);
 
-  --cursor-normal:url("/assets/cursors/cursor_white.cur");
+  --cursor-normal: url('/assets/cursors/cursor_white.cur');
 }

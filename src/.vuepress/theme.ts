@@ -141,16 +141,7 @@ export default hopeTheme({
     //   // 自定义哪些页面可以被搜索
     //   isSearchable: (page) => page.path !== "/",
     // },
-    slimsearch: {
-      worker: undefined,
-      indexContent: true,
-      hotKeys: [
-        {
-          key: "k",
-          ctrl: true,
-        },
-      ],
-    },
+
     components: {
       components: ["Badge", "VPCard"],
     },
@@ -158,7 +149,11 @@ export default hopeTheme({
     icon: {
       prefix: "fa6-solid:",
     },
-
+    docsearch: {
+      appId: process.env.AppId,
+      apiKey: process.env.ApiKey,
+      indexName: "blog-prod-crawler",
+    },
     // 如果你需要 PWA。安装 @vuepress/plugin-pwa 并取消下方注释
     // pwa: {
     //   favicon: "/favicon.ico",

@@ -28,20 +28,6 @@ export default defineUserConfig({
     registerComponentsPlugin({
       componentsDir: path.resolve(__dirname, "./components"),
     }),
-    docsearchPlugin({
-      appId: "GQE9MZF01H",
-      apiKey: "2de6d377359bc296cc455a5d3b7d6c57",
-      indexName: "blog-prod-crawler",
-      locales: {
-        "/": {
-          placeholder: "搜索文档",
-          translations: {
-            button: {
-              buttonText: "搜索文档",
-            },
-          },
-        },
-      },
-    }),
+    
   ],
 });

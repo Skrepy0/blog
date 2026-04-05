@@ -15,3 +15,7 @@ tag:
 ```
 这个错误表现为输入关键词一直显示搜索中，
 后来尝试配置vercel.json、禁用worker、使用本地worker.js替换都没结果，最后只能使用plugin-search实现搜索功能，所以!!本站的搜索功能比较拉!!。
+
+# 2026/4/5续
+本站搜索使用docsearch，解决!!plugin-search功能少!!的问题
+搜索提供者：algolia

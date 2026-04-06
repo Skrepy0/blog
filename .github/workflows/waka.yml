@@ -111,4 +111,5 @@ jobs:
       - name: Repository Dispatch to deploy
         uses: peter-evans/repository-dispatch@v4   # 使用第三方 Action
         with:
+          token: ${{ secrets.GH_TOKEN }}
           event-type: deploy                       # 发送的事件类型，可被监听该事件的仓库捕获

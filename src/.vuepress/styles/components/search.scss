@@ -55,12 +55,18 @@
 .DocSearch-Footer {
   border-bottom-left-radius: 20px !important;
   border-bottom-right-radius: 20px !important;
+  font-family: Comic, 'Microsoft YaHei', system-ui, Cochin, Georgia, Times, 'Times New Roman', serif;
+  .DocSearch-Escape-Key {
+    font-family: Comic, 'Microsoft YaHei', system-ui, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
 }
 .DocSearch-Modal {
   animation: DropIn 0.3s ease forwards;
   border-radius: 20px !important;
 }
 .DocSearch-Input {
+  font-family: Comic, 'Microsoft YaHei', system-ui, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-weight: bold;
   border-radius: 50px !important;
 }
 .DocSearch-Hit > a {

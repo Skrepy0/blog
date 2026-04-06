@@ -101,6 +101,8 @@ jobs:
             echo "HAS_CHANGES=false" >> $GITHUB_OUTPUT     # 设置输出变量为 false
           else
             git commit -m "chore: update waka stats [skip ci]"  # 提交变更，跳过 CI 触发
+            # 拉取远程最新代码并变基（避免合并提交）
+            git pull --rebase origin main
             git push                                         # 推送到远程仓库
             echo "HAS_CHANGES=true" >> $GITHUB_OUTPUT        # 设置输出变量为 true
           fi

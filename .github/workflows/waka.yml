@@ -1,0 +1,112 @@
+# 工作流名称
+name: 更新 Waka 数据并重新部署
+
+# 触发条件配置
+on:
+  push:                     # 当执行 git push 时触发
+    branches:
+      - main               # 仅针对 main 分支的推送
+  schedule:                 # 定时触发
+    - cron: '40 18 * * *'  # 每天 UTC 时间 18:40（北京时间次日 02:40）运行
+  workflow_dispatch:        # 允许在 GitHub Actions 页面手动触发运行
+
+jobs:
+  waka:                     # 任务 ID
+    runs-on: ubuntu-latest  # 运行环境：最新版 Ubuntu
+
+    steps:
+      # 步骤1：检出源仓库（即存放 Waka 统计数据的仓库）
+      - name: Checkout source repo (Skrepy0/Skrepy0)
+        uses: actions/checkout@v4          # 使用官方 checkout Action
+        with:
+          repository: Skrepy0/Skrepy0      # 要克隆的仓库地址
+          path: source-repo                # 克隆到本地的目录名
+
+      # 步骤2：从源仓库的 README.md 中提取 Waka 统计内容
+      - name: Extract Waka section
+        id: extract-waka                   # 设置步骤 ID，供后续步骤引用输出
+        run: |
+          # 提取包含 Waka 标记及其之间的内容（保留标记行本身）
+          WAKA_CONTENT=$(awk '/<!--START_SECTION:waka-->/ {flag=1; print; next} /<!--END_SECTION:waka-->/ {flag=0} flag' source-repo/README.md)
+          
+          # 如果没有找到标记，报错并退出
+          if [ -z "$WAKA_CONTENT" ]; then
+            echo "::error::Waka section markers not found in README.md"
+            exit 1
+          fi
+          
+          # 仅保留两个标记之间的内容（去掉标记行本身）
+          WAKA_CONTENT_ONLY=$(sed -n '/<!--START_SECTION:waka-->/,/<!--END_SECTION:waka-->/p' source-repo/README.md | sed '1d;$d')
+          # 将提取的内容保存到临时文件
+          echo "$WAKA_CONTENT_ONLY" > waka_section.txt
+          # 对内容进行 base64 编码，防止特殊字符在后续传递时出现问题
+          WAKA_BASE64=$(base64 -w 0 waka_section.txt)
+          # 将编码后的字符串输出到 GitHub Actions 的输出变量中
+          echo "WAKA_BASE64=$WAKA_BASE64" >> $GITHUB_OUTPUT
+
+      # 步骤3：检出目标仓库（需要更新 intro.md 的仓库）
+      - name: Checkout target repo (Skrepy0/blog)
+        uses: actions/checkout@v4
+        with:
+          repository: Skrepy0/blog         # 目标仓库地址
+          path: target-repo                # 克隆到本地的目录名
+          token: ${{ secrets.GH_TOKEN }}   # 使用 GH_TOKEN 进行认证（需要有写入权限）
+
+      # 步骤4：将提取的 Waka 内容更新到目标文件的指定标记之间
+      - name: Update target file (src/intro.md)
+        run: |
+          # 将之前 base64 编码的内容解码，还原为原始文本
+          echo "${{ steps.extract-waka.outputs.WAKA_BASE64 }}" | base64 -d > waka_section_decoded.txt
+          
+          # 使用 awk 脚本替换目标文件中标记之间的内容
+          awk '
+            BEGIN {
+              # 读取解码后的内容到变量 new_content
+              new_content = ""
+              while ((getline line < "waka_section_decoded.txt") > 0) {
+                new_content = new_content line "\n"
+              }
+              close("waka_section_decoded.txt")
+            }
+            # 遇到开始标记时，打印标记行，然后打印新的内容，并设置标志位 in_section=1
+            $0 == "<!--START_SECTION:waka-->" { 
+              print; 
+              print new_content; 
+              in_section=1; 
+              next 
+            }
+            # 遇到结束标记时，打印标记行，并清除标志位
+            $0 == "<!--END_SECTION:waka-->" { 
+              in_section=0; 
+              print; 
+              next 
+            }
+            # 当不在标记区域内时，正常打印原行
+            !in_section { print }
+          ' target-repo/src/intro.md > tmp_file && mv tmp_file target-repo/src/intro.md
+
+      # 步骤5：提交并推送更改到目标仓库
+      - name: Commit and push changes
+        id: commit                         # 步骤 ID，用于后续判断是否有变更
+        run: |
+          cd target-repo                   # 进入目标仓库目录
+          # 配置 Git 提交用户信息
+          git config user.name "Skrepy0"
+          git config user.email "155234406+Skrepy0@users.noreply.github.com"
+          git add src/intro.md             # 将修改的文件加入暂存区
+          
+          # 检查是否有实际变更（暂存区是否为空）
+          if git diff --quiet --cached; then
+            echo "::notice::No changes to commit"          # 无变更则输出提示
+            echo "HAS_CHANGES=false" >> $GITHUB_OUTPUT     # 设置输出变量为 false
+          else
+            git commit -m "chore: update waka stats [skip ci]"  # 提交变更，跳过 CI 触发
+            git push                                         # 推送到远程仓库
+            echo "HAS_CHANGES=true" >> $GITHUB_OUTPUT        # 设置输出变量为 true
+          fi
+
+      # 步骤6：触发目标仓库的部署事件（通过 repository dispatch）
+      - name: Repository Dispatch to deploy
+        uses: peter-evans/repository-dispatch@v4   # 使用第三方 Action
+        with:
+          event-type: deploy                       # 发送的事件类型，可被监听该事件的仓库捕获

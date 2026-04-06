@@ -18,4 +18,5 @@ titles:
     - 欢迎来到intro页
 ---
 
-// TODO 还没做完QAQ
+<!--START_SECTION:waka-->
+<!--END_SECTION:waka-->

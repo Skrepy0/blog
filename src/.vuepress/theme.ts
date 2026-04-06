@@ -35,7 +35,7 @@ export default hopeTheme({
     medias: {
       BiliBili: 'https://space.bilibili.com/3546594102217461',
       GitHub: 'https://github.com/Skrepy0/',
-      Gmail: 'skrepyaelly@gmail.com',
+      Gmail: 'mailto:skrepyaelly@gmail.com',
       Twitter: 'https://x.com/Skrepy2233',
       Modrinth: {
         icon: 'https://cdn.simpleicons.org/modrinth/1bd96a',

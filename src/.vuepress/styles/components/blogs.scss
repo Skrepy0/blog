@@ -5,6 +5,9 @@
 .vp-sidebar-header {
   transition: all 0.3s;
 }
+.vp-toc-header {
+  cursor: pointer;
+}
 #sidebar {
   background-color: var(--sidebar-bg);
 }

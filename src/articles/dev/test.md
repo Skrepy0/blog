@@ -16,7 +16,14 @@ tag:
 ## 自定义组件测试：
 <p style="text-align:center">
 计数器：<Test/>
+<br>
+<LinkBox 
+  url="https://skrepy.dpdns.org" 
+  title="我的主页" 
+  subtitle="Microsoft" 
+/>
 </p>
+
 
 ## MarkDown测试：
 ### 标题

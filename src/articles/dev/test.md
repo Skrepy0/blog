@@ -18,9 +18,9 @@ tag:
 计数器：<Test/>
 <br>
 <LinkBox 
-  url="https://skrepy.dpdns.org" 
-  title="我的主页" 
-  subtitle="Microsoft" 
+  url="https://www.bilibili.com" 
+  title="Bilibili" 
+  subtitle="哔哩哔哩(゜-゜)つロ干杯~" 
 />
 </p>
 
@@ -38,7 +38,7 @@ tag:
  
 >引用
 
-**加粗**，*倾斜*，==高亮==
+**加粗**，*倾斜*，==高亮==，~~删除~~
 
 #### 无序列表
 - 1

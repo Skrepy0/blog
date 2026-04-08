@@ -1,4 +1,14 @@
 @import './animation.scss';
+mark{
+  border-radius: 5px;
+  background-color: var(--hl-bgc);
+}
+a.header-anchor:before{
+  content: "📌";
+  top: .25em;
+  left: -1.5em;
+  animation: slideIn 0.114514s ease forwards;
+}
 .vp-sidebar-group,
 .vp-sidebar-link,
 .toggle-sidebar-wrapper,

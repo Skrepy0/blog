@@ -85,7 +85,7 @@ npm i -D vuepress-theme-hope
 
 :::
 
-### Tex语法测试
+### LaTex语法测试
 $$
 E = \left[\begin{matrix}
 1&0&0\\

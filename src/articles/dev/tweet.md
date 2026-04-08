@@ -18,4 +18,4 @@ tag:
 
 # 2026/4/5续
 本站搜索使用docsearch，解决!!plugin-search功能少!!的问题
-搜索提供者：algolia
+搜索提供者：[algolia](https://dashboard.algolia.com/)

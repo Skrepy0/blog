@@ -4,7 +4,7 @@ article: false
 icon: line-md:star-filled
 containerClass: home
 home: true
-bgImage: /assets/images/intro.jpg
+bgImage: /assets/images/intro.webp
 portfolio: true
 sidebar: false
 avatar: avatar.png

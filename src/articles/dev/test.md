@@ -254,7 +254,7 @@ end
 
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.21.1-brightgreen?style=flat-square)](https://minecraft.net)
 
-<img src="/assets/images/test.jpg" width=300/ alt="图片测试">
+<img src="/assets/images/test.webp" width=300 alt="图片测试"/>
 
 `test` _Recommended_
 !!剧透!!

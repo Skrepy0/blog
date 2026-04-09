@@ -6,7 +6,7 @@ title: 主页
 heroImage: avatar.png
 heroText: 这里是Skrepy~
 heroFullScreen: true
-bgImage: /assets/images/bg.png
+bgImage: /assets/images/bg.webp
 tagline: 
 projects:
   - icon: house

@@ -1,11 +1,27 @@
 @import './animation.scss';
-mark{
+mark {
   border-radius: 5px;
   background-color: var(--hl-bgc);
 }
-a.header-anchor:before{
-  content: "📌";
-  top: .25em;
+
+a.header-anchor:after {
+  content: '';
+  background-color: color-mix(in srgb, var(--vp-c-accent) 70%, transparent);
+  height: 4px;
+  width: 0;
+  bottom: 1px;
+  left: 0;
+  position: absolute;
+  border-radius: 10px;
+  transition: 0.2s;
+}
+a.header-anchor:hover::after{
+  width: 100%;
+}
+
+a.header-anchor:before {
+  content: '📌';
+  top: 0.25em;
   left: -1.5em;
   animation: slideIn 0.114514s ease forwards;
 }
@@ -14,6 +30,13 @@ a.header-anchor:before{
 .toggle-sidebar-wrapper,
 .vp-sidebar-header {
   transition: all 0.3s;
+}
+.vp-sidebar-header {
+  &:hover {
+    .vp-icon {
+      animation: shake 0.3s ease-in-out;
+    }
+  }
 }
 .vp-toc-header {
   cursor: pointer;

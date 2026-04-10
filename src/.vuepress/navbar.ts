@@ -17,6 +17,11 @@ export default navbar([
         link: 'https://github.com/Skrepy0/Print-Registration-System',
       },
       {
+        text: 'md→pdf转换工具',
+        icon: 'ix:project',
+        link: 'https://github.com/Skrepy0/md-to-pdf-tool',
+      },
+      {
         text: 'PhyPlot',
         icon: 'ix:project',
         link: 'https://github.com/Skrepy0/PhyPlot',

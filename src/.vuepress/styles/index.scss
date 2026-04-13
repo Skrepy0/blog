@@ -7,6 +7,12 @@
 @import './components/sidebar-links.scss';
 @import './components/blogs.scss';
 @import './components/intro.scss';
+.image-span{
+  color:gray;
+  font-size: small;
+  text-align: center;
+}
+
 .vp-action-link {
   transition: all 0.3s;
 }

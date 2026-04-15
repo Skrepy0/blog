@@ -22,6 +22,8 @@ tag:
   title="Bilibili" 
   subtitle="哔哩哔哩(゜-゜)つロ干杯~" 
 />
+
+<Picture url="/assets/images/test.webp" height=300 info="图片测试" />
 </p>
 
 

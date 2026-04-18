@@ -26,6 +26,7 @@ tag:
 <Picture url="/assets/images/test.webp" height=300 info="图片测试" />
 </p>
 
+<TotalWords />
 
 ## MarkDown测试：
 ### 标题

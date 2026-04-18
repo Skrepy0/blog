@@ -3,6 +3,7 @@ import theme from './theme.js'
 import { viteBundler } from '@vuepress/bundler-vite'
 import { getDirname, path } from 'vuepress/utils'
 import { registerComponentsPlugin } from '@vuepress/plugin-register-components'
+import { wordCountPlugin } from './plugins/wordCountPlugin.js'
 const __dirname = import.meta.dirname || getDirname(import.meta.url)
 export default defineUserConfig({
   base: '/',
@@ -17,6 +18,7 @@ export default defineUserConfig({
   // shouldPrefetch: false,
 
   plugins: [
+    wordCountPlugin,
     registerComponentsPlugin({
       componentsDir: path.resolve(__dirname, './components'),
     }),

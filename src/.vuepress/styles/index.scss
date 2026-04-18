@@ -27,6 +27,10 @@
   font-size: 0.98rem;
   font-family: HuaWenKaiTi, Courier, monospace;
 }
+div[vp-content] {
+  align-items: center !important;
+  height: 15px;
+}
 .vp-blog-mask {
   animation: bgScaleIn 1s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
   will-change: transform;

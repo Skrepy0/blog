@@ -41,4 +41,4 @@ projects:
 
 footer: Skrepy2233
 ---
-
+<TotalWords />

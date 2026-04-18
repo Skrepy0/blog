@@ -265,6 +265,27 @@ $$
 这里的量纲是它们在SI(国际单位制)中的表达式,在不同的单位制下,基本量的选择不同,则同一个物理量的量纲也不同
 :::
 
+### 动量和动量守恒定律
+#### 动量定理
+牛顿第二定律的微分形式:
+$$\vec F dt=d\vec p$$
+此式子左端的$\vec F dt$表示力在$dt$时间内的积累量,称作合外力$\vec F$的**冲量**,通常用$\vec I$表示,其单位是$N\cdot  s$(国际单位制).
+在$t_1~t_2$时间段中,合外力的冲量:
+$$\vec I=\int_{t_1}^{t_2}\vec F dt=\int_{\vec p_1}^{\vec p_2} d\vec p=\vec p_2-\vec p_1$$
+
+上面两个等式均可以称为质点的**动量定理**(theorem of momentum)
+当然,由于动量定理是矢量规律,在直角坐标系中,在x,y,z三个分量也有此规律.
+
+**平均冲力**:
+
+$$
+\bar F = \frac{\int_{t_1}^{t_2}\vec F dt}{t_2-t_1}=\frac{\vec I}{\Delta t}
+$$
+
+根据上式可得:
+
+$$\vec I=\bar F\Delta t$$
+#### 质点系动量定理
 
 ## 第三章 刚体力学
 ### 刚体运动学
@@ -315,9 +336,9 @@ $$M_z = I\beta$$
 $M_z = I\beta$，即刚体所受的对某一固定转轴的**合外力矩**等于刚体对同一转轴的**转动惯量**与刚体获得的**角加速度**的*乘积*
 :::
 #### 一些均匀刚体对特殊转轴的转动惯量
-<img src="/assets/articles/study/physic-hupper-1.webp" hight=430/>
+<img src="/assets/articles/study/physic-hupper/physic-hupper-1.webp" hight=430/>
 <br>
-<img src="/assets/articles/study/physic-hupper-2.webp" hight=430/>
+<img src="/assets/articles/study/physic-hupper/physic-hupper-2.webp" hight=430/>
 <hr>
 
 #### 平行轴定理和垂直轴定理
@@ -327,7 +348,7 @@ $$I = I_C + md^2$$
 
 ##### 垂直轴定理
 ::: center
-<img src="/assets/articles/study/垂直轴定理.webp" alt="垂直轴定理示意图"/>
+<img src="/assets/articles/study/physic-hupper/垂直轴定理.webp" alt="垂直轴定理示意图"/>
 :::
 
 ***薄板型刚体***相对于z轴的转动惯量$I_z$和相对于x，y轴的转动惯量$I_x$,$I_y$有下面关系：

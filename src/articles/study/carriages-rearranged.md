@@ -14,7 +14,9 @@ tag:
 ## 先贴出题目:
 ### 【问题描述】
 列车车厢重排时，位于入轨道和出轨道之间的缓冲轨道按照`FIFO`方式运作， 如下图所示，因此可将它们视为队列。禁止将车厢从缓冲轨道移到入轨道，或从出轨道移到缓冲轨道。所有的车厢移动都要按照图中箭头所示的方向进行。
-<img src="/assets/articles/study/carriages-rearranged.webp">
+<Picture
+url="/assets/articles/study/carriages-rearranged/carriages-rearranged.webp"
+/>
 
 第`k`条轨道`Hk`可直接将车厢从入轨道移到出轨道。其余 `k-1` 条轨道用来缓存不能直接进入出轨道的车厢。
 

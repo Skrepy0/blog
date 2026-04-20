@@ -7,7 +7,7 @@ $hl-bgc: var(--vp-c-accent);
   --vp-c-border-hard: rgba(140, 229, 213, 0.6);
   --vp-c-text-mute: rgba(14, 72, 93, 0.6);
 
-  --st-c-bg: rgba(138, 237, 255, 0.3);
+  --st-c-bg: color-mix(in srgb, var(--vp-c-accent) 30%, transparent);
   --st-c-fg: rgba(0, 0, 0, 0.8);
 
   --vp-c-bg: #f0f1f3;
@@ -27,7 +27,7 @@ $hl-bgc: var(--vp-c-accent);
   --vp-c-border-hard: rgba(84, 129, 121, 0.5);
   --vp-c-text-mute: rgba(122, 183, 203, 0.9);
 
-  --st-c-bg: rgba(138, 255, 237, 0.3);
+  --st-c-bg: color-mix(in srgb, var(--vp-c-accent) 30%, transparent);
   --st-c-fg: rgba(255, 255, 255, 0.8);
 
   --vp-c-bg: #1b1b1f;

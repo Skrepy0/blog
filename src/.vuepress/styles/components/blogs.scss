@@ -3,7 +3,9 @@ mark {
   border-radius: 5px;
   background-color: var(--hl-bgc);
 }
-
+a.header-anchor {
+  color: color-mix(in srgb, color-mix(in srgb, var(--vp-c-accent) 50%, rgb(242, 248, 163)) 80%, rgb(255, 255, 255));
+}
 a.header-anchor:after {
   content: '';
   background-color: color-mix(in srgb, var(--vp-c-accent) 70%, transparent);

@@ -286,7 +286,69 @@ $$
 
 $$\vec I=\bar F\Delta t$$
 #### 质点系动量定理
+**质点系**:由多个质点构成的系统
+**内力**:系统内各质点间的相互作用力
+**外力**:系统以外的物体对系统内质点的作用力
+:::info 质点系的动量定理
+系统所受的合外力的**冲量**,等于**系统总动量的增量**
+$$
+\int_{t_0}^t \sum_i \vec F_i=\sum_i m_i \vec v_{i}-\sum_i m_i \vec v_{i0}
+$$
+> $\sum_i \vec F_i$表示系统所受的合外力,$\sum_i m_i \vec v_{i0}$和$\sum_i m_i \vec v_{i}$分别表示始,末状态的系统总动量
+:::
 
+质点系的动量定理也有分量形式,下面以直角坐标中的x轴方向作为示例:
+$$
+\int_{t_0}^t \sum_i F_{ix}=\sum_i m_{ix}  v_{ix}-\sum_i m_i v_{i0x}
+$$
+#### 动量守恒定律
+由[质点系的动量定理](#质点系动量定理)知,当$\sum_i \vec F_i=\vec 0$时,有
+$$
+\sum_i m_i \vec v_i=\text{常矢量}
+$$
+:::info 动量守恒定律
+**当系统所受合外力为零时,系统总动量保持不变**
+:::
+
+当然,它也有分量形式,即系统在某方向上的合外力等于0时，系统总动量在该方向的分量守恒；下面以直角坐标中的x轴方向作为示例:
+$$\sum_i F_{ix}=0\text{时},\sum_i m_i v_{ix}=\text{常量} $$
+
+#### 质心运动定理
+##### 质心的位置
+在直角坐标系中，质心的位置为
+$$
+x_C=\frac{\sum_{i=1}^N m_i x_i}{m},\quad y_C=\frac{\sum_{i=1}^N m_i y_i}{m},\quad z_C=\frac{\sum_{i=1}^N m_i z_i}{m}
+$$
+对于质量连续分布的物理,质心的位置矢量是:
+$$
+x_C=\frac{\int xdm}{m},\quad y_C=\frac{\int ydm}{m},\quad z_C=\frac{\int zdm}{m}
+$$
+
+##### 质心运动定理
+:::info 质心运动定理
+不管物体的质量如何分布,也不管外力情况如何,质心的运动就像物体的质量都集中在作用在质心时质点的运动一样,数学表达式:
+$$\vec F = \frac{d\vec p}{dt}=m\frac{d\vec v_c}{dt}=m\vec a_C$$
+:::
+### 功和能
+**功**:质点在力 $\vec F$ 的作用下发生了一**元位移** $d\vec r$ ,力 $\vec F$ 做的**功**定义为:
+$$
+dA=\vec F\cdot d\vec r
+$$
+
+力 $\vec F$ 在质点从`a`点沿着路径`L`到达`b`点时对质点做的功:
+$$
+A=\int_{a(L)}^b \vec F\cdot d\vec r
+$$
+
+**功率**:力在单位时间内做的功,即
+$$
+P=\frac{dA}{dt}
+$$
+
+结合 $dA=\vec F\cdot d\vec r$ 有:
+$$
+P=\frac{dA}{dt}=\frac{\vec F\cdot d\vec r}{dt}=\vec F \cdot \vec v
+$$
 ## 第三章 刚体力学
 ### 刚体运动学
 #### 角速度与角加速度

@@ -349,6 +349,61 @@ $$
 $$
 P=\frac{dA}{dt}=\frac{\vec F\cdot d\vec r}{dt}=\vec F \cdot \vec v
 $$
+
+### 动能定理
+**动能**:$E_k=\frac{1}{2} mv^2$
+
+:::info 动能定理
+合外力对质点所做的功等于质点动能的增量,数学表达式为:
+$$
+A=\int_a^b \vec F \cdot d\vec r = \int_a^b m \frac{d\vec v}{dt} \cdot d\vec r=\int_{v_a}^{v_b} m\vec v \cdot d\vec v = \frac{1}{2} m v_b^2-\frac{1}{2} m v_a^2
+$$
+:::
+
+:::info 质点系的动能定理
+对于一质点系,所有外力做的功与所有内力做的功的代数和等于系统总动能的增量,即:
+$$
+\sum_{i=1}^N A_{i\text{外}}+\sum_{i=1}^N A_{i\text{内}}=\sum_{i=1}^N E_{ki}
+
+$$
+:::
+> **内力**虽然不改变系统的总动量,但是会改变**系统的总动能**即系统所有的内力做的功不一定为零
+
+### 保守力与非保守力
+**保守力**:做功与路径无关的力(只与质点的始末位置有关, 与具体路径无关)称为保守力
+**非保守力**:做功与路径有关的力(如摩擦力)称为非保守力
+#### 重力做的功
+$$
+A=\int_a^bm\vec g\cdot d\vec r=-(mgz_b-mgz_a)
+$$
+$$E_p=mgh$$
+#### 弹簧弹力的功
+$$
+A=\int_{x_0}^x fdx=-(\frac{1}{2}kx^2-\frac{1}{2}kx_0^2)
+$$
+$$E_p=\frac{1}{2}kx^2$$
+#### 万有引力做的功
+$$
+\vec f=-G\frac{m_1m_2}{r^3} \vec r
+$$
+$$
+A=-\int^{r_b}_{r_a}G\frac{m_1m_2}{r^2}dr=G\frac{m_1m_2}{r_b}-G\frac{m_1m_2}{r_a}
+$$
+$$E_p=-G\frac{m_1m_2}{r}$$
+:::warning 注意<Badge text="warning" type="warning" />
+因为保守力做功与路径无关,所以物体沿任意封闭路径移动一周时保守力做的功为0,即刚体所受的对某一固定转轴的
+$$
+\oint_{L} \vec{F} \cdot d\vec{r} = 0
+$$
+此式子为保守力的数学定义式
+:::
+
+### 势能
+**保守力做的功等于势能的减少**
+$$\int_a^b\vec f_{\text{保}}\cdot d\vec r=-(E_{pb}-E_{pa})$$
+
+某质点在$a$点处的势能可以表示为
+$$E_{pa}=\int_a^{\text{势能零点}}\vec f_{\text{保}}\cdot d\vec r$$
 ## 第三章 刚体力学
 ### 刚体运动学
 #### 角速度与角加速度

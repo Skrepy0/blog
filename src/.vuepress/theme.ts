@@ -5,6 +5,7 @@ import navbar from './navbar.js'
 import sidebar from './sidebar.js'
 
 export default hopeTheme({
+  fullscreen: true,
   hostname: 'https://blog.skrepy.dpdns.org',
   darkmode: 'switch',
   author: {
@@ -64,6 +65,7 @@ export default hopeTheme({
 
   // 此处开启了很多功能用于演示，你应仅保留用到的功能。
   markdown: {
+    chartjs: true,
     align: true,
     attrs: true,
     codeTabs: true,
@@ -100,34 +102,6 @@ export default hopeTheme({
     math: {
       type: 'katex',
     },
-    // 如果你需要幻灯片，安装 @vuepress/plugin-revealjs 并取消下方注释
-    // revealjs: {
-    //   plugins: ["highlight", "math", "search", "notes", "zoom"],
-    // },
-
-    // 在启用之前安装 chart.js
-    // chartjs: true,
-
-    // insert component easily
-
-    // 在启用之前安装 echarts
-    // echarts: true,
-
-    // 在启用之前安装 flowchart.ts
-    // flowchart: true,
-
-    // 在启用之前安装 mermaid
-    // mermaid: true,
-
-    // playground: {
-    //   presets: ["ts", "vue"],
-    // },
-
-    // 在启用之前安装 @vue/repl
-    // vuePlayground: true,
-
-    // 在启用之前安装 sandpack-vue3
-    // sandpack: true,
   },
 
   // 在这里配置主题提供的插件
@@ -140,7 +114,7 @@ export default hopeTheme({
     },
 
     components: {
-      components: ['Badge', 'VPCard'],
+      components: ['Badge', 'VPCard', 'BiliBili'],
     },
 
     icon: {

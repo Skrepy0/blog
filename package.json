@@ -17,6 +17,7 @@
     "@vuepress/plugin-markdown-math": "^2.0.0-rc.128",
     "@vuepress/plugin-reading-time": "^2.0.0-rc.128",
     "@vuepress/plugin-register-components": "^2.0.0-rc.128",
+    "chart.js": "^4.5.1",
     "dotenv": "^17.4.0",
     "katex": "^0.16.44",
     "prettier": "^3.8.1",

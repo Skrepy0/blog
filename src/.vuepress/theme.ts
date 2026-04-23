@@ -127,19 +127,19 @@ export default hopeTheme({
       indexName: 'blog-prod-crawler',
     },
     notice: [
-      {
-        path: '/',
-        title: 'Notice Title',
-        content: 'Notice Content',
-        actions: [
-          {
-            text: 'Primary Action',
-            link: 'https://theme-hope.vuejs.press',
-            type: 'primary',
-          },
-          { text: 'Default Action' },
-        ],
-      },
+      // {
+      //   path: '/',
+      //   title: 'Notice Title',
+      //   content: 'Notice Content',
+      //   actions: [
+      //     {
+      //       text: 'Primary Action',
+      //       link: 'https://theme-hope.vuejs.press',
+      //       type: 'primary',
+      //     },
+      //     { text: 'Default Action' },
+      //   ],
+      // },
     ],
     // 如果你需要 PWA。安装 @vuepress/plugin-pwa 并取消下方注释
     // pwa: {

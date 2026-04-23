@@ -106,6 +106,7 @@ export default hopeTheme({
 
   // 在这里配置主题提供的插件
   plugins: {
+    copyright: true,
     readingTime: {
       wordPerMinute: 300,
     },
@@ -125,6 +126,21 @@ export default hopeTheme({
       apiKey: process.env.ApiKey || '',
       indexName: 'blog-prod-crawler',
     },
+    notice: [
+      {
+        path: '/',
+        title: 'Notice Title',
+        content: 'Notice Content',
+        actions: [
+          {
+            text: 'Primary Action',
+            link: 'https://theme-hope.vuejs.press',
+            type: 'primary',
+          },
+          { text: 'Default Action' },
+        ],
+      },
+    ],
     // 如果你需要 PWA。安装 @vuepress/plugin-pwa 并取消下方注释
     // pwa: {
     //   favicon: "/favicon.ico",

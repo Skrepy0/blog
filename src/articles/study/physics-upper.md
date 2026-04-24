@@ -398,12 +398,72 @@ $$
 此式子为保守力的数学定义式
 :::
 
-### 势能
+#### 势能
 **保守力做的功等于势能的减少**
 $$\int_a^b\vec f_{\text{保}}\cdot d\vec r=-(E_{pb}-E_{pa})$$
 
 某质点在$a$点处的势能可以表示为
 $$E_{pa}=\int_a^{\text{势能零点}}\vec f_{\text{保}}\cdot d\vec r$$
+
+**势能函数求保守力**:
+$$-dE_p=\vec f \cdot d\vec l=f \cos \theta dl$$
+$$f_l=-\frac{dE_p}{dl}$$
+即:保守力沿某个方向的分量等于对应势能函数沿该方向上空间变化率的负值
+即:
+$$\vec f=-\nabla E_p$$
+其中 $\nabla$ 为**梯度算子**
+$$\nabla=\frac{\partial}{\partial x}\vec i+\frac{\partial}{\partial y}\vec j+\frac{\partial}{\partial z}\vec k$$
+
+#### 功能原理
+$$A_{\text{内}}=A_{\text{保内}}+A_{\text{非保内}}$$
+$$A_{\text{保}}=-(E_{p_2}-E_{p_1})=E_{p_1}-E_{p_2}$$
+:::info 功能原理
+所有**外力**和所有**非保守力**做的功的代数和等于质点系的机械能增量
+:::
+:::important 机械能守恒定律
+如果在质点系运动变化的过程中,**只有保守内力做功**,或**所有外力做的功与所有非保守内力做的功的代数和等于零**,即:
+$$A_{\text{外}}+A_{\text{非保内}}\equiv 0$$
+则有:
+$$E=\text{常量}$$
+即为**机械能守恒定律**
+:::
+
+### 角动量守恒定律
+#### 质点的角动量
+$$\vec L=\vec r \times \vec p=\vec r \times m\vec v$$
+> $\vec r$ 是质点相对于参考系的位矢, $\vec p$是质点的动量, $\vec L$ 就是角动量, 单位是 $kg\cdot m^2/s$
+
+#### 力矩 质点的角动量定理
+$$\vec M=\vec r\times \vec F$$
+> $\vec M$ 就是力 $\vec F$ 的力矩,单位是 $N\cdot m$; $\vec r$ 是位矢
+
+$r_{\bot}=r\sin \theta$ 为**力臂**($\theta$ 是 $\vec r\text{与}\vec F$ 之间的夹角)
+**质点的角动量定理**:
+$$\frac{d\vec L}{dt}=\frac{d(\vec r \times \vec p)}{dt}=\frac{d\vec r}{dt}\times \vec p+\vec r \times \frac{d\vec p}{dt}$$
+
+其中 $\frac{d\vec r}{dt}=\vec v$ 与 $\vec p$ 平行,所以 $\frac{d\vec r}{dt}\times \vec p=0$,
+$$\frac{d\vec L}{dt}=\vec r \times \frac{d\vec p}{dt}=\vec r \times \vec F=\vec M$$
+即:
+$$\vec M=\frac{d\vec L}{dt}$$
+就是质点的角动量定理
+:::info 质点的角动量定理
+质点所受到的合外力矩等于质点角动量随时间的变化量
+:::
+
+其分量形式是:
+$$\vec M_z=\frac{d\vec L_z}{dt}$$
+是**对轴的角动量定理**
+#### 质点的角动量守恒定律
+由 $\vec M=\frac{d\vec L}{dt}$ 可知,若合外力距为 0 ,则角动量为常矢量
+
+:::important 质点的角动量守恒定律
+如果质点相对于某个参考点所受的合外力矩为零,则质点对该点的角动量保持不变
+:::
+#### 质点系的角动量定理与角动量守恒定律
+**质点系的角动量定理**:质点系所受的合外力矩等于系统角动量对时间的变化律,即:
+$$\vec M = \sum_{i=1}^N \vec M_{i\text{外}}=\frac{d\vec L}{dt}$$
+
+当 $\vec M = \vec 0$ 时,$\vec L$ 是常矢量, 这就是质点系的角动量守恒定律
 ## 第三章 刚体力学
 ### 刚体运动学
 #### 角速度与角加速度
@@ -530,3 +590,45 @@ $$
 \vec\Omega = \frac{\vec M}{I\omega \sin\theta}
 $$
 >$I$与$\omega$分别是陀螺仪绕自身转轴转动的角动量和角速度,$M$是合外力距,$\theta$是自身转轴与通过顶点的竖直轴的夹角(锐角)
+
+## 第四章 机械振动
+### 简谐振动的描述
+**简谐振动**:物体偏离平衡位置的位移 $x$ 随时间 $t$ 满足:
+$$x=A\cos (\omega t+\varphi)$$
+称为简谐振动,上式称为简谐振动的运动方程
+
+### 简谐振动的特征量
+$$A\quad \omega \quad \varphi$$
+上面三个物理量决定了简谐运动,这三个参数是简谐振动的特征量
+$A$ 是振幅,表示了质点离开平衡位置的最大距离
+$T$ 是周期,表示做一次完全振动所需要的时间
+$$T=\frac{2\pi}{\omega}$$
+$\nu=\frac{1}{T}=\frac{\omega}{2\pi}$ 表示频率
+$\omega=2\pi\nu=\frac{2\pi}{T}$ 是角频率
+> 单位:$\nu(Hz),\quad \omega(rad/s)$
+
+$(\omega t+\varphi)$ 表示**振动系统在t时刻的相位**, $t=0$ 时,$\varphi$ 表示**初相位**
+
+### 简谐振动的旋转矢量法
+**旋转矢量法**:简谐振动可以通过一个**旋转矢量的投影**来表示
+::: center
+<img
+src="https://www.fmingde.com/wp-content/uploads/2020/10/physic14-rotationvector.gif" alt="简谐振动的旋转矢量法" height=200
+/>
+
+通过一个旋转的矢量 $M$ 在x轴的投影:
+$$x=A\cos (\omega t+\varphi)$$
+:::
+---
+设有两个简谐振动,其运动方程分别是
+$$x_1=A_1\cos (\omega t+\varphi_1),\quad x_2=A_2\cos (\omega t+\varphi_2)$$
+二者在任意时刻的相位差
+$$\Delta \varphi = (\omega t+\varphi_2)-(\omega t+\varphi_1)=\varphi_2-\varphi_1$$
+
+- $\Delta \varphi=0$ 时称为**同相**
+- $\Delta \varphi=\pi$ (或 $\pi$ 的奇数倍),旋转矢量 $\vec A_1,\quad A_2$ 完全相反,称为**反相**
+- $\Delta \varphi>0$ 时称 $x_2$ 的相位超前 $x_1$ 的相位 $\Delta \varphi$ ,反之为落后.
+
+:::warning 注意
+由于 $\Delta \varphi$ 的周期是 $2\pi$,这种**超前**和**落后**不具有绝对性,一般取 $-\pi\le\Delta\varphi\le\pi$
+:::

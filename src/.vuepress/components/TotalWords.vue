@@ -1,30 +1,54 @@
 <template>
   <ClientOnly>
-    <div class="total-words-box">
-      <div class="total-words-wrapper" v-if="totalWords !== null">📖 博客总字数：{{ totalWords.toLocaleString() }} 字</div>
+    <div ref="target" class="total-words-box">
+      <div class="total-words-wrapper" v-if="totalWords !== null">📖 博客总字数：{{ tweened.number.toFixed(0) }} 字</div>
       <div class="total-words-wrapper loading" v-else>⏳ 加载中...</div>
     </div>
   </ClientOnly>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, reactive, watch } from 'vue'
 import { withBase } from 'vuepress/client'
+import gsap from 'gsap'
+import { useIntersectionObserver } from '@vueuse/core'
 
 const totalWords = ref<number | null>(null)
+const tweened = reactive({ number: 0 })
+const hasLoaded = ref(false)
+const target = ref<HTMLElement | null>(null)
 
-onMounted(async () => {
+watch(totalWords, (n) => {
+  if (n !== null) {
+    gsap.to(tweened, { duration: 0.5, number: Number(n) || 0 })
+  }
+})
+
+const fetchData = async () => {
+  if (hasLoaded.value) return
   try {
     const url = withBase('/totalWords.json')
     const res = await fetch(url)
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     const data = await res.json()
     totalWords.value = data.totalWords
+    hasLoaded.value = true
   } catch (error) {
     console.error('加载总字数失败', error)
     totalWords.value = 0
+    hasLoaded.value = true
   }
-})
+}
+
+useIntersectionObserver(
+  target,
+  ([{ isIntersecting }]) => {
+    if (isIntersecting && !hasLoaded.value) {
+      fetchData()
+    }
+  },
+  { threshold: 0.1 }
+)
 </script>
 
 <style scoped>

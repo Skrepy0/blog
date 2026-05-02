@@ -4,6 +4,8 @@ import { setupRunningTimeFooter } from 'vuepress-theme-hope/presets/footerRunnin
 import 'vuepress-theme-hope/presets/shinning-feature-panel.scss'
 //@ts-ignore
 import 'vuepress-theme-hope/presets/bounce-icon.scss'
+//@ts-ignore
+import 'vuepress-theme-hope/presets/round-blogger-avatar.scss'
 
 export default defineClientConfig({
   setup() {

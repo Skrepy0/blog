@@ -4,6 +4,9 @@
   color: rgb(255, 249, 241);
   font-family: Comic, 'Comic Sans MS', serif;
 }
+.vp-portfolio-avatar > img {
+  border-radius: 50%;
+}
 .vp-portfolio-mask {
   animation: slideIn 0.8s ease forwards;
   will-change: transform;

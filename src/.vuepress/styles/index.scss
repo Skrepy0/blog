@@ -12,7 +12,10 @@
   font-size: small;
   text-align: center;
 }
-
+.vp-nav-logo,
+.vp-blog-hero-image {
+  border-radius: 50%;
+}
 .vp-action-link {
   transition: all 0.3s;
 }

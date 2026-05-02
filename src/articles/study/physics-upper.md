@@ -632,3 +632,262 @@ $$\Delta \varphi = (\omega t+\varphi_2)-(\omega t+\varphi_1)=\varphi_2-\varphi_1
 :::warning 注意
 由于 $\Delta \varphi$ 的周期是 $2\pi$,这种**超前**和**落后**不具有绝对性,一般取 $-\pi\le\Delta\varphi\le\pi$
 :::
+
+### 简谐运动的动力学方程
+$$
+F=-kx
+$$
+这种与位移大小成正比,方向与位移相反,且始终指向平衡位置的力称为**线性恢复力**
+物体受到线性恢复力是物体做简谐振动的动力学原理
+
+弹簧振子的固有频率是
+$$
+\nu=\frac{\omega}{2\pi}=\frac{1}{2\pi}\sqrt{\frac{k}{m}}
+$$
+### 简谐振动的能量
+$$
+E_k=\frac{1}{2}mv^2=\frac{1}{2}m\omega^2A^2sin^2(\omega t+\varphi)
+$$
+$$
+E_p=\frac{1}{2}kx^2=\frac{1}{2}kA^2cos^2(\omega t+\varphi)
+$$
+简谐运动的总能量
+$$
+E=E_k+E_p=\frac{1}{2}m\omega ^2A^2=\frac{1}{2}kA^2
+$$
+弹簧振子动能和势能在一个周期T内对时间的平均值
+$$
+\bar E_k=\frac{1}{4}kA^2
+\bar E_p=\frac{1}{4}kA^2
+$$
+
+### 简谐振动的合成
+#### 两个同方向,同频率的简谐振动的合成
+$$x_1=A_1\cos(\omega t+\varphi_1), \quad x_2=A_2\cos(\omega t+\varphi_2)
+$$
+合成的振动表达式
+$$
+x=A\cos(\omega t+\varphi)
+$$
+$$
+A=\sqrt{A_1^2+A_2^2+2A_1A_2\cos(\varphi_2-\varphi_1)}
+$$
+$$
+\varphi = \arctan \frac{A_1\sin \varphi_1+A_2\sin \varphi_2}{A_1\cos \varphi_1+A_2\cos \varphi_2}
+$$
+:::info
+两个同方向同频率简谐运动的合振动仍是简谐振动,合频率与分振动的频率相同
+:::
+**重要特例**:
+1. 两分振动同向:$\Delta \varphi=2k\pi(k\in Z), \cos(\varphi_2-\varphi_1)=1$
+合振幅
+$$
+A=A_1+A_2
+$$
+此时合振幅最大,两个分振动合成的结果是振动加强
+2. 两分振动反向:$\Delta \varphi=(2k+1)\pi(k\in Z), \cos(\varphi_2-\varphi_1)=-1$
+合振幅
+$$
+A=|A_1-A_2|
+$$
+#### 多个同方向同频率简谐振动的合成
+合振动的运动方程:
+$$
+x=A\cos(\omega t+\varphi)
+$$
+合振动的振幅
+$$
+A=\sqrt{A_x^2+A_y^2}
+$$
+合振动的初相位
+$$
+\varphi = \arctan \frac{A_y}{A_x}
+$$
+式中 
+$$A_x=\sum_{k=1}^n A_k\cos \varphi_k$$
+$$
+A_y=\sum_{k=1}^n A_k\sin \varphi_k
+$$
+> 其中$n$表示分振动个数
+
+特别地,当 $x_i=A_0\cos(\omega t+i\theta-\theta)$ 时:
+$$
+A=A_0 \frac{\sin \frac{n\theta}{2}}{\sin \frac{\theta}{2}}, \quad
+\varphi = \frac{n-1}{2} \theta
+$$
+
+#### 两个同方向不同频率简谐振动的合成 拍
+两个分振动:
+$$
+x_1=A\cos \omega_1 t, \quad x_2=A\cos \omega_2 t
+$$
+合振动的运动方程
+$$
+x=2A\cos(\frac{\omega_2-\omega_1}{2}t)\cos(\frac{\omega_2+\omega_1}{2}t)
+$$
+
+若 $|\omega_2-\omega_1|<<\omega_2+\omega_1$ , 则可以认为合振动是"振幅"为 $|2A\cos(\frac{\omega_2-\omega_1}{2}t)|$ , 角频率是 $\frac{\omega_2+\omega_1}{2}$ 的"近似"简谐振动, 由于"振幅"随时间做周期性的缓慢变化, 故形成了**振幅(或强度)时而加强时而减弱的现象**, 称为**拍**(beat)
+
+**拍频**: 单位时间内振动加强或振动减弱的次数,即"振幅" $|2A\cos(\frac{\omega_2-\omega_1}{2}t)|$ 随时间做周期性变化的频率叫做拍频
+
+$$\nu=\frac{|\omega_2-\omega_1|}{2\pi}=|\nu_2-\nu_1|$$
+> 即:拍频等于两分振动的频率之差
+
+#### 两个相互垂直简谐振动的合成
+$$x=A_1\cos(\omega t+\varphi_1), \quad y=A_2\cos(\omega t+\varphi_2)
+$$
+消去时间 `t` ,得到直角坐标系中质点的轨迹方程
+$$
+\frac{x^2}{A_1^2}+\frac{y^2}{A_2^2}-\frac{2xy}{A_1A_2}\cos(\varphi_2-\varphi_1)=\sin^2(\varphi_2-\varphi_1)
+$$
+下面讨论 $\Delta \varphi = \varphi_2 - \varphi_1$ 的特殊情况
+- ==$\Delta \varphi=0$==, 即两振动同相,令 $\varphi_2 = \varphi_1 = \varphi$, 有:
+$$
+y=\frac{A_2}{A_1} x
+$$
+是一条直线
+- ==$\Delta \varphi=\pi$==,两振动反相,则有
+$$
+y=-\frac{A_2}{A_1} x
+$$
+> 上面两个的振幅都是 $\sqrt{A_1^2+A_2^2}$
+- ==$\Delta \varphi=\frac{\pi}{2}$==,带入轨迹方程得:
+$$
+\frac{x^2}{A_1^2}+\frac{y^2}{A_2^2}=1
+$$
+,质点沿椭圆顺时针运动
+- ==$\Delta \varphi=\frac{3\pi}{2}$==,质点的运动仍是以坐标轴为主轴的椭圆,但是和上面的情况运动方向相反,沿椭圆逆时针运动
+- ==$\Delta \varphi$ 为其他值==,质点的运动轨迹是斜椭圆
+
+<Picture
+url="https://spaces.ac.cn/sci/mechanics/images/img6/84.gif"
+height=350
+info="两个相互垂直且同频率简谐振动的合成图形"
+/>
+
+**李萨如图形**:若两分振动的频率成简单整数比且初相位差恒定,**则轨迹是稳定的闭合曲线**,被称为李萨如图形
+
+<Picture
+url="https://exp-picture.cdn.bcebos.com/f591ab03c8d246fed0671d36b8bf3bef344f1e83.jpg?x-bce-process=image%2Fresize%2Cm_lfit%2Cw_500%2Climit_1%2Fformat%2Cf_auto%2Fquality%2Cq_80"
+height=350
+info="李萨如图形"
+/>
+
+作水平方向的直线,贯穿李萨如图形,使之和李萨如图形有==最多==数目的交点,设交点数是 $n_x$ ,同样,竖直方向的是$n_y$.
+若水平,竖直方向简谐振动的周期分别是 $T_x, T_y$,则有:
+$$
+T_x:T_y=n_x:n_y
+$$
+
+### 阻尼振动,受迫振动,共振
+#### 阻尼振动
+**阻尼振动**:实际上,任何振动系统总要受到阻力的作用,由于有阻力的存在,振动系统需要不断克服阻力做功,能量将不断减少,振幅会随时间不断减弱,这种振动就是**阻尼振动**
+
+阻尼振动可以分为两类:
+1. **摩擦阻尼**:要不断克服摩擦力做功,振动能量逐渐转变成热能耗散掉
+2. **辐射阻尼**:振动能量以波的形式向四周传播
+> 例如:簧片震动时不仅因为空气阻力而耗散能量,同时因辐射声波而减少能量
+
+实验表明:当物体以较小的速度在黏性介质中运动时,所受到的阻力与其运动速度成正比,方向相反,即:
+$$
+f=-\gamma v=-\gamma\frac{dx}{dt}
+$$
+> $\gamma$ 是阻力系数,其值取决于介质的性质,运动物体的形状和大小等.
+以弹簧振子为例:
+$$
+ma=m\frac{d^2x}{dt^2}=-kx-\gamma\frac{dx}{dt}
+$$
+令 $\omega_0=\sqrt{\frac{k}{m}},2\beta=\frac{\gamma}{m}$
+> 式中 $\omega_0$ 是振动系统无阻尼时的**固有角频率**,$\beta$ 叫**阻尼系数**
+则上式可写成:
+$$
+\frac{d^2x}{dt^2}+2\beta\frac{dx}{dt}+\omega_0^2x=0
+$$
+根据 $\beta$ 的值,上述方程的解可分成三种情况:
+<Picture
+url="https://pic1.zhimg.com/v2-7605f73b570cc2978959d5171f600eec_r.jpg",
+height=300
+info="三种阻尼振动比较"
+/>
+
+- 当阻力较小时, $\beta<\omega_0$ 时称为**欠阻尼**(例如单摆在空气阻力作用下摆动的情形),方程的解为:
+$$
+x=A_0e^{-\beta t}\cos(\omega t+\varphi_0)
+$$
+> 式中 $\omega=\sqrt{w_0^2-\beta^2}; A_0,\varphi_0$ 是积分常量, $A_0e^{-\beta t}$ 是振幅
+
+**欠阻尼振动**本身没有周期性,但是震动具有某种往复性,于是仍将 $T$ 叫做周期
+$$T=\frac{2\pi}{\omega}=\frac{2\pi}{\sqrt{\omega_0^2-\beta^2}}$$
+
+- 当 $\beta>\omega_0$ 时,称为**过阻尼**,方程的解为:
+$$
+x=C_1e^{-(\beta+\sqrt{\beta^2-\omega_0^2})t}+C_2e^{-(\beta-\sqrt{\beta^2-\omega_0^2})t}
+$$
+> $C_1,C_2$ 是由初始条件决定的积分常数,这种情况下无振动现象发生,如上图
+
+- 当 $\beta=\omega_0$ 时,称为**临界阻尼**,方程的解为:
+$$
+x=(C_1+C_2t)e^{-\beta t}
+$$
+> $C_1,C_2$ 是由初始条件决定的积分常数,这种情况下也无振动现象发生
+
+与过阻尼情形相比,临界阻尼情形下,物体回到平衡并停在那里所需的时间最短
+
+#### 受迫振动
+**策动力**:周期性外力
+**受迫振动**:在周期性外力下发生的振动,称为**受迫振动**
+
+设策动力为 $H\cos pt$, 其中 $H$ 是策动力的最大值,叫做==力幅==, $p$ 是策动力的角频率, 弹簧振子的受迫振动的动力学方程:
+$$
+m\frac{d^2x}{dt^2}+\gamma\frac{dx}{dt}+kx=H\cos pt
+$$
+令 $\omega_0=\sqrt{\frac{k}{m}},2\beta=\frac{\gamma}{m}, h=\frac{H}{m}$,上式可写成:
+$$
+\frac{d^2x}{dt^2}+2\beta\frac{dx}{dt}+\omega_0^2x=h\cos pt
+$$
+上式的解:
+$$
+x=A_0e^{-\beta t}\cos(\sqrt{\omega_0^2-\beta^2}t+\varphi_0)+A\cos(pt+\varphi)
+$$
+> $A_0,\varphi_0$ 是由初始条件决定的积分常数
+受迫振动开始情形很复杂,但是经过一段时间后,可以达成一种稳定状态,即**外力做的功恰好补偿因阻尼而损耗的能量**,系统的机械能保持不变,振动稳定下来.
+
+在稳定状态下,受迫振动的振动方程:
+$$
+x=A\cos(pt+\varphi)
+$$
+> 式中,振动的频率就是策动力的角频率,振幅与初相位由 $\omega_0,\beta,h,p$ 共同决定,有:
+
+$$
+A=\frac{h}{\sqrt{(\omega_0^2-p^2)^2+4\beta^2p^2}}
+$$
+
+$$
+\tan\varphi=\frac{-2\beta p}{\omega_0^2-p^2}
+$$
+
+#### 共振
+由于:
+$$
+A=\frac{h}{\sqrt{(\omega_0^2-p^2)^2+4\beta^2p^2}}
+$$
+策动力 $H$ 一定时,受迫振动的振幅 $A$ 随策动力角频率 $p$ 的变化而变化.
+<Picture
+url="https://pic3.zhimg.com/v2-0316265876ad810fb0768a1548d3ef5f_r.jpg"
+height=300
+info="受迫振动-频率曲线(图中的ω即为上面的p,策动力角频率)"
+/>
+
+每一条曲线都有最大值.由 $\frac{dA}{dp}=0$ 得最大值对应的角频率为:
+$$
+p_r=\sqrt{\omega_0^2-2\beta^2}
+$$
+**共振(位移共振)**:当策动力的角频率满足 $p=\sqrt{\omega_0^2-2\beta^2}$ 时,受迫振动的振幅最大,这个现象称为共振.
+$p_r$ 为共振频率,由振动系统中的角频率和阻尼系数决定.
+共振振幅:
+$$
+A=\frac{h}{2\beta \sqrt{\omega_0^2-\beta^2}}
+$$
+
+**速度共振**:若策动力的角频率 $p=\omega_0$ ,振动速度与策动力相同,速度振幅达到最大,这个现象称为速度共振
+> 速度共振时策动力始终和物体的运动方向一致,策动力做正功

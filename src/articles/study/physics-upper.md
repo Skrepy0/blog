@@ -657,7 +657,7 @@ E=E_k+E_p=\frac{1}{2}m\omega ^2A^2=\frac{1}{2}kA^2
 $$
 弹簧振子动能和势能在一个周期T内对时间的平均值
 $$
-\bar E_k=\frac{1}{4}kA^2
+\bar E_k=\frac{1}{4}kA^2,\quad
 \bar E_p=\frac{1}{4}kA^2
 $$
 
@@ -793,12 +793,14 @@ $$
 f=-\gamma v=-\gamma\frac{dx}{dt}
 $$
 > $\gamma$ 是阻力系数,其值取决于介质的性质,运动物体的形状和大小等.
+
 以弹簧振子为例:
 $$
 ma=m\frac{d^2x}{dt^2}=-kx-\gamma\frac{dx}{dt}
 $$
 令 $\omega_0=\sqrt{\frac{k}{m}},2\beta=\frac{\gamma}{m}$
 > 式中 $\omega_0$ 是振动系统无阻尼时的**固有角频率**,$\beta$ 叫**阻尼系数**
+
 则上式可写成:
 $$
 \frac{d^2x}{dt^2}+2\beta\frac{dx}{dt}+\omega_0^2x=0

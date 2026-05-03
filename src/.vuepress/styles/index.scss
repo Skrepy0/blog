@@ -16,6 +16,10 @@
 .vp-blog-hero-image {
   border-radius: 50%;
 }
+.vp-blogger-avatar,
+.vp-blog-hero-image {
+  border: 3px solid color-mix(in srgb, var(--vp-c-accent) 30%, transparent);
+}
 .vp-action-link {
   transition: all 0.3s;
 }

@@ -4,6 +4,7 @@ $vp-font: "'Comic', 'HYTangMeiRen',sans-serif";
 $vp-font-heading: "'Comic', 'HYTangMeiRen',sans-serif";
 $hl-bgc: var(--vp-c-accent);
 :root {
+  --vp-c-divider: rgba(52, 52, 52, 0.5);
   --vp-c-border-hard: rgba(140, 229, 213, 0.6);
   --vp-c-text-mute: rgba(14, 72, 93, 0.6);
 
@@ -24,6 +25,8 @@ $hl-bgc: var(--vp-c-accent);
 }
 
 [data-theme='dark'] {
+  --vp-c-divider: rgba(255, 255, 255, 0.5);
+  --sidebar-bg: rgba(27, 28, 36, 0.3) !important;
   --vp-c-border-hard: rgba(84, 129, 121, 0.5);
   --vp-c-text-mute: rgba(122, 183, 203, 0.9);
 

@@ -93,3 +93,11 @@
     transform: translate(1px, -2px) rotate(-1deg);
   }
 }
+@keyframes rotateCCW {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}

@@ -22,10 +22,26 @@ a.header-anchor:hover::after {
 }
 
 a.header-anchor:before {
-  content: '📌';
-  top: 0.25em;
-  left: -1.5em;
-  animation: slideIn 0.114514s ease forwards;
+  content: '';
+  display: inline-block;
+  width: 1.6em;
+  height: 1.6em;
+  background-image: url('/assets/icon/windmill.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  top: 0em;
+  left: -1.6em;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+a.header-anchor:hover:before {
+  opacity: 1;
+  animation:
+    slideIn 0.114514s ease forwards,
+    rotateCCW 1.3s linear infinite;
 }
 .vp-sidebar-group,
 .vp-sidebar-link,

@@ -162,7 +162,7 @@ $v=\frac{dx}{dt}\quad a= \frac{dv}{dt}$
 - 角速度：$\omega(t) = \omega_0 + \int_0^t \beta(\tau)\,d\tau$
 - 角位置：$\theta(t) = \theta_0 + \int_0^t \omega(\tau)\,d\tau$
 - 线速度：$\vec{v} = \vec{\omega} \times \vec{r}$（矢量叉乘形式）
-- 加速度：$\vec{a} = \vec{\alpha} \times \vec{r} + \vec{\omega} \times (\vec{\omega} \times \vec{r})$
+- 加速度：$\vec{a} = \vec{\beta} \times \vec{r} + \vec{\omega} \times (\vec{\omega} \times \vec{r})$
   其中 $\vec{\beta} \times \vec{r}$ 为切向分量，$\vec{\omega} \times (\vec{\omega} \times \vec{r})$ 为法向（向心）分量。
 ---
 
@@ -1092,7 +1092,7 @@ $$
 $$
 
 **能流密度**
-单位时间内通过垂直于波的传播方向的单位面积的平均能量称为**平均能流密度**或**波的强度**,简称**强度**,用 $I$ 表示,国际单位制中单位是($W/m^2$)即:
+单位时间内通过垂直于波的传播方向的单位面积的平均能量称为**平均能流密度**或**波的强度**,简称**波强**,用 $I$ 表示,国际单位制中单位是($W/m^2$)即:
 $$
 I=\frac{\bar P}{S} = \bar w u=\frac{1}{2}\rho A^2\omega^2u
 $$

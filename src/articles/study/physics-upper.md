@@ -609,6 +609,29 @@ $\omega=2\pi\nu=\frac{2\pi}{T}$ 是角频率
 
 $(\omega t+\varphi)$ 表示**振动系统在t时刻的相位**, $t=0$ 时,$\varphi$ 表示**初相位**
 
+---
+
+:::info 与刚体转动的关系
+对于复摆（物理摆），周期  T  与转动惯量  I  的关系为：
+
+$$T = 2\pi \sqrt{ \frac{I}{mgd} }$$
+
+>其中  m  是摆的质量， g  是重力加速度， d  是转轴到质心的距离。
+
+:::
+
+简谐运动的微分方程标准形式为：
+
+$$\frac{d^2x}{dt^2} + \omega^2 x = 0$$
+
+其中：
+
+· $x$ 是振动物体相对于平衡位置的位移（或角位移）；
+· $\omega$ 是角频率（由系统本身性质决定，为常数）；
+· 方程表示加速度与位移大小成正比、方向相反。
+
+该方程的解为  $x = A\cos(\omega t + \varphi)$ ， $A$  为振幅， $\varphi$ 为初相位。
+
 ### 简谐振动的旋转矢量法
 **旋转矢量法**:简谐振动可以通过一个**旋转矢量的投影**来表示
 ::: center
@@ -626,7 +649,7 @@ $$x_1=A_1\cos (\omega t+\varphi_1),\quad x_2=A_2\cos (\omega t+\varphi_2)$$
 $$\Delta \varphi = (\omega t+\varphi_2)-(\omega t+\varphi_1)=\varphi_2-\varphi_1$$
 
 - $\Delta \varphi=0$ 时称为**同相**
-- $\Delta \varphi=\pi$ (或 $\pi$ 的奇数倍),旋转矢量 $\vec A_1,\quad A_2$ 完全相反,称为**反相**
+- $\Delta \varphi=\pi$ (或 $\pi$ 的奇数倍),旋转矢量 $\vec A_1,\quad \vec A_2$ 完全相反,称为**反相**
 - $\Delta \varphi>0$ 时称 $x_2$ 的相位超前 $x_1$ 的相位 $\Delta \varphi$ ,反之为落后.
 
 :::warning 注意

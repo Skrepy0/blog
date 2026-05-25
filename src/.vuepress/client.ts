@@ -17,4 +17,22 @@ export default defineClientConfig({
       true
     )
   },
+  enhance({ app, router, siteData }) {
+    const sendStatusToParent = () => {
+      if (window.parent !== window) {
+        const isHome = window.location.pathname === '/' || window.location.pathname === '/index.html'
+        window.parent.postMessage(
+          {
+            type: 'navigation-change',
+            isHome: isHome,
+            url: window.location.href,
+          },
+          '*'
+        )
+      }
+    }
+    router.afterEach(() => {
+      sendStatusToParent()
+    })
+  },
 })

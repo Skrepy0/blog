@@ -1,5 +1,7 @@
 import { defineClientConfig } from 'vuepress/client'
 import { setupRunningTimeFooter } from 'vuepress-theme-hope/presets/footerRunningTime.js'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 //@ts-ignore
 import 'vuepress-theme-hope/presets/shinning-feature-panel.scss'
 //@ts-ignore
@@ -16,23 +18,25 @@ export default defineClientConfig({
       },
       true
     )
-  },
-  enhance({ app, router, siteData }) {
-    const sendStatusToParent = () => {
-      if (window.parent !== window) {
-        const isHome = window.location.pathname === '/' || window.location.pathname === '/index.html'
-        window.parent.postMessage(
-          {
-            type: 'navigation-change',
-            isHome: isHome,
-            url: window.location.href,
-          },
-          '*'
-        )
+    onMounted(() => {
+      const sendStatusToParent = () => {
+        if (window.parent !== window) {
+          const isHome = window.location.pathname === '/' || window.location.pathname === '/index.html'
+          window.parent.postMessage(
+            {
+              type: 'navigation-change',
+              isHome: isHome,
+              url: window.location.href,
+            },
+            '*'
+          )
+        }
       }
-    }
-    router.afterEach(() => {
+      const router = useRouter()
       sendStatusToParent()
+      router.afterEach(() => {
+        sendStatusToParent()
+      })
     })
   },
 })

@@ -115,12 +115,27 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="showImage" class="git-gif-container" title="天禄辟邪">
-    <img src="/assets/images/tianlubixie.gif" alt="tianlubixie" />
-  </div>
+  <transition name="fade">
+    <div v-if="showImage" class="git-gif-container" title="天禄辟邪">
+      <img src="/assets/images/tianlubixie.gif" alt="tianlubixie" />
+    </div>
+  </transition>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+@import '../styles/components/animation.scss';
+
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-leave-to {
+  opacity: 0;
+}
+
+.git-gif-container {
+  transition: opacity 0.5s ease;
+}
 .git-gif-container {
   position: fixed;
   bottom: 1.5rem;
@@ -136,6 +151,7 @@ onMounted(() => {
   display: block;
   width: 230px;
   height: auto;
+  animation: zoomIn 1.3s linear;
   opacity: 0.8;
   pointer-events: none;
   -webkit-touch-callout: none;

@@ -12,6 +12,11 @@ export default navbar([
     prefix: '/projects/',
     children: [
       {
+        text: 'Melodio',
+        icon: 'ix:project',
+        link: 'https://github.com/Skrepy0/Melodio',
+      },
+      {
         text: '印刷登记工具',
         icon: 'ix:project',
         link: 'https://github.com/Skrepy0/Print-Registration-System',

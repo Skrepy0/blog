@@ -1,18 +1,33 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
 
 const showImage = ref(false)
-let buttonElement: HTMLElement | null = null
 let isMobile = false
 let longPressTimer: ReturnType<typeof setTimeout> | null = null
 let touchStartPos = { x: 0, y: 0 }
 
+const getLogoElement = () => {
+  return document.getElementsByClassName('vp-nav-logo')[0] as HTMLImageElement | null
+}
+
+const updateLogoSrc = () => {
+  const logo = getLogoElement()
+  if (logo) {
+    logo.src = showImage.value ? '/assets/images/sibuxiang.jpg' : '/avatar.png'
+  }
+}
+
 const toggleImage = () => {
   showImage.value = !showImage.value
   localStorage.setItem('showGitGif', showImage.value ? 'true' : 'false')
+  updateLogoSrc()
 }
 
-const onTouchStart = (e: TouchEvent) => {
+const onGlobalTouchStart = (e: TouchEvent) => {
+  const target = e.target as HTMLElement
+  const logo = getLogoElement()
+  if (!logo || !logo.contains(target)) return
+
   e.preventDefault()
   const touch = e.touches[0]
   touchStartPos = { x: touch.clientX, y: touch.clientY }
@@ -23,21 +38,23 @@ const onTouchStart = (e: TouchEvent) => {
   }, 1000)
 }
 
-const onTouchEnd = () => {
+const onGlobalTouchEnd = (e: TouchEvent) => {
+  const logo = getLogoElement()
+  if (!logo) return
   if (longPressTimer) {
     clearTimeout(longPressTimer)
     longPressTimer = null
   }
 }
 
-const onTouchCancel = () => {
+const onGlobalTouchCancel = () => {
   if (longPressTimer) {
     clearTimeout(longPressTimer)
     longPressTimer = null
   }
 }
 
-const onTouchMove = (e: TouchEvent) => {
+const onGlobalTouchMove = (e: TouchEvent) => {
   if (!longPressTimer) return
   const touch = e.touches[0]
   const deltaX = Math.abs(touch.clientX - touchStartPos.x)
@@ -48,69 +65,64 @@ const onTouchMove = (e: TouchEvent) => {
   }
 }
 
-const bindLongPress = (el: HTMLElement) => {
-  el.addEventListener('touchstart', onTouchStart, { passive: false })
-  el.addEventListener('touchend', onTouchEnd)
-  el.addEventListener('touchcancel', onTouchCancel)
-  el.addEventListener('touchmove', onTouchMove)
-  el.style.touchAction = 'manipulation'
+const onGlobalDblClick = (e: MouseEvent) => {
+  const logo = getLogoElement()
+  if (logo && logo.contains(e.target as HTMLElement)) {
+    toggleImage()
+  }
 }
 
-const unbindLongPress = (el: HTMLElement) => {
-  el.removeEventListener('touchstart', onTouchStart)
-  el.removeEventListener('touchend', onTouchEnd)
-  el.removeEventListener('touchcancel', onTouchCancel)
-  el.removeEventListener('touchmove', onTouchMove)
-  el.style.touchAction = ''
+const bindGlobalEvents = () => {
+  if (isMobile) {
+    document.body.addEventListener('touchstart', onGlobalTouchStart, { passive: false })
+    document.body.addEventListener('touchend', onGlobalTouchEnd)
+    document.body.addEventListener('touchcancel', onGlobalTouchCancel)
+    document.body.addEventListener('touchmove', onGlobalTouchMove)
+    document.body.style.touchAction = 'manipulation' // 全局优化
+  } else {
+    document.body.addEventListener('dblclick', onGlobalDblClick)
+  }
+}
+
+const unbindGlobalEvents = () => {
+  if (isMobile) {
+    document.body.removeEventListener('touchstart', onGlobalTouchStart)
+    document.body.removeEventListener('touchend', onGlobalTouchEnd)
+    document.body.removeEventListener('touchcancel', onGlobalTouchCancel)
+    document.body.removeEventListener('touchmove', onGlobalTouchMove)
+    document.body.style.touchAction = ''
+  } else {
+    document.body.removeEventListener('dblclick', onGlobalDblClick)
+  }
+}
+
+watch(showImage, () => {
+  updateLogoSrc()
+})
+
+let observer: MutationObserver | null = null
+const watchLogoRecreation = () => {
+  observer = new MutationObserver(() => {
+    updateLogoSrc()
+  })
+  observer.observe(document.body, { childList: true, subtree: true })
 }
 
 onMounted(() => {
   if (typeof window !== 'undefined') {
     isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0
   }
-
   const saved = localStorage.getItem('showGitGif')
   if (saved === 'true') showImage.value = true
+  updateLogoSrc()
+  bindGlobalEvents()
+  watchLogoRecreation()
+})
 
-  buttonElement = document.getElementsByClassName('vp-nav-logo')[0] as HTMLElement
-
-  const attachEvents = (el: HTMLElement) => {
-    if (isMobile) {
-      bindLongPress(el)
-    } else {
-      el.addEventListener('dblclick', toggleImage)
-    }
-  }
-
-  const detachEvents = (el: HTMLElement) => {
-    if (isMobile) {
-      unbindLongPress(el)
-    } else {
-      el.removeEventListener('dblclick', toggleImage)
-    }
-  }
-
-  if (buttonElement) {
-    attachEvents(buttonElement)
-  } else {
-    const observer = new MutationObserver(() => {
-      const btn = document.getElementsByClassName('vp-nav-logo')[0] as HTMLElement
-      if (btn && !buttonElement) {
-        buttonElement = btn
-        attachEvents(buttonElement)
-        observer.disconnect()
-      }
-    })
-    observer.observe(document.body, { childList: true, subtree: true })
-    setTimeout(() => observer.disconnect(), 10000)
-  }
-
-  onUnmounted(() => {
-    if (buttonElement) {
-      detachEvents(buttonElement)
-    }
-    if (longPressTimer) clearTimeout(longPressTimer)
-  })
+onUnmounted(() => {
+  unbindGlobalEvents()
+  if (longPressTimer) clearTimeout(longPressTimer)
+  if (observer) observer.disconnect()
 })
 </script>
 
@@ -123,8 +135,6 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-@import '../styles/components/animation.scss';
-
 .fade-leave-active {
   transition: opacity 0.5s ease;
 }
@@ -135,8 +145,6 @@ onMounted(() => {
 
 .git-gif-container {
   transition: opacity 0.5s ease;
-}
-.git-gif-container {
   position: fixed;
   bottom: 1.5rem;
   right: 1.5rem;

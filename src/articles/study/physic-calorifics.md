@@ -111,3 +111,134 @@ $$
 \sqrt{\bar {v^2}}=\sqrt{\frac{3p}{\rho}}
 $$
 > $\rho = nm$ 是气体的密度, 
+
+### 自由度
+
+$$
+i=t+r
+$$
+> 其中t是平动自由度, r是转动自由度, i是总自由度
+
+|分子类型|自由度 $i$|
+|---|---|
+|单原子分子|3|
+|刚性双原子分子|5|
+|刚性多原子分子[^1]|6|
+
+[^1]:刚性多原子分子: 三个或三个以上原子组成的刚性分子
+
+### 能量均分定理
+理想气体处于平衡态时,有:
+$$
+\bar \epsilon = \frac{1}{2}m \bar {v^2} = \frac{3}{2}kT
+$$
+由于 $\bar {v_x^2}=\bar {v_y^2}=\bar {v_z^2}=\frac{1}{3} \bar {v^2}$,得:
+
+$$
+\frac{1}{2}m\bar {v_x^2}=\frac{1}{2}m\bar {v_y^2}=\frac{1}{2}m\bar {v_z^2}=\frac{1}{2}kT
+$$
+
+若气体分子有i个自由度,则每个分子的**平均总动能** $\bar \epsilon_k=\frac{i}{2}kT$
+
+### 理想气体的内能
+$$
+E=\frac{m}{M}N_A \frac{i}{2}kT = \frac{m}{M} \frac{i}{2}RT
+$$
+> 其中, m是气体质量, M是气体的摩尔质量
+
+## 麦克斯韦速率分布律
+速率分布函数:
+$$
+\frac{dN}{N}=f(v)dv
+$$
+> 其中, N为总分子数
+
+$$
+\frac{\Delta N}{N} = \int^{v_2}_{v_1} f(v)dv
+$$
+> 其中 $\Delta N$ 是速度在 $v_1, V_2$ 之间的分子数, N是总分子数
+
+速率分布函数的归一化条件:
+$$
+\int_0^\infty f(v)dv=1.
+$$
+
+$$
+f(v)=4 \pi (\frac{m}{2\pi kT})^{\frac{3}{2}}e^{-\frac{mv^2}{2kT}}v^2
+$$
+
+**最概然速率**($f(v)$ 的极大值对应的速率):
+$$
+v_p=\sqrt{\frac{2kT}{m}}=\sqrt{\frac{2RT}{M}} \approx 1.41\sqrt{\frac{RT}{M}}.
+$$
+$$
+f(v_p)=\frac{4e^{-1}}{\sqrt{\pi}}\frac{1}{v_p}
+$$
+
+平均速率:
+$$
+\bar v = \frac{\int_0^\infty vNf(v)dv}{N}=\int_0^\infty vf(v)dv=\sqrt{\frac{8kT}{\pi m}}=\sqrt{\frac{8RT}{\pi M}}\approx 1.60\sqrt{\frac{RT}{M}}
+$$
+
+$$
+\bar {v^2} = \int_0^{\infty} v^2f(v)dv = \frac{3kT}{m} = \frac{3RT}{M}
+$$
+
+$$
+\sqrt{\bar {v^2}} = \sqrt{\frac{3kT}{m}} = \sqrt{\frac{3RT}{M}}\approx 1.73\sqrt{\frac{RT}{M}}
+$$
+
+$$
+v_p<\bar v < \bar {v^2}
+$$
+
+> 室温下, $v_p,\bar v , \bar {v^2}$ 的数量级一般是 $10^2m/s$
+
+## 玻耳兹曼分布率
+**麦克斯韦速度分布律**:
+
+在平衡态下, 速度分量 $v_x$ 在区间 $v_x \sim v_x + dv_x$ 内, $v_y$ 在区间 $v_y \sim v_y + dv_y$ 内, $v_z$ 在区间 $v_z \sim v_z + dv_z$ 内的气体分子数占总数的百分比为:
+$$
+f(v_x,v_y,v_z)dv_x dv_y dv_z = (\frac{m}{2\pi kT})^{\frac{3}{2}}e^{-\frac{m(v_x^2+v_y^2+v_z^2)}{2kT}}dv_x dv_y dv_z
+$$
+
+速度分量 $v$ 在区间 $v \sim v + dv$ 内的气体分子数占总数的百分比为:
+
+$$
+f(v)dv = 4\pi (\frac{m}{2\pi kT})^{\frac{3}{2}}e^{-\frac{mv^2}{2kT}}v^2dv
+$$
+
+**玻耳兹曼分布率**:
+存在保守力的时候, 分子按总能量的分布与因子 $e^{-\frac{\epsilon}{kT}}$ 成正比
+
+**玻耳兹曼因子**: $e^{-\frac{\epsilon}{kT}}$
+
+**粒子数按高度(z)分布的规律**:
+$$
+n=n_0 e^{-\frac{mgz}{kT}}
+$$
+> 其中 $n_0=C(\frac{2\pi kT}{m})^{\frac{3}{2}}$, 代表了 $z=0$ 处单位体积内的分子数 
+
+**等温气压公式**,将大气看成理想气体,且不同高度的温度近似相等,高度z处的压强:
+$$
+p=p_0 e^{-\frac{mgz}{kT}}
+$$
+
+> 其中 $p_0=n_0kT$ 是高度是0处的压强
+
+## 气体分子的平均碰撞频率 平均自由程
+$$
+\bar \lambda = \frac{\bar v}{\bar z}
+$$
+> 其中 $\bar \lambda$ 是**平均自由程**
+$\bar z$ 是**平均碰撞频率**
+
+某分子相对于其他气体分子的平均相对速率 $\bar u = \sqrt{2} \bar v$
+
+$$
+\bar z = \sqrt{2}\pi \bar v nd^2,\quad \bar \lambda = \frac{\bar v}{\bar z} = \frac{1}{\sqrt{2}\pi nd^2} = \frac{kT}{\sqrt{2}\pi pd^2}
+$$
+> $d$ 是分子的有效直径, $n$ 是气体分子数密度
+
+单位时间单位面积碰撞次数 
+$$\Gamma = \frac{1}{4}n\bar v$$

@@ -6,7 +6,7 @@ title: 主页
 heroImage: avatar.png
 heroText: 这里是Skrepy~
 heroFullScreen: true
-bgImage: /assets/images/bg.webp
+bgImage: https://bing.img.run/rand.php
 tagline: 
 projects:
   - icon: house

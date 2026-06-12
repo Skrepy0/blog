@@ -7,13 +7,20 @@ let longPressTimer: ReturnType<typeof setTimeout> | null = null
 let touchStartPos = { x: 0, y: 0 }
 
 const getLogoElement = () => {
-  return document.getElementsByClassName('vp-nav-logo')[0] as HTMLImageElement | null
+  return [
+    document.getElementsByClassName('vp-nav-logo')[0] as HTMLImageElement | null,
+    document.getElementsByClassName('vp-blog-hero-image')[0] as HTMLImageElement | null,
+    document.getElementsByClassName('vp-blogger-avatar')[0] as HTMLImageElement | null,
+    document.querySelector('.vp-portfolio-avatar > img') as HTMLImageElement | null,
+  ]
 }
 
 const updateLogoSrc = () => {
   const logo = getLogoElement()
   if (logo) {
-    logo.src = showImage.value ? '/assets/images/sibuxiang.jpg' : '/avatar.png'
+    logo.forEach((item) => {
+      if (item) item.src = showImage.value ? '/assets/images/sibuxiang.jpg' : '/avatar.png'
+    })
   }
 }
 
@@ -23,10 +30,18 @@ const toggleImage = () => {
   updateLogoSrc()
 }
 
+const isContains = (e: HTMLElement, logo: (HTMLImageElement | null)[]) => {
+  for (let i = 0; i < logo.length; i++) {
+    const img = logo[i]
+    if (img && img.contains(e)) return true
+  }
+  return false
+}
+
 const onGlobalTouchStart = (e: TouchEvent) => {
   const target = e.target as HTMLElement
   const logo = getLogoElement()
-  if (!logo || !logo.contains(target)) return
+  if (!logo || !isContains(target, logo)) return
 
   e.preventDefault()
   const touch = e.touches[0]
@@ -67,7 +82,7 @@ const onGlobalTouchMove = (e: TouchEvent) => {
 
 const onGlobalDblClick = (e: MouseEvent) => {
   const logo = getLogoElement()
-  if (logo && logo.contains(e.target as HTMLElement)) {
+  if (logo && isContains(e.target as HTMLElement, logo)) {
     toggleImage()
   }
 }

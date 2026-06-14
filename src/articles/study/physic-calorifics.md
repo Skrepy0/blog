@@ -226,6 +226,14 @@ $$
 
 > 其中 $p_0=n_0kT$ 是高度是0处的压强
 
+**泻流质量流率公式**:
+密闭容器(里面有气体,气体的摩尔质量是 $M$, 温度是 $T$)从侧壁开一个面积是 $A$ 的小孔,(小孔的线度远小于分子的平均自由程,分子间碰撞可忽略).
+$$
+\frac{dm}{dt}=pA\sqrt{\frac{M}{2\pi RT}}
+$$
+> p是某时刻的压强
+
+
 ## 气体分子的平均碰撞频率 平均自由程
 $$
 \bar \lambda = \frac{\bar v}{\bar z}
@@ -242,3 +250,128 @@ $$
 
 单位时间单位面积碰撞次数 
 $$\Gamma = \frac{1}{4}n\bar v$$
+
+## 热力学第一定律
+### 功 准静态过程
+**准静态过程**: 认为气体的每一步变化都处于平衡态的过程
+
+设气缸中的气体做准静态膨胀,气体的压强是 $p$, 活塞面积是 $S$, 气体对活塞的压力 $f=pS$, 活塞移动微小距离 $dx$ 的时候, 气体对外界做的功:
+$$
+dA=fdx=pSdx=pdV
+$$
+气体体积从 $V_1\text{到}V_2$ 时, 气体对外界做的功:
+$$
+A=\int dA=\int_{V_1}^{V_2} pdV
+$$
+
+### 热力学第一定律
+$$
+Q=E_2-E_1+A
+$$
+> $Q$ 是系统从外界吸收的热量, 过程前后系统的内能分别是$E_1,E_2$, $A$ 是系统对外做的功
+
+微分形式:
+$$
+dQ = dE+dA
+$$
+
+### 热力学第一定律在理想气体等值过程中的应用
+#### 等容过程
+由于等容,所以 $dV$ 是0, 所以系统对外做的功为0,即 $dA=0$,
+则:
+$$
+Q_V = \Delta E = E_2-E_1=\frac{m}{M}\frac{i}{2}R\Delta T=\frac{m}{M}\frac{i}{2}R(T_2-T_1)
+$$
+即:
+$$
+Q_V = \frac{m}{M}\frac{i}{2}R(T_2-T_1)
+$$
+
+#### 等压过程
+$$
+A=\int_{V_1}^{V_2} pdV=p(V_2-V_1)=\frac{m}{M}R(T_2-T_1)
+$$
+吸收的热量:
+$$
+Q_p=\Delta E+A=E_2-E_1+\frac{m}{M}R(T_2-T_1)
+$$
+
+#### 等温过程
+$$
+A=\int_{V_1}^{V_2} pdV=\int_{V_1}^{V_2} \frac{m}{M}RT\frac{dV}{V}=\frac{m}{M}RT ln\frac{V_2}{V_1}=\frac{m}{M}RTln\frac{p_1}{p_2}
+$$
+
+$$
+Q_T=A=\frac{m}{M}RTln\frac{p_1}{p_2}
+$$
+
+### 热容 绝热过程
+#### 热容
+**定容摩尔热容**:
+$$
+C_{V,m} = \frac{dQ_V}{dT}=\frac{dE_m}{dT}=\frac{i}{2}R.
+$$
+若已知 $C_{V,m}$ ,就能利用 $dE_m=C_{V,m}dT$ 求得 $1mol$ 理想气体的内能增量
+$$
+\Delta E_m = E_{m2}-E_{m1}=\int_{T_1}^{T_2} C_{V,m}dT = C_{V,m}(T_2-T_1)
+$$
+对于物质的量是 $\nu$ 的气体:
+$$
+\Delta E_m = \nu C_{V,m}(T_2-T_1)
+$$
+
+**定压摩尔热容**:
+对 $pV_m=RT$ 两边同时微分有 $pdV_m=RdT$. 根据热力学第一定律:
+$dQ_p=dE_m+pdV_m=C_{V,m}dT+RdT$
+于是便得到了**迈耶公式**:
+$$
+C_{p,m}=\frac{dQ_p}{dT}=C_{V,m}+R=(\frac{i}{2}+1)R.
+$$
+
+**比热[容]比**:
+$$
+\gamma=\frac{C_{p,m}}{C_{V,m}}=\frac{i+2}{i}. 
+$$
+
+#### 绝热过程
+$$
+pV^{\gamma}=\text{常数}
+$$
+$$
+V^{\gamma-1}T=\text{常数} \\
+p^{\gamma-1}T^{-\gamma}=\text{常数}
+$$
+> $\gamma$ 是*比热[容]比*
+
+<Picture
+url="/assets/articles/study/physic-calorifics/juere.webp"
+height=320
+/>
+
+绝热线比等温线陡峭,在B点,
+绝热线的斜率:
+$$
+\left(\frac{dp}{dV}\right)_S=-\gamma \frac{p}{V}
+$$
+等温线的斜率:
+$$
+\left(\frac{dp}{dV}\right)_T=-\frac{p}{V}
+$$
+
+计算功:
+1. 通过热力学第一定律:
+$$
+A=-\Delta E=-\frac{m}{M}C_{V,m}(T_2-T_1).
+$$
+2. 功的定义
+$$
+pV^{\gamma}=p_1V_1^{\gamma}=p_2V_2^{\gamma}
+$$
+$$
+A=\int_{V_1}^{V_2} pdV=p_1V_1^{\gamma}\int_{V_1}^{V_2}\frac{dV}{V^{\gamma}}=p_1V_1^{\gamma}\left(\frac{V_2^{1-\gamma}}{1-\gamma}-\frac{V_1^{1-\gamma}}{1-\gamma} \right)
+$$
+
+:::important 注意
+理想气体的绝热自由膨胀不是准静态过程
+:::
+

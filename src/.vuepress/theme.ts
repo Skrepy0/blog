@@ -46,14 +46,14 @@ export default hopeTheme({
   },
   pageInfo: ['Author', 'Date', 'Word', 'ReadingTime', 'Category', 'Tag'],
   // 加密配置
-  encrypt: {
-    config: {
-      '/articles/study/physic-experments.html': {
-        hint: 'Password: 这是这个',
-        password: 'tasS',
-      },
-    },
-  },
+  // encrypt: {
+  //   config: {
+  //     '/articles/study/physic-experments.html': {
+  //       hint: 'Password: 这是这个',
+  //       password: 'tasS',
+  //     },
+  //   },
+  // },
 
   // 多语言配置
   metaLocales: {

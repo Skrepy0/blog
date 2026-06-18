@@ -71,10 +71,18 @@
 .vp-pagination-nav,
 .vp-project-panel,
 .vp-sidebar-links,
+.navbar-links-item,
+.text,
 .page-info,
 .vp-breadcrumb,
+.DocSearch-Button-Placeholder,
 button {
   font-family: Comic, 'HYLeMiao', 'HYTangMeiRen', 'Comic Sans MS', serif;
+}
+.DocSearch-Button-Key,
+#docsearch-input,
+.DocSearch-Label {
+  font-family: 'HYLeMiao', 'HYTangMeiRen', 'Comic Sans MS', serif;
 }
 .vp-star-article-wrapper > .title,
 .vp-blog-type-icon-wrapper,

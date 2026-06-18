@@ -1,6 +1,13 @@
 @font-face {
+  font-family: 'HYLeMiao';
+  src: url('/assets/fonts/HYLeMiaoTiJ.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
   font-family: 'Comic';
-  src: url('/fonts/comic/comicbd.ttf') format('truetype');
+  src: url('/assets/fonts/comic/comicbd.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
   font-display: swap;

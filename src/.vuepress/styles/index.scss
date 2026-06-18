@@ -30,7 +30,7 @@
   white-space: nowrap;
   overflow: hidden;
   width: 0;
-  animation: typing 3s steps(18) forwards;
+  animation: typing 3s steps(17) forwards;
   font-size: 0.98rem;
   font-family: HuaWenKaiTi, Courier, monospace;
 }
@@ -63,8 +63,19 @@
   font-family: Comic, 'Comic Sans MS', serif;
   transition: all 0.5s ease !important;
 }
+.next,
+.vp-navbar-center,
+.vp-blog-counts,
+.vp-blog-infos,
+.vp-footer-wrapper,
+.vp-blog-hero-title,
+.vp-pagination-nav,
+.vp-project-panel,
+.vp-sidebar-links,
+.page-info,
+.vp-breadcrumb,
 button {
-  font-family: 'HYTangMeiRen', 'Comic Sans MS', serif;
+  font-family: Comic, 'HYLeMiao', 'HYTangMeiRen', 'Comic Sans MS', serif;
 }
 .vp-star-article-wrapper > .title,
 .vp-blog-type-icon-wrapper,

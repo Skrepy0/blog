@@ -56,14 +56,6 @@
     transform: translateX(-30px);
   }
 }
-@keyframes typing {
-  from {
-    width: 0;
-  }
-  to {
-    width: 99%;
-  }
-}
 @keyframes zoomIn {
   0% {
     opacity: 0;

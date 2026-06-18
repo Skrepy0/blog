@@ -31,7 +31,7 @@ export default hopeTheme({
 
   // 博客相关
   blog: {
-    description: '今朝有酒今朝醉,明日愁来明日愁',
+    description: '今朝有酒今朝醉, 明日愁来明日愁',
     intro: '/intro.html',
     medias: {
       BiliBili: 'https://space.bilibili.com/3546594102217461',

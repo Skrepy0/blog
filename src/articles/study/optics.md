@@ -173,4 +173,121 @@ $$
 $$
 
 ## 第七章 光的衍射
+### 惠更斯-菲涅尔原理
+惠更斯-菲涅尔原理:波面上各点出发的子波是彼此相干的,他们在空间相遇后发生相干叠加,使波的强度重新分布,形成衍射图像
+### 单缝夫琅禾费衍射
+<Picture
+url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJKA5xXIBXpjK_mwBvTXe3-wqi8pAW2lmS3yUtqnUzFQ&s=10"
+height=220
+/>
 
+光程差:
+$$
+\delta = a\sin \theta
+$$
+分析:
+$$
+\delta = a\sin \theta=\begin{cases}\pm k\lambda,\quad k=1,2,...(\text{暗纹}),\\ 
+ \pm (2k+1)\frac{\lambda}{2},k=1,2,...(\text{明纹}),\end{cases}
+$$
+
+> 有偶数个半波带: 两两抵消,是暗纹
+有奇数个半波带: 抵消后还剩一个,是明纹
+
+<Picture
+url="https://zhengshili.com/tupian/3815.png"
+height=220
+/>
+
+各级条纹的中心位置到中央明纹中心位置的距离.
+设透镜的焦距是$f$,某级条纹的中心到中央明纹中心位置$O$ 的距离是$y$
+$$
+y=f\tan \theta \approx f\sin \theta = \begin{cases}\pm \frac{f}{a}k\lambda,\quad k=1,2,...(\text{暗纹}),\\ 
+ \pm \frac{f}{a}(2k+1)\frac{\lambda}{2},k=1,2,...(\text{明纹}),\end{cases}
+$$
+
+<Picture
+url="https://p3-sdbk2-media.byteimg.com/tos-cn-i-xv4ileqgde/babebfb1b61543a69b6b0f048423a12e~tplv-xv4ileqgde-resize-w:720.image"
+height=220
+/>
+
+> 中央明纹的宽度: $\frac{2f}{\lambda}$,其他各级明纹的宽度: $\frac{f}{\lambda}$ 
+
+### 光栅衍射
+**光栅常数**: 两缝中心之间的距离,即 $a+b$
+> $a$ 是单缝的宽度, $b$ 是两缝间不透光部分的宽度
+
+**光栅方程**:
+$$
+(a+b)\sin \theta = k\lambda,k=0,\pm 1,\pm 2,...
+$$
+> $k$ 是光栅衍射明纹的级次
+
+**主极大**:满足光栅方程的*明纹*称为**主极大**
+
+#### 光栅衍射条纹的缺级
+$$
+\begin{cases}
+a\sin \theta = k'\lambda,\quad k'=\pm 1,\pm 2,... \text{(夫琅禾费衍射为暗条纹)}\\
+(a+b)\sin \theta = k\lambda,\quad k=0,\pm 1,\pm 2,...\text{(满足光栅方程明纹的条件)}
+\end{cases} 
+$$
+
+解得:
+$$
+k=\frac{a+b}{a}k'
+$$
+::: warning
+算出的 $k$ 必须是整数
+:::
+#### 光栅衍射明纹的宽度
+
+<Picture
+url="/assets/articles/study/optics/1.webp"
+height=150
+/>
+
+**光栅衍射暗纹计算公式**:
+$$
+(a+b)\sin \theta = \frac{m}{N}\lambda,(m\in Z,m\not=kN,m>0)
+$$
+
+:::info 
+在第$k$级主极大和第$k+1$级主极大明纹之间有$N-1$条暗纹,在相邻暗纹之间必定有明纹,称为**次极大**,相邻主极大之间有$N-2$个次极大
+:::
+
+第一级明纹的衍射角
+$$
+\sin \theta_1=\frac{\lambda}{a+b}
+$$
+
+### 光学仪器的分辨本领
+$$
+\theta=1.22\frac{\lambda}{D}
+$$ 
+> $D$ 是圆孔直径, $\lambda$ 是入射光波长, $\theta$ 是艾里斑的半角宽度,也叫最小分辨角
+
+**光学仪器的分辨本领**: 最小分辨角的倒数 $\frac{1}{\theta_0}$
+$$
+\frac{1}{\theta_0}=\frac{D}{1.22\lambda}
+$$
+
+#### 光栅的分辨本领
+$$
+R=kN
+$$
+> 光栅的分辨本领与级次$k$成正比,与光栅的总缝数$N$成反比
+
+### X射线晶体衍射
+#### 
+<Picture
+url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHMsIPgdZ-LpDgNt6HZfUfQLzwLcVb8jN-9BecDY_UY0f3qmcsdi8CLtz0&s=10"
+height=320
+/>
+
+$$
+2d\sin \theta = k\lambda, \quad k=1,2,...
+$$
+> $d$ 是晶面间距, $\theta$ 是掠射角
+
+## 光的偏振

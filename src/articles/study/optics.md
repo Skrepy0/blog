@@ -211,7 +211,7 @@ url="https://p3-sdbk2-media.byteimg.com/tos-cn-i-xv4ileqgde/babebfb1b61543a69b6b
 height=220
 />
 
-> 中央明纹的宽度: $\frac{2f}{\lambda}$,其他各级明纹的宽度: $\frac{f}{\lambda}$ 
+> 中央明纹的宽度: $\frac{2f\lambda}{a}$,其他各级明纹的宽度: $\frac{f\lambda}{a}$ 
 
 ### 光栅衍射
 **光栅常数**: 两缝中心之间的距离,即 $a+b$
@@ -276,7 +276,7 @@ $$
 $$
 R=kN
 $$
-> 光栅的分辨本领与级次$k$成正比,与光栅的总缝数$N$成反比
+> 光栅的分辨本领与级次$k$,光栅的总缝数$N$都成正比
 
 ### X射线晶体衍射
 #### 
@@ -288,6 +288,30 @@ height=320
 $$
 2d\sin \theta = k\lambda, \quad k=1,2,...
 $$
-> $d$ 是晶面间距, $\theta$ 是掠射角
+> $d$ 是晶面间距, $\theta$ 是掠射角, 只有满足以上条件, X射线才能相互干涉而加强
 
 ## 光的偏振
+圆偏振光可分解成两束振动方向相互垂直,振幅相等,频率相同,相位差是 $\pm\frac{\pi}{2}$ 的线偏振光
+椭圆偏振光可分解成两束振动方向相互垂直,振幅不同,频率相同,有固定相位差的线偏振光
+### 马吕斯定律
+$$
+I=I_0\cos^2\theta
+$$
+> $\theta$ 是光振动方向和偏振片的偏振化方向的之间的夹角,$I$ 是出射光强, $I_0$ 是入射光强
+
+### 反射与折射的偏振
+#### 布儒斯特定律
+<Picture
+url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPwYCY2XUf824oLNZSK42GktQqfQRpiKnUFW6lx06Nt-SOPD909ANLeZ4&s=10"
+height=320
+/>
+
+$$
+\tan i_b=\frac{n_2}{n_1}
+$$
+> $i_b$ 为布儒斯特角
+### 光的双折射
+
+<BiliBili
+bvid="BV1VDpUeCEvv"
+/>

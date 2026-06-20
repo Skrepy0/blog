@@ -37,6 +37,7 @@ export default hopeTheme({
       BiliBili: 'https://space.bilibili.com/3546594102217461',
       GitHub: 'https://github.com/Skrepy0/',
       Gmail: 'mailto:skrepyaelly@gmail.com',
+      Steam: 'https://steamcommunity.com/profiles/76561198685514897/',
       Twitter: 'https://x.com/Skrepy2233',
       Modrinth: {
         icon: 'https://cdn.simpleicons.org/modrinth/1bd96a',

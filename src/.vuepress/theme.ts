@@ -46,14 +46,14 @@ export default hopeTheme({
     },
   },
   pageInfo: ['Author', 'Date', 'Word', 'ReadingTime', 'Category', 'Tag'],
-  encrypt: {
-    config: {
-      '/articles/study/': {
-        hint: 'Password: 这是这个',
-        password: 'TASs171112',
-      },
-    },
-  },
+  // encrypt: {
+  //   config: {
+  //     '/articles/study/': {
+  //       hint: 'Password: 这是这个',
+  //       password: 'TASs171112',
+  //     },
+  //   },
+  // },
 
   // 多语言配置
   metaLocales: {

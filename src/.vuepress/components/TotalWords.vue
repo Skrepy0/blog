@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive, watch } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { withBase } from 'vuepress/client'
 import gsap from 'gsap'
 import { useIntersectionObserver } from '@vueuse/core'

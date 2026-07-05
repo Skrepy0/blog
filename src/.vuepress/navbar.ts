@@ -40,6 +40,11 @@ export default navbar([
         text: 'Minecraft Mods',
         children: [
           {
+            text: 'Overlayer',
+            icon: 'ix:project',
+            link: 'https://github.com/Skrepy0/Overlayer',
+          },
+          {
             text: 'Random Enchant',
             icon: 'ix:project',
             link: 'https://github.com/Skrepy0/Random-Enchant-Neoforge',
@@ -53,6 +58,27 @@ export default navbar([
             text: 'Level Fix',
             icon: 'ix:project',
             link: 'https://github.com/Skrepy0/LevelFix-Neoforge',
+          },
+        ],
+      },
+      {
+        text: 'ADOFAI Mods',
+        icon: 'clarity:plugin-line',
+        children: [
+          {
+            text: 'GifDisplay',
+            icon: 'ix:project',
+            link: 'https://github.com/Skrepy0/GifDisplay',
+          },
+          {
+            text: 'BetterFpsSetting',
+            icon: 'ix:project',
+            link: 'https://github.com/Skrepy0/BetterFpsSetting',
+          },
+          {
+            text: 'CalibrationPatch',
+            icon: 'ix:project',
+            link: 'https://github.com/Skrepy0/CalibrationPatch',
           },
         ],
       },

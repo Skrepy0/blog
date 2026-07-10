@@ -379,6 +379,114 @@ jagged[1] = new int[5];
 | **`Arrays.equals(arr1, arr2)`** | 判断两个数组**内容**是否相等（别用 `==`） | `if (Arrays.equals(a, b))` |
 | **`Arrays.binarySearch(arr, key)`** | 二分查找（**必须先排序**） | `int index = Arrays.binarySearch(arr, 5);` |
 
+
+#### Collection
+
+- **`Collection`**（接口）：是**存储单个元素**的集合的根接口。
+- **`Collections`**（工具类）：是一个**全静态方法**的工具类，专门用来操作 `Collection` 及其子类（如排序、查找、同步等）。
+
+**家族族谱（核心）：**
+```text
+Iterable (接口，可迭代的，foreach的基础)
+    └── Collection (接口，单列集合的根)
+            ├── List (接口，有序、可重复、有下标) 
+            │       ├── ArrayList (数组实现)
+            │       └── LinkedList (链表实现)
+            ├── Set (接口，无序、不可重复)
+            │       ├── HashSet (哈希表实现，最快)
+            │       └── TreeSet (红黑树实现，自动排序)
+            └── Queue (接口，队列，先进先出)
+                    └── LinkedList (也实现了队列)
+```
+
+##### Collection 定义的“通用契约”（所有集合都有的方法）
+
+因为是根接口，`Collection` 定义了一套最通用的增删改查规范。不论你是 `List` 还是 `Set`，下面这些方法都有，可以直接用：
+
+| 类别 | 方法名 | 作用 | 备注 |
+| :--- | :--- | :--- | :--- |
+| **增** | `add(E e)` | 添加一个元素 | `Set` 添加重复元素会返回 `false` |
+| | `addAll(Collection<? extends E> c)` | 添加另一个集合的所有元素（并集） | 批量操作 |
+| **删** | `remove(Object o)` | 删除指定元素 | 按元素值删，`List` 删第一个匹配的，`Set` 删该值 |
+| | `removeAll(Collection<?> c)` | 删除本集合中**所有**出现在 c 中的元素（差集） | 重要！ |
+| | `retainAll(Collection<?> c)` | 只保留本集合中**也**出现在 c 中的元素（交集） | 算法题中很实用 |
+| | `clear()` | 清空所有元素 | - |
+| **查** | `contains(Object o)` | 是否包含某元素 | 底层调用 `equals()` 比较 |
+| | `containsAll(Collection<?> c)` | 是否包含 c 中**所有**元素 | - |
+| | `isEmpty()` | 是否为空 | - |
+| **长度** | `size()` | 返回元素个数 | **不是 length！** |
+| **遍历** | `iterator()` | 返回迭代器 | 遍历删除元素的安全方式 |
+| **转数组** | `toArray()` | 转为 `Object[]` 数组 | - |
+| | `toArray(T[] a)` | 转为指定类型的数组 | 常用：`list.toArray(new Integer[0])` |
+
+##### Collection 下的三大子接口
+
+| 子接口 | 核心特性 | 允许重复？ | 有无顺序？ | 有没有下标？ | 首选场景 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **`List`** | 有序、可重复、有索引 | ✅ 是 | ✅ 有（插入顺序） | ✅ 有 `get(index)` | **绝大多数情况**（需要遍历、随机访问、保持输入顺序） |
+| **`Set`** | 无序、不可重复 | ❌ 否 | ❌ 通常无（`TreeSet` 例外，按大小排） | ❌ 无 | **去重**（统计不同元素个数）、**快速查重**（`contains` O(1)） |
+| **`Queue`** | 队列（先进先出） | ✅ 是 | ✅ 有（出队顺序） | ❌ 无 | **BFS（广度优先搜索）**、**滑动窗口** |
+
+#### Collections 工具类
+
+| 方法 | 作用 | 场景 |
+| :--- | :--- | :--- |
+| **`Collections.sort(list)`** | 对 `List` 进行升序排序 | 极高频！比手写快排省事 |
+| **`Collections.reverse(list)`** | 反转 `List` 顺序 | 翻转结果 |
+| **`Collections.binarySearch(list, key)`** | 二分查找（**要求 list 已排序**） | 比 `indexOf` 快得多（O(log n)） |
+| **`Collections.max(coll)`** | 返回最大元素 | 求极值，省去遍历 |
+| **`Collections.min(coll)`** | 返回最小元素 | 同上 |
+| **`Collections.frequency(coll, obj)`** | 统计某元素出现次数 | 统计频率专用 |
+| **`Collections.disjoint(c1, c2)`** | 判断两个集合是否**没有交集** | 快速判断互斥 |
+
+:::warning 注意
+1. `Collection` 存的是引用，修改元素会影响外部对象
+2. 遍历时删除元素，只能用 `Iterator` 
+
+**唯一通用的安全删除模板（适用于所有 Collection）：**
+```java
+Iterator<Integer> it = collection.iterator();
+while (it.hasNext()) {
+    if (it.next() < 0) {
+        it.remove(); // 用迭代器的 remove，安全！
+    }
+}
+// 或者 Java 8 更简单的写法（底层也是迭代器）
+collection.removeIf(num -> num < 0);
+```
+:::
+
+
+#### List(interface)
+`List` 是 Java 中有序的、可重复的集合（也叫“序列”）。它最大的特点是有下标（索引）
+特点:有序,可重复,有索引
+##### List 的实现类
+
+| 实现类 | 底层数据结构 | 优势 | 劣势 |
+| :--- | :--- | :--- | :--- |
+| **`ArrayList`** | **`Object[]` 数组** | **随机访问（`get`/`set`）极快**，遍历效率最高，内存连续。 | 中间插入（`add(index)`）和删除（`remove(index)`）慢，因为要移动元素。 | 
+| **`LinkedList`** | **双向链表** | 头部/尾部插入删除极快，中间插入删除也比 ArrayList 快（只改指针）。 | 随机访问（`get(index)`）极慢，需要从头/尾遍历。 | 
+| **`Vector`** | 数组（同 ArrayList） | 线程安全（底层方法加了 `synchronized`）。 | 性能比 ArrayList 差，属于遗留类（JDK 1.0）。 | 
+
+##### List 接口定义的“通用方法”
+
+| 类别 | 方法名 | 作用 |
+| :--- | :--- | :--- |
+| **增** | `add(e)` | 尾部添加元素 |
+| | `add(index, e)` | 指定位置插入（会右移后续元素） |
+| | `addAll(Collection c)` | 尾部添加另一个集合的所有元素 |
+| **删** | `remove(index)` | 删除指定下标元素（返回被删元素） |
+| | `remove(Object o)` | 删除第一次出现的指定对象（返回 boolean） |
+| | `clear()` | 清空所有元素 |
+| **改** | `set(index, e)` | 替换指定位置的元素（返回旧值） |
+| **查** | `get(index)` | 获取指定位置元素 |
+| | `indexOf(o)` | 返回第一次出现的索引，找不到返回 -1 |
+| | `lastIndexOf(o)` | 返回最后一次出现的索引 |
+| | `contains(o)` | 是否包含该元素 |
+| **长度/判断** | `size()` | 返回元素个数（**注意：不是 `length`！**） |
+| | `isEmpty()` | 是否为空 |
+| | `subList(from, to)` | 截取子列表（视图，修改会影响原列表） |
+
 #### ArrayList
 ArrayList 的底层就是一个 Object[] 数组。它通过“申请更大的新数组 -> 拷贝旧数据 -> 释放旧数组”的机制来实现动态扩容。
 - 默认初始容量：10（调用无参构造时，JDK 1.8 起是延迟初始化，第一次 add 才真正分配容量为 10）。
@@ -428,3 +536,34 @@ Integer[] arr = list.toArray(new Integer[0]);
 // 法二：传同样大小的数组
 Integer[] arr2 = list.toArray(new Integer[list.size()]);
 ```
+#### Set(interface)
+
+`Set`是 Collection 的子接口，代表一个不允许包含重复元素的集合。它没有 List 那样的 get(index) 方法（因为没有下标），核心数学模型就是数学上的“集合”——交、并、补、差
+
+三大核心特征：
+- 无重复：set.add(e) 时，如果元素已存在，返回 false，且不会添加。
+- 无序（大部分实现）：顺序通常与插入顺序无关（HashSet 是按哈希值排列的）。
+- 无索引：不能通过下标取值，只能遍历或通过迭代器访问。
+
+##### Set 的实现类
+
+| 实现类 | 底层数据结构 | 是否有序 | 是否允许 `null` | 时间复杂度（增删改查） | **适用场景** |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **`HashSet`**（首选） | **哈希表（数组 + 链表/红黑树）** | 完全无序 | ✅ 允许 | **O(1)** | **99% 的去重/查重场景**（比如两数之和、字母异位词） |
+| **`LinkedHashSet`** | 哈希表 + 双向链表 | **维护插入顺序** | ✅ 允许 | O(1) | 既要去重，又要保持输入顺序（如 LRU 缓存相关） |
+| **`TreeSet`** | **红黑树（自平衡二叉搜索树）** | **自动升序排序**（自然顺序） | ❌ **不允许**（会抛 NPE） | **O(log n)** | 需要元素**自动排序**且去重（如求第 K 大、滑动窗口中的中位数） |
+
+##### 核心 API
+因为 `Set` 继承自 `Collection`，它并没有发明很多新方法，最常用的就这几个：
+
+| 方法 | 作用 | 返回值 | 与 List 的区别 |
+| :--- | :--- | :--- | :--- |
+| **`add(e)`** | 添加元素 | `true`（成功）/ `false`（已存在） | List 永远返回 `true`（允许重复） |
+| **`remove(e)`** | 删除指定元素 | `true`（删除成功）/ `false`（不存在） | 按值删，没有 `remove(index)` |
+| **`contains(e)`** | **判断元素是否存在** | `true` / `false` | **O(1) 时间复杂度** |
+| `size()` | 获取元素个数 | int | 通用 |
+| `isEmpty()` | 判空 | boolean | 通用 |
+
+:::important
+存入 `Set` 的对象，如果是自定义类，务必重写 `hashCode` 和 `equals`，并且在存入后**绝对不要修改**它的参与哈希计算的字段
+:::

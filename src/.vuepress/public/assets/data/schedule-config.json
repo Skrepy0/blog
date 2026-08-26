@@ -1,0 +1,11 @@
+{
+  "firstCourseBeginTime": "08:00",
+  "courseDuration": 45,
+  "forenoonCourseCount": 4,
+  "firstAfternoonCourseBeginTime": "14:30",
+  "afternoonCourseCount": 4,
+  "eveningCourseCount": 2,
+  "firstEveningCourseBeginTime": "19:00",
+  "firstWeekBeginTime": "2026-08-26",
+  "totalWeek": 16
+}

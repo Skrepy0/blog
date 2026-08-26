@@ -11,7 +11,7 @@ export interface CourseData {
   name: string // 课程名称
   displayColor: string // 显示颜色
   credit?: number // 学分
-  type?:string//课程类型
+  type?: string //课程类型
   weekTime: number[] // 要上课的周
   dayTime: DayTime[] // 每天的时间
   teachers?: string[] // 上课教师

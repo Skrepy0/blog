@@ -198,23 +198,42 @@ const handleClickOutside = () => {
   showDropdown.value = false
 }
 
-// 滑动切换周数
+// 滑动切换周数 - 胶片效果
 const touchStartX = ref(0)
 const touchStartY = ref(0)
 const isSwiping = ref(false)
-
-// 切换方向
-const slideDirection = ref<'left' | 'right' | null>(null)
+const swipeOffset = ref(0)
+const isAnimating = ref(false)
 
 const handleTouchStart = (e: TouchEvent) => {
+  if (isAnimating.value) return
   touchStartX.value = e.touches[0].clientX
   touchStartY.value = e.touches[0].clientY
   isSwiping.value = true
+  swipeOffset.value = 0
+}
+
+const handleTouchMove = (e: TouchEvent) => {
+  if (!isSwiping.value || isAnimating.value) return
+  const currentX = e.touches[0].clientX
+  const currentY = e.touches[0].clientY
+  const diffX = currentX - touchStartX.value
+  const diffY = currentY - touchStartY.value
+
+  // 如果垂直滑动更大，取消水平滑动
+  if (Math.abs(diffY) > Math.abs(diffX)) {
+    return
+  }
+
+  // 添加阻尼效果，使滑动更自然
+  const damping = 0.4
+  swipeOffset.value = diffX * damping
 }
 
 const handleTouchEnd = (e: TouchEvent) => {
-  if (!isSwiping.value) return
+  if (!isSwiping.value || isAnimating.value) return
   isSwiping.value = false
+  isAnimating.value = true
 
   const touchEndX = e.changedTouches[0].clientX
   const touchEndY = e.changedTouches[0].clientY
@@ -223,55 +242,95 @@ const handleTouchEnd = (e: TouchEvent) => {
 
   // 水平滑动距离大于50且大于垂直滑动距离
   if (Math.abs(diffX) > 50 && Math.abs(diffX) > Math.abs(diffY)) {
-    if (diffX < 0) {
-      // 向左滑动，下一周
-      slideDirection.value = 'left'
-      prevWeek()
-      setTimeout(() => {
-        slideDirection.value = null
-      }, 300)
-    } else {
-      // 向右滑动，上一周
-      slideDirection.value = 'right'
-      nextWeek()
-      setTimeout(() => {
-        slideDirection.value = null
-      }, 300)
-    }
+    // 计算目标偏移量（滑出屏幕）
+    const targetOffset = diffX < 0 ? -window.innerWidth : window.innerWidth
+
+    // 第一阶段：当前内容滑出屏幕
+    swipeOffset.value = targetOffset
+
+    // 动画结束后切换数据
+    setTimeout(() => {
+      // 直接修改 viewWeek，不调用 prevWeek/nextWeek（避免重复动画）
+      if (diffX < 0 && scheduleConfig.value && displayWeek.value < scheduleConfig.value.totalWeek) {
+        viewWeek.value += 1
+      } else if (diffX > 0 && displayWeek.value > 1) {
+        viewWeek.value -= 1
+      }
+
+      // 第二阶段：新内容从反方向滑入
+      swipeOffset.value = diffX < 0 ? window.innerWidth : -window.innerWidth
+
+      // 强制重绘后开始滑入动画
+      requestAnimationFrame(() => {
+        swipeOffset.value = 0
+        setTimeout(() => {
+          isAnimating.value = false
+        }, 300)
+      })
+    }, 300)
+  } else {
+    // 滑动距离不够，回弹
+    swipeOffset.value = 0
+    setTimeout(() => {
+      isAnimating.value = false
+    }, 200)
   }
 }
 
-// 上一周
+// 上一周（按钮点击）
 const prevWeek = () => {
-  if (!scheduleConfig.value) return
-  if (displayWeek.value < scheduleConfig.value.totalWeek) {
-    slideDirection.value = 'left'
+  if (!scheduleConfig.value || isAnimating.value) return
+  if (displayWeek.value >= scheduleConfig.value.totalWeek) return
+
+  isAnimating.value = true
+
+  // 第一阶段：当前内容向左滑出
+  swipeOffset.value = -window.innerWidth
+
+  setTimeout(() => {
     viewWeek.value += 1
-    setTimeout(() => {
-      slideDirection.value = null
-    }, 300)
-  }
+
+    // 第二阶段：新内容从右侧滑入
+    swipeOffset.value = window.innerWidth
+
+    requestAnimationFrame(() => {
+      swipeOffset.value = 0
+      setTimeout(() => {
+        isAnimating.value = false
+      }, 300)
+    })
+  }, 300)
 }
 
-// 下一周
+// 下一周（按钮点击）
 const nextWeek = () => {
-  if (displayWeek.value > 1) {
-    slideDirection.value = 'right'
+  if (isAnimating.value) return
+  if (displayWeek.value <= 1) return
+
+  isAnimating.value = true
+
+  // 第一阶段：当前内容向右滑出
+  swipeOffset.value = window.innerWidth
+
+  setTimeout(() => {
     viewWeek.value -= 1
-    setTimeout(() => {
-      slideDirection.value = null
-    }, 300)
-  }
+
+    // 第二阶段：新内容从左侧滑入
+    swipeOffset.value = -window.innerWidth
+
+    requestAnimationFrame(() => {
+      swipeOffset.value = 0
+      setTimeout(() => {
+        isAnimating.value = false
+      }, 300)
+    })
+  }, 300)
 }
 
 // 回到当前周
 const goToCurrentWeek = () => {
   if (viewWeek.value !== 0) {
-    slideDirection.value = viewWeek.value > 0 ? 'right' : 'left'
     viewWeek.value = 0
-    setTimeout(() => {
-      slideDirection.value = null
-    }, 300)
   }
 }
 
@@ -424,7 +483,7 @@ const copyCourseInfo = (type: 'name' | 'full') => {
       </div>
 
       <!-- 课程表主体 -->
-      <div class="schedule-body" @touchstart="handleTouchStart" @touchend="handleTouchEnd">
+      <div class="schedule-body">
         <div class="schedule-grid">
           <!-- 星期行 -->
           <div class="grid-header">
@@ -437,7 +496,13 @@ const copyCourseInfo = (type: 'name' | 'full') => {
           </div>
 
           <!-- 课程行 -->
-          <div class="grid-body">
+          <div
+            class="grid-body"
+            :class="{ swiping: isSwiping }"
+            @touchstart.passive="handleTouchStart"
+            @touchmove="handleTouchMove"
+            @touchend="handleTouchEnd"
+          >
             <!-- 左侧节数和时间列 -->
             <div class="time-column">
               <div v-for="period in totalCourses" :key="period" class="time-cell">
@@ -451,13 +516,7 @@ const copyCourseInfo = (type: 'name' | 'full') => {
 
             <!-- 课程网格 -->
             <div class="course-grid-wrapper">
-              <div
-                class="course-grid"
-                :class="{
-                  'slide-left': slideDirection === 'left',
-                  'slide-right': slideDirection === 'right',
-                }"
-              >
+              <div class="course-grid">
                 <!-- 背景网格线 -->
                 <div class="grid-background">
                   <div v-for="period in totalCourses" :key="period" class="grid-row"></div>
@@ -845,6 +904,20 @@ const copyCourseInfo = (type: 'name' | 'full') => {
 .grid-body {
   display: flex;
   position: relative;
+
+  .course-grid-wrapper,
+  .time-column {
+    transform: translateX(v-bind('swipeOffset + "px"'));
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  // 滑动过程中禁用过渡，实现实时跟随
+  &.swiping {
+    .course-grid-wrapper,
+    .time-column {
+      transition: none;
+    }
+  }
 }
 
 // 时间列
@@ -853,6 +926,7 @@ const copyCourseInfo = (type: 'name' | 'full') => {
   min-width: 64px;
   border-right: 1px solid color-mix(in srgb, var(--vp-c-divider, #e0e0e0) 50%, transparent);
   background: var(--vp-c-bg-soft, #f5f5f5);
+  z-index: 1;
 
   .time-cell {
     height: 80px;
@@ -898,39 +972,16 @@ const copyCourseInfo = (type: 'name' | 'full') => {
   grid-template-rows: repeat(v-bind(totalCourses), 80px);
   gap: 2px;
   padding: 0 2px 2px 0;
-
-  &.slide-left {
-    animation: slideInFromRight 0.3s ease forwards;
-  }
-
-  &.slide-right {
-    animation: slideInFromLeft 0.3s ease forwards;
-  }
-}
-
-@keyframes slideInFromRight {
-  0% {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideInFromLeft {
-  0% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
 }
 
 .grid-background {
+  display: contents;
+  pointer-events: none;
+
+  .grid-row {
+    display: none;
+  }
+
   display: contents;
   pointer-events: none;
 
@@ -1268,29 +1319,6 @@ const copyCourseInfo = (type: 'name' | 'full') => {
     .course-location {
       font-size: 8px;
     }
-  }
-}
-
-// 周切换动画
-@keyframes slideInFromRight {
-  0% {
-    transform: translateX(30%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideInFromLeft {
-  0% {
-    transform: translateX(-30%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
   }
 }
 </style>

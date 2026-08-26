@@ -125,10 +125,12 @@ const weekDateRange = computed(() => {
   return `${formatDate(monday)} - ${formatDate(sunday)}`
 })
 
-// 当前月份
+// 当前月份（根据显示周的周一所在月份）
 const currentMonth = computed(() => {
-  const today = new Date()
-  return `${today.getMonth() + 1}月`
+  if (!scheduleConfig.value) return ''
+  const firstDay = new Date(scheduleConfig.value.firstWeekBeginTime)
+  const monday = new Date(firstDay.getTime() + (displayWeek.value - 1) * 7 * 24 * 60 * 60 * 1000)
+  return `${monday.getMonth() + 1}月`
 })
 
 // 过滤后的课程

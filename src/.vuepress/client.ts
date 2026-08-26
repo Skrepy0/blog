@@ -10,8 +10,13 @@ import 'vuepress-theme-hope/presets/bounce-icon.scss'
 //@ts-ignore
 import 'vuepress-theme-hope/presets/round-blogger-avatar.scss'
 import { isElementVisible, typeWriter } from './utils/typewriter.js'
+//@ts-ignore
+import ScheduleLayout from './layouts/ScheduleLayout.vue'
 
 export default defineClientConfig({
+  layouts: {
+    ScheduleLayout,
+  },
   rootComponents: [GlobalGitGif],
   setup() {
     setupRunningTimeFooter(

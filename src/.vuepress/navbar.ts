@@ -12,6 +12,11 @@ export default navbar([
     prefix: '/projects/',
     children: [
       {
+        text: '课程表',
+        icon: 'ix:project',
+        link: '/schedule',
+      },
+      {
         text: 'Melodio',
         icon: 'ix:project',
         link: 'https://github.com/Skrepy0/Melodio',

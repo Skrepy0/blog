@@ -203,6 +203,9 @@ const touchStartX = ref(0)
 const touchStartY = ref(0)
 const isSwiping = ref(false)
 
+// 切换方向
+const slideDirection = ref<'left' | 'right' | null>(null)
+
 const handleTouchStart = (e: TouchEvent) => {
   touchStartX.value = e.touches[0].clientX
   touchStartY.value = e.touches[0].clientY
@@ -222,10 +225,18 @@ const handleTouchEnd = (e: TouchEvent) => {
   if (Math.abs(diffX) > 50 && Math.abs(diffX) > Math.abs(diffY)) {
     if (diffX < 0) {
       // 向左滑动，下一周
+      slideDirection.value = 'left'
       prevWeek()
+      setTimeout(() => {
+        slideDirection.value = null
+      }, 300)
     } else {
       // 向右滑动，上一周
+      slideDirection.value = 'right'
       nextWeek()
+      setTimeout(() => {
+        slideDirection.value = null
+      }, 300)
     }
   }
 }
@@ -234,20 +245,34 @@ const handleTouchEnd = (e: TouchEvent) => {
 const prevWeek = () => {
   if (!scheduleConfig.value) return
   if (displayWeek.value < scheduleConfig.value.totalWeek) {
+    slideDirection.value = 'left'
     viewWeek.value += 1
+    setTimeout(() => {
+      slideDirection.value = null
+    }, 300)
   }
 }
 
 // 下一周
 const nextWeek = () => {
   if (displayWeek.value > 1) {
+    slideDirection.value = 'right'
     viewWeek.value -= 1
+    setTimeout(() => {
+      slideDirection.value = null
+    }, 300)
   }
 }
 
 // 回到当前周
 const goToCurrentWeek = () => {
-  viewWeek.value = 0
+  if (viewWeek.value !== 0) {
+    slideDirection.value = viewWeek.value > 0 ? 'right' : 'left'
+    viewWeek.value = 0
+    setTimeout(() => {
+      slideDirection.value = null
+    }, 300)
+  }
 }
 
 // 课程详情弹窗
@@ -425,29 +450,37 @@ const copyCourseInfo = (type: 'name' | 'full') => {
             </div>
 
             <!-- 课程网格 -->
-            <div class="course-grid">
-              <!-- 背景网格线 -->
-              <div class="grid-background">
-                <div v-for="period in totalCourses" :key="period" class="grid-row"></div>
-              </div>
-
-              <!-- 课程块 -->
+            <div class="course-grid-wrapper">
               <div
-                v-for="block in courseBlocks"
-                :key="`${block.course.name}-${block.day}-${block.startPeriod}`"
-                class="course-block"
-                :style="{
-                  gridColumn: block.day,
-                  gridRow: `${block.startPeriod} / span ${block.span}`,
-                  backgroundColor: block.course.displayColor,
-                  opacity: block.isActiveWeek ? 1 : 0.4,
+                class="course-grid"
+                :class="{
+                  'slide-left': slideDirection === 'left',
+                  'slide-right': slideDirection === 'right',
                 }"
-                @click.stop="openCourseDetail(block.course)"
               >
-                <div class="course-type-badge">{{ block.course.type }}</div>
-                <div class="course-name">{{ block.course.name }}</div>
-                <div class="course-teacher">{{ block.course.teachers?.join(', ') }}</div>
-                <div class="course-location">@{{ block.course.location }}</div>
+                <!-- 背景网格线 -->
+                <div class="grid-background">
+                  <div v-for="period in totalCourses" :key="period" class="grid-row"></div>
+                </div>
+
+                <!-- 课程块 -->
+                <div
+                  v-for="block in courseBlocks"
+                  :key="`${block.course.name}-${block.day}-${block.startPeriod}`"
+                  class="course-block"
+                  :style="{
+                    gridColumn: block.day,
+                    gridRow: `${block.startPeriod} / span ${block.span}`,
+                    backgroundColor: block.course.displayColor,
+                    opacity: block.isActiveWeek ? 1 : 0.4,
+                  }"
+                  @click.stop="openCourseDetail(block.course)"
+                >
+                  <div class="course-type-badge">{{ block.course.type }}</div>
+                  <div class="course-name">{{ block.course.name }}</div>
+                  <div class="course-teacher">{{ block.course.teachers?.join(', ') }}</div>
+                  <div class="course-location">@{{ block.course.location }}</div>
+                </div>
               </div>
             </div>
           </div>
@@ -457,111 +490,116 @@ const copyCourseInfo = (type: 'name' | 'full') => {
 
     <!-- 课程详情弹窗 -->
     <Teleport to="body">
-      <div v-if="selectedCourse" class="modal-overlay" @click="closeCourseDetail">
-        <div class="modal-card" @click.stop>
-          <div class="modal-header">
-            <div class="modal-color-indicator" :style="{ backgroundColor: selectedCourse.displayColor }"></div>
-            <div class="modal-course-name">{{ selectedCourse.name }}</div>
-          </div>
-          <div class="modal-divider"></div>
-          <div class="modal-body">
-            <div class="modal-item">
-              <span class="modal-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16">
-                  <path
-                    fill="currentColor"
-                    d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 002 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"
-                  />
-                </svg>
-              </span>
-              <span class="modal-value">{{ formatWeeks(selectedCourse.weekTime) }}</span>
+      <Transition name="modal">
+        <div v-if="selectedCourse" class="modal-overlay" @click="closeCourseDetail">
+          <div class="modal-card" @click.stop>
+            <div class="modal-header">
+              <div class="modal-color-indicator" :style="{ backgroundColor: selectedCourse.displayColor }"></div>
+              <div class="modal-course-name">{{ selectedCourse.name }}</div>
             </div>
-            <div class="modal-item">
-              <span class="modal-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16">
-                  <path
-                    fill="currentColor"
-                    d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"
-                  />
-                </svg>
-              </span>
-              <span class="modal-value">
-                <div v-for="(dt, idx) in selectedCourse.dayTime" :key="idx">
-                  {{ weekDays[dt.day - 1] }} {{ formatTimeRange(dt.time as number[]) }}
-                </div>
-              </span>
-            </div>
-            <div class="modal-item">
-              <span class="modal-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16">
-                  <path
-                    fill="currentColor"
-                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
-                  />
-                </svg>
-              </span>
-              <span class="modal-value">@{{ selectedCourse.location }}</span>
-            </div>
-            <div class="modal-item" v-if="selectedCourse.teachers?.length">
-              <span class="modal-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16">
-                  <path
-                    fill="currentColor"
-                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-                  />
-                </svg>
-              </span>
-              <span class="modal-value">{{ selectedCourse.teachers.join(', ') }}</span>
-            </div>
-            <div class="modal-item" v-if="selectedCourse.credit">
-              <span class="modal-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16">
-                  <path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                </svg>
-              </span>
-              <span class="modal-value">{{ selectedCourse.credit }}</span>
-            </div>
-            <div class="modal-item" v-if="selectedCourse.remarks?.length">
-              <span class="modal-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16">
-                  <path
-                    fill="currentColor"
-                    d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"
-                  />
-                </svg>
-              </span>
-              <span class="modal-value">{{ selectedCourse.remarks.join('\n') }}</span>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <div class="copy-wrapper">
-              <button class="btn-copy" @click="showCopyMenu = !showCopyMenu">
-                <svg viewBox="0 0 24 24" width="14" height="14">
-                  <path
-                    fill="currentColor"
-                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
-                  />
-                </svg>
-                复制
-              </button>
-              <div v-show="showCopyMenu" class="copy-menu">
-                <div class="copy-item" @click="copyCourseInfo('name')">复制课程名称</div>
-                <div class="copy-item" @click="copyCourseInfo('full')">复制完整课程</div>
+            <div class="modal-divider"></div>
+            <div class="modal-body">
+              <div class="modal-item">
+                <span class="modal-icon">
+                  <svg viewBox="0 0 24 24" width="16" height="16">
+                    <path
+                      fill="currentColor"
+                      d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 002 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"
+                    />
+                  </svg>
+                </span>
+                <span class="modal-value">{{ formatWeeks(selectedCourse.weekTime) }}</span>
+              </div>
+              <div class="modal-item">
+                <span class="modal-icon">
+                  <svg viewBox="0 0 24 24" width="16" height="16">
+                    <path
+                      fill="currentColor"
+                      d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"
+                    />
+                  </svg>
+                </span>
+                <span class="modal-value">
+                  <div v-for="(dt, idx) in selectedCourse.dayTime" :key="idx">
+                    {{ weekDays[dt.day - 1] }} {{ formatTimeRange(dt.time as number[]) }}
+                  </div>
+                </span>
+              </div>
+              <div class="modal-item">
+                <span class="modal-icon">
+                  <svg viewBox="0 0 24 24" width="16" height="16">
+                    <path
+                      fill="currentColor"
+                      d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
+                    />
+                  </svg>
+                </span>
+                <span class="modal-value">@{{ selectedCourse.location }}</span>
+              </div>
+              <div class="modal-item" v-if="selectedCourse.teachers?.length">
+                <span class="modal-icon">
+                  <svg viewBox="0 0 24 24" width="16" height="16">
+                    <path
+                      fill="currentColor"
+                      d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                    />
+                  </svg>
+                </span>
+                <span class="modal-value">{{ selectedCourse.teachers.join(', ') }}</span>
+              </div>
+              <div class="modal-item" v-if="selectedCourse.credit">
+                <span class="modal-icon">
+                  <svg viewBox="0 0 24 24" width="16" height="16">
+                    <path
+                      fill="currentColor"
+                      d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                    />
+                  </svg>
+                </span>
+                <span class="modal-value">{{ selectedCourse.credit }}</span>
+              </div>
+              <div class="modal-item" v-if="selectedCourse.remarks?.length">
+                <span class="modal-icon">
+                  <svg viewBox="0 0 24 24" width="16" height="16">
+                    <path
+                      fill="currentColor"
+                      d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"
+                    />
+                  </svg>
+                </span>
+                <span class="modal-value">{{ selectedCourse.remarks.join('\n') }}</span>
               </div>
             </div>
-            <button class="btn-confirm" @click="closeCourseDetail">确定</button>
-          </div>
-          <!-- 复制成功提示 -->
-          <transition name="fade">
-            <div v-if="copySuccess" class="copy-toast">
-              <svg viewBox="0 0 24 24" width="16" height="16">
-                <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-              </svg>
-              复制成功
+            <div class="modal-footer">
+              <div class="copy-wrapper">
+                <button class="btn-copy" @click="showCopyMenu = !showCopyMenu">
+                  <svg viewBox="0 0 24 24" width="14" height="14">
+                    <path
+                      fill="currentColor"
+                      d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                    />
+                  </svg>
+                  复制
+                </button>
+                <div v-show="showCopyMenu" class="copy-menu">
+                  <div class="copy-item" @click="copyCourseInfo('name')">复制课程名称</div>
+                  <div class="copy-item" @click="copyCourseInfo('full')">复制完整课程</div>
+                </div>
+              </div>
+              <button class="btn-confirm" @click="closeCourseDetail">确定</button>
             </div>
-          </transition>
+            <!-- 复制成功提示 -->
+            <transition name="fade">
+              <div v-if="copySuccess" class="copy-toast">
+                <svg viewBox="0 0 24 24" width="16" height="16">
+                  <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                </svg>
+                复制成功
+              </div>
+            </transition>
+          </div>
         </div>
-      </div>
+      </Transition>
     </Teleport>
   </div>
 </template>
@@ -780,6 +818,7 @@ const copyCourseInfo = (type: 'name' | 'full') => {
     box-sizing: border-box;
 
     .month-text {
+      font-family: HYLeMiao, HYTangMeiRen, Comic, Courier, monospace;
       font-size: 14px;
       font-weight: 500;
       color: var(--vp-c-text, #2c3e50);
@@ -792,6 +831,7 @@ const copyCourseInfo = (type: 'name' | 'full') => {
     text-align: center;
     font-size: 14px;
     font-weight: 500;
+    font-family: HYLeMiao, HYTangMeiRen, Comic, Courier, monospace;
     color: var(--vp-c-text, #2c3e50);
     border-right: 1px solid color-mix(in srgb, var(--vp-c-divider, #e0e0e0) 50%, transparent);
 
@@ -845,14 +885,49 @@ const copyCourseInfo = (type: 'name' | 'full') => {
 }
 
 // 课程网格
-.course-grid {
+.course-grid-wrapper {
   flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.course-grid {
   position: relative;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(v-bind(totalCourses), 80px);
   gap: 2px;
   padding: 0 2px 2px 0;
+
+  &.slide-left {
+    animation: slideInFromRight 0.3s ease forwards;
+  }
+
+  &.slide-right {
+    animation: slideInFromLeft 0.3s ease forwards;
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .grid-background {
@@ -1068,6 +1143,9 @@ const copyCourseInfo = (type: 'name' | 'full') => {
 
   .course-grid {
     grid-template-rows: repeat(v-bind(totalCourses), 60px);
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
   }
 
   .course-block {
@@ -1164,6 +1242,9 @@ const copyCourseInfo = (type: 'name' | 'full') => {
     grid-template-rows: repeat(v-bind(totalCourses), 50px);
     gap: 1px;
     padding: 0 1px 1px 0;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
   }
 
   .course-block {
@@ -1187,6 +1268,29 @@ const copyCourseInfo = (type: 'name' | 'full') => {
     .course-location {
       font-size: 8px;
     }
+  }
+}
+
+// 周切换动画
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(30%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-30%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
   }
 }
 
@@ -1214,6 +1318,50 @@ const copyCourseInfo = (type: 'name' | 'full') => {
   overflow-y: auto;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   position: relative;
+}
+
+/* 弹窗打开/关闭动画 */
+.modal-enter-active {
+  transition: opacity 0.3s ease;
+}
+
+.modal-enter-active .modal-card {
+  animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.modal-leave-active .modal-card {
+  animation: modalOut 0.25s ease forwards;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+@keyframes modalIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes modalOut {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+  }
 }
 
 .modal-header {

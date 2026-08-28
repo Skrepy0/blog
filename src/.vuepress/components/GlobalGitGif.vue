@@ -161,8 +161,8 @@ onUnmounted(() => {
 .git-gif-container {
   transition: opacity 0.5s ease;
   position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
+  bottom: 0.3rem;
+  right: 0.3rem;
   z-index: 999;
   border-radius: 12px;
   overflow: hidden;
@@ -183,8 +183,8 @@ onUnmounted(() => {
 
 @media (max-width: 719px) {
   .git-gif-container {
-    bottom: 1rem;
-    right: 1rem;
+    bottom: 0.2rem;
+    right: 0.1rem;
   }
   .git-gif-container img {
     width: 150px;

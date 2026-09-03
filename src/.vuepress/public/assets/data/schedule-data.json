@@ -1,83 +1,216 @@
 [
   {
-    "name": "高等数学",
-    "displayColor": "#00AD40",
-    "credit": 5,
-    "type": "专业基础",
-    "weekTime": [1, 3, 5, 7, 9, 11, 13, 15],
-    "dayTime": [{
-      "day": 1,
-      "time": [1, 2]
-    }],
-    "teachers": ["fly"],
-    "location": "综103"
-  },
-  {
-    "name": "大学英语",
-    "displayColor": "#0C7DDA",
+    "name": "普通物理AII",
+    "displayColor": "#FD901C",
     "credit": 3,
-    "type": "公共必修",
-    "weekTime": [1, 2, 3, 4, 5, 6, 7, 8],
-    "dayTime": [{
-      "day": 2,
-      "time": [3, 4]
-    }],
-    "teachers": ["张老师", "李老师"],
-    "location": "教201"
+    "type": "专业基础",
+    "weekTime": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+    "dayTime": [
+      {
+        "day": 1,
+        "time": [3, 4]
+      },
+      {
+        "day": 4,
+        "time": [1, 2]
+      }
+    ],
+    "teachers": ["孙辰"],
+    "location": "综414"
   },
   {
-    "name": "线性代数",
-    "displayColor": "#EE8122",
+    "name": "数字电路与逻辑设计",
+    "displayColor": "#16E116",
+    "credit": 4,
+    "type": "专业核心",
+    "weekTime": [1, 3, 5, 7, 9, 11, 13, 15],
+    "dayTime": [
+      {
+        "day": 1,
+        "time": [7, 8]
+      }
+    ],
+    "teachers": ["胡红平"],
+    "location": "综501"
+  },
+  {
+    "name": "数字电路与逻辑设计",
+    "displayColor": "#16E116",
+    "credit": 4,
+    "type": "专业核心",
+    "weekTime": [1, 3, 5, 7, 9, 11, 13, 15],
+    "dayTime": [
+      {
+        "day": 1,
+        "time": [7, 8]
+      }
+    ],
+    "teachers": ["胡红平"],
+    "location": "综501"
+  },
+  {
+    "name": "数字电路与逻辑设计",
+    "displayColor": "#16E116",
+    "credit": 4,
+    "type": "专业核心",
+    "weekTime": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+    "dayTime": [
+      {
+        "day": 4,
+        "time": [5, 6]
+      }
+    ],
+    "teachers": ["胡红平"],
+    "location": "综501"
+  },
+  {
+    "name": "算法设计与分析",
+    "displayColor": "#19DAFC",
+    "credit": 4,
+    "type": "专业核心",
+    "weekTime": [2, 4, 6, 8, 10, 12, 14, 16],
+    "dayTime": [
+      {
+        "day": 1,
+        "time": [7, 8]
+      }
+    ],
+    "teachers": ["吴帆"],
+    "location": "综501"
+  },
+  {
+    "name": "算法设计与分析",
+    "displayColor": "#19DAFC",
+    "credit": 4,
+    "type": "专业核心",
+    "weekTime": [5, 7, 11, 15],
+    "dayTime": [
+      {
+        "day": 3,
+        "time": [3, 4]
+      }
+    ],
+    "teachers": ["赵捷"],
+    "location": "研C103"
+  },
+  {
+    "name": "算法设计与分析",
+    "displayColor": "#19DAFC",
+    "credit": 4,
+    "type": "专业核心",
+    "weekTime": [6, 8, 12, 14],
+    "dayTime": [
+      {
+        "day": 3,
+        "time": [3, 4]
+      }
+    ],
+    "teachers": ["胡红平"],
+    "location": "研C102"
+  },
+  {
+    "name": "概率论与数理统计A",
+    "displayColor": "#5F22EE",
+    "credit": 3,
+    "type": "专业基础",
+    "weekTime": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+    "dayTime": [
+      {
+        "day": 2,
+        "time": [3, 4]
+      }
+    ],
+    "teachers": ["邹劭芬"],
+    "location": "综414"
+  },
+  {
+    "name": "概率论与数理统计A",
+    "displayColor": "#5F22EE",
+    "credit": 3,
+    "type": "专业基础",
+    "weekTime": [1, 2, 3, 4, 5, 6, 7, 8],
+    "dayTime": [
+      {
+        "day": 5,
+        "time": [7, 8]
+      }
+    ],
+    "teachers": ["邹劭芬"],
+    "location": "综310"
+  },
+  {
+    "name": "基因组学与人类健康",
+    "displayColor": "#2DD417",
     "credit": 2,
-    "type": "专业基础",
-    "weekTime": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    "dayTime": [{
-      "day": 3,
-      "time": [1, 2]
-    }],
-    "teachers": ["王老师"],
-    "location": "综305"
+    "type": "通识选修",
+    "weekTime": [3, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+    "dayTime": [
+      {
+        "day": 2,
+        "time": [9, 10, 11]
+      }
+    ],
+    "teachers": ["王奕蓉"],
+    "location": "研B403"
   },
   {
-    "name": "大学物理",
-    "displayColor": "#B635ED",
-    "credit": 3.5,
-    "type": "专业基础",
-    "weekTime": [1, 2, 3, 4, 5, 6, 7, 8],
-    "dayTime": [{
-      "day": 1,
-      "time": [5, 6]
-    }, {
-      "day": 4,
-      "time": [1, 2, 3]
-    }],
-    "teachers": ["赵老师"],
-    "location": "理102"
-  },
-  {
-    "name": "计算机导论",
-    "displayColor": "#1B8C4A",
-    "credit": 1.5,
-    "type": "专业选修",
-    "weekTime": [1, 2, 3, 4, 5],
-    "dayTime": [{
-      "day": 5,
-      "time": [7, 8]
-    }],
-    "teachers": ["陈老师"],
-    "location": "信204"
-  },
-  {
-    "name": "体育",
-    "displayColor": "#D42C19",
+    "name": "体育III",
+    "displayColor": "#1BFFF4",
     "credit": 1,
-    "type": "公共必修",
-    "weekTime": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-    "dayTime": [{
-      "day": 3,
-      "time": [5, 6]
-    }],
-    "teachers": ["刘教练"],
-    "location": "体育馆"
+    "type": "通识必修",
+    "weekTime": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+    "dayTime": [
+      {
+        "day": 3,
+        "time": [5, 6]
+      }
+    ],
+    "teachers": ["杨叶景"],
+    "location": "荫马塘运动场"
+  },
+  {
+    "name": "毛概",
+    "displayColor": "#FF0000",
+    "credit": 2,
+    "type": "通识必修",
+    "weekTime": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+    "dayTime": [
+      {
+        "day": 5,
+        "time": [1, 2]
+      }
+    ],
+    "teachers": ["蒋旭东"],
+    "location": "综316"
+  },
+  {
+    "name": "形式与政策III",
+    "displayColor": "#00FF5E",
+    "credit": 0.25,
+    "type": "通识必修",
+    "weekTime": [13, 14],
+    "dayTime": [
+      {
+        "day": 5,
+        "time": [5, 6]
+      }
+    ],
+    "teachers": ["莫婷"],
+    "location": "综114"
+  },
+  {
+    "name": "军事理论",
+    "displayColor": "#4400FF",
+    "credit": 2,
+    "type": "通识必修",
+    "weekTime": [12],
+    "dayTime": [
+      {
+        "day": 6,
+        "time": [5, 6]
+      }
+    ],
+    "teachers": ["韦骅峰"],
+    "location": "中117"
   }
 ]

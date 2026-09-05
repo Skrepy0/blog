@@ -533,7 +533,8 @@ const copyCourseInfo = (type: 'name' | 'full') => {
                     gridColumn: block.day,
                     gridRow: `${block.startPeriod} / span ${block.span}`,
                     backgroundColor: block.course.displayColor,
-                    opacity: block.isActiveWeek ? 1 : 0.4,
+                    opacity: block.isActiveWeek ? 1 : 0.3,
+                    outline: block.isActiveWeek ? `2px solid rgba(255, 255, 255, 0.5)` : `3px solid rgba(39, 38, 38, 0.8)`,
                   }"
                   @click.stop="openCourseDetail(block.course)"
                 >
@@ -556,7 +557,9 @@ const copyCourseInfo = (type: 'name' | 'full') => {
           <div class="modal-card" @click.stop>
             <div class="modal-header">
               <div class="modal-color-indicator" :style="{ backgroundColor: selectedCourse.displayColor }"></div>
-              <div class="modal-course-name">{{ selectedCourse.name }}</div>
+              <div class="modal-course-name">
+                {{ selectedCourse.weekTime.includes(displayWeek) ? `${selectedCourse.name}` : `${selectedCourse.name}(非本周)` }}
+              </div>
             </div>
             <div class="modal-divider"></div>
             <div class="modal-body">
@@ -1005,7 +1008,6 @@ const copyCourseInfo = (type: 'name' | 'full') => {
   transition:
     transform 0.2s,
     box-shadow 0.2s;
-  outline: 2px solid rgba(255, 255, 255, 0.5);
   outline-offset: -2px;
   cursor: pointer;
 

@@ -147,9 +147,11 @@ interface CourseBlock {
   day: number
   isActiveWeek: boolean // 当前周是否上这门课
   customTime?: customTime // 自定义时间（可选）
+  columnIndex?: number // 重叠时所在的列索引
+  columnTotal?: number // 重叠时总列数
 }
 
-// 计算课程块 (合并连续节次)
+// 计算课程块 (合并连续节次, 处理重叠)
 const courseBlocks = computed(() => {
   const blocks: CourseBlock[] = []
 
@@ -203,8 +205,113 @@ const courseBlocks = computed(() => {
     })
   })
 
-  return blocks
+  // 处理重叠：检测同一天同一节次重叠的课程，并排显示
+  return resolveOverlaps(blocks)
 })
+
+// 检测并解决课程重叠，将重叠的课程并排显示
+const resolveOverlaps = (blocks: CourseBlock[]): CourseBlock[] => {
+  // 按天分组
+  const dayGroups: Map<number, CourseBlock[]> = new Map()
+  blocks.forEach((block) => {
+    const day = block.day
+    if (!dayGroups.has(day)) {
+      dayGroups.set(day, [])
+    }
+    dayGroups.get(day)!.push(block)
+  })
+
+  const result: CourseBlock[] = []
+
+  dayGroups.forEach((dayBlocks) => {
+    // 找出所有重叠的簇（互相重叠的课程组）
+    const clusters: CourseBlock[][] = []
+    const used = new Set<CourseBlock>()
+
+    for (let i = 0; i < dayBlocks.length; i++) {
+      if (used.has(dayBlocks[i])) continue
+      const cluster: CourseBlock[] = [dayBlocks[i]]
+      used.add(dayBlocks[i])
+
+      // 找出所有与当前簇中任一课程重叠的课程
+      let changed = true
+      while (changed) {
+        changed = false
+        for (let j = 0; j < dayBlocks.length; j++) {
+          if (used.has(dayBlocks[j])) continue
+          const overlaps = cluster.some((b) => blocksOverlap(b, dayBlocks[j]))
+          if (overlaps) {
+            cluster.push(dayBlocks[j])
+            used.add(dayBlocks[j])
+            changed = true
+          }
+        }
+      }
+
+      clusters.push(cluster)
+    }
+
+    // 处理每个簇
+    clusters.forEach((cluster) => {
+      // 按课程名去重，保留第一个
+      const uniqueBlocks: CourseBlock[] = []
+      const seenNames = new Set<string>()
+      cluster.forEach((block) => {
+        if (!seenNames.has(block.course.name)) {
+          seenNames.add(block.course.name)
+          uniqueBlocks.push(block)
+        }
+      })
+
+      if (uniqueBlocks.length === 1) {
+        result.push(uniqueBlocks[0])
+      } else {
+        // 计算最大并发重叠数
+        const maxConcurrency = getMaxConcurrency(uniqueBlocks)
+        // 将重叠课程并排显示
+        uniqueBlocks.forEach((block, index) => {
+          result.push({
+            ...block,
+            columnIndex: index,
+            columnTotal: maxConcurrency,
+          })
+        })
+      }
+    })
+  })
+
+  return result
+}
+
+// 计算课程簇中的最大并发重叠数
+const getMaxConcurrency = (cluster: CourseBlock[]): number => {
+  const events: { time: number; delta: number }[] = []
+  cluster.forEach((block) => {
+    events.push({ time: block.startPeriod, delta: 1 })
+    events.push({ time: block.startPeriod + block.span, delta: -1 })
+  })
+  events.sort((a, b) => a.time - b.time)
+
+  let max = 0
+  let current = 0
+  events.forEach((e) => {
+    current += e.delta
+    max = Math.max(max, current)
+  })
+  return max
+}
+
+// 判断两个课程块是否重叠（同一课程不算重叠）
+const blocksOverlap = (a: CourseBlock, b: CourseBlock): boolean => {
+  if (a.day !== b.day) return false
+  // 同一课程不算重叠
+  if (a.course.name === b.course.name) return false
+  const aStart = a.startPeriod
+  const aEnd = a.startPeriod + a.span
+  const bStart = b.startPeriod
+  const bEnd = b.startPeriod + b.span
+  return aStart < bEnd && bStart < aEnd
+}
 
 // 根据自定义时间计算对应的节次范围
 const calculateCustomTimeRange = (customTime: customTime): { startPeriod: number; span: number } => {
@@ -595,12 +702,20 @@ const copyCourseInfo = (type: 'name' | 'full') => {
                   v-for="block in courseBlocks"
                   :key="`${block.course.name}-${block.day}-${block.startPeriod}`"
                   class="course-block"
+                  :class="{ overlapping: block.columnTotal && block.columnTotal > 1 }"
                   :style="{
                     gridColumn: block.day,
                     gridRow: `${block.startPeriod} / span ${block.span}`,
                     backgroundColor: block.course.displayColor,
                     opacity: block.isActiveWeek ? 1 : 0.3,
                     outline: block.isActiveWeek ? `2px solid rgba(255, 255, 255, 0.5)` : `3px solid rgba(39, 38, 38, 0.8)`,
+                    ...(block.columnTotal && block.columnTotal > 1
+                      ? {
+                          width: `calc((100% - 2px * ${block.columnTotal - 1}) / ${block.columnTotal})`,
+                          marginLeft: `calc((100% - 2px * ${block.columnTotal - 1}) / ${block.columnTotal} * ${block.columnIndex} + 2px * ${block.columnIndex})`,
+                          zIndex: 5 + (block.columnIndex ?? 0),
+                        }
+                      : {}),
                   }"
                   @click.stop="openCourseDetail(block.course)"
                 >
@@ -1097,6 +1212,31 @@ const copyCourseInfo = (type: 'name' | 'full') => {
     z-index: 10;
   }
 
+  &.overlapping {
+    padding: 4px;
+    border-radius: 6px;
+
+    .course-type-badge {
+      font-size: 8px;
+      padding: 1px 4px;
+    }
+
+    .course-name {
+      font-size: 11px;
+    }
+
+    .course-teacher,
+    .course-location,
+    .course-custom-time {
+      font-size: 9px;
+    }
+
+    &:hover {
+      transform: scale(1.05);
+      z-index: 100;
+    }
+  }
+
   .course-type-badge {
     display: inline-block;
     align-self: flex-start;
@@ -1297,6 +1437,26 @@ const copyCourseInfo = (type: 'name' | 'full') => {
     border-radius: 6px;
     outline-width: 1px;
 
+    &.overlapping {
+      padding: 2px;
+      border-radius: 4px;
+
+      .course-type-badge {
+        font-size: 7px;
+        padding: 1px 2px;
+      }
+
+      .course-name {
+        font-size: 9px;
+      }
+
+      .course-teacher,
+      .course-location,
+      .course-custom-time {
+        font-size: 7px;
+      }
+    }
+
     .course-type-badge {
       font-size: 8px;
       padding: 1px 4px;
@@ -1399,6 +1559,27 @@ const copyCourseInfo = (type: 'name' | 'full') => {
     padding: 3px;
     border-radius: 4px;
     gap: 2px;
+
+    &.overlapping {
+      padding: 2px;
+      border-radius: 3px;
+      gap: 1px;
+
+      .course-type-badge {
+        font-size: 6px;
+        padding: 0 2px;
+      }
+
+      .course-name {
+        font-size: 8px;
+      }
+
+      .course-teacher,
+      .course-location,
+      .course-custom-time {
+        font-size: 6px;
+      }
+    }
 
     .course-type-badge {
       font-size: 7px;

@@ -212,5 +212,81 @@
     ],
     "teachers": ["韦骅峰"],
     "location": "中117"
+  },
+  {
+    "name": "受迫振动的研究_转动惯量的测量",
+    "displayColor": "#00FF6E",
+    "credit": 6,
+    "type": "实验",
+    "weekTime": [1],
+    "dayTime": [
+      {
+        "day": 2,
+        "time": {
+          "classBeginTime": "13:00",
+          "classEndTime": "17:00"
+        }
+      }
+    ],
+    "teachers": ["周艳明"],
+    "location": "物B106",
+    "remarks": "座位号:3"
+  },
+  {
+    "name": "AI等厚干涉",
+    "displayColor": "#0077FF",
+    "credit": 4,
+    "type": "实验",
+    "weekTime": [2],
+    "dayTime": [
+      {
+        "day": 3,
+        "time": {
+          "classBeginTime": "19:00",
+          "classEndTime": "21:00"
+        }
+      }
+    ],
+    "teachers": ["王金波"],
+    "location": "物B216",
+    "remarks": "座位号:6"
+  },
+  {
+    "name": "固体线膨胀系数的测量",
+    "displayColor": "#FFB300",
+    "credit": 3,
+    "type": "实验",
+    "weekTime": [7],
+    "dayTime": [
+      {
+        "day": 2,
+        "time": {
+          "classBeginTime": "13:00",
+          "classEndTime": "17:00"
+        }
+      }
+    ],
+    "teachers": ["程玉全"],
+    "location": "物B112",
+    "remarks": "座位号:26"
+  },
+  {
+    "name": "热线法测量热导率",
+    "displayColor": "#FFDD00",
+    "credit": 3,
+    "type": "实验",
+    "weekTime": [8],
+    "dayTime": [
+      {
+        "day": 4,
+        "time": {
+          "classBeginTime": "19:00",
+          "classEndTime": "21:00"
+        }
+      }
+    ],
+    "teachers": ["褚鑫睿"],
+    "location": "物B102",
+    "remarks": "座位号:12"
   }
 ]

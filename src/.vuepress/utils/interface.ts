@@ -16,5 +16,5 @@ export interface CourseData {
   dayTime: DayTime[] // 每天的时间
   teachers?: string[] // 上课教师
   location: string // 上课地点
-  remarks?: string[] // 备注,每行一个
+  remarks?: string // 备注
 }

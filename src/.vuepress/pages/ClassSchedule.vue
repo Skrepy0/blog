@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { CourseData } from '../utils/interface.js'
+import { CourseData, customTime } from '../utils/interface.js'
 
 interface ScheduleConfig {
   firstCourseBeginTime: string
@@ -146,6 +146,7 @@ interface CourseBlock {
   span: number
   day: number
   isActiveWeek: boolean // 当前周是否上这门课
+  customTime?: customTime // 自定义时间（可选）
 }
 
 // 计算课程块 (合并连续节次)
@@ -155,38 +156,94 @@ const courseBlocks = computed(() => {
   filteredCourses.value.forEach((course) => {
     const isActiveWeek = course.weekTime.includes(displayWeek.value)
     course.dayTime.forEach((dt) => {
-      const times = [...(dt.time as number[])].sort((a: number, b: number) => a - b)
-      // 找出连续段
-      let start = times[0]
-      let prev = times[0]
+      // 判断是自定义时间还是节次数组
+      const isCustomTime = typeof dt.time === 'object' && !Array.isArray(dt.time)
 
-      for (let i = 1; i < times.length; i++) {
-        if (times[i] === prev + 1) {
-          prev = times[i]
-        } else {
-          blocks.push({
-            course,
-            startPeriod: start,
-            span: prev - start + 1,
-            day: dt.day,
-            isActiveWeek,
-          })
-          start = times[i]
-          prev = times[i]
+      if (isCustomTime) {
+        // 自定义时间课程，根据时间计算对应的节次范围
+        const customTimeData = dt.time as customTime
+        const { startPeriod, span } = calculateCustomTimeRange(customTimeData)
+        blocks.push({
+          course,
+          startPeriod,
+          span,
+          day: dt.day,
+          isActiveWeek,
+          customTime: customTimeData,
+        })
+      } else {
+        const times = [...(dt.time as number[])].sort((a: number, b: number) => a - b)
+        // 找出连续段
+        let start = times[0]
+        let prev = times[0]
+
+        for (let i = 1; i < times.length; i++) {
+          if (times[i] === prev + 1) {
+            prev = times[i]
+          } else {
+            blocks.push({
+              course,
+              startPeriod: start,
+              span: prev - start + 1,
+              day: dt.day,
+              isActiveWeek,
+            })
+            start = times[i]
+            prev = times[i]
+          }
         }
+        blocks.push({
+          course,
+          startPeriod: start,
+          span: prev - start + 1,
+          day: dt.day,
+          isActiveWeek,
+        })
       }
-      blocks.push({
-        course,
-        startPeriod: start,
-        span: prev - start + 1,
-        day: dt.day,
-        isActiveWeek,
-      })
     })
   })
 
   return blocks
 })
+
+// 根据自定义时间计算对应的节次范围
+const calculateCustomTimeRange = (customTime: customTime): { startPeriod: number; span: number } => {
+  if (!scheduleConfig.value || !courseTimes.value.length) {
+    return { startPeriod: 1, span: 1 }
+  }
+
+  const parseTimeStr = (time: string) => {
+    const [h, m] = time.split(':').map(Number)
+    return h * 60 + m
+  }
+
+  const classBeginMinutes = parseTimeStr(customTime.classBeginTime)
+  const classEndMinutes = parseTimeStr(customTime.classEndTime)
+
+  let startPeriod = 1
+  let endPeriod = courseTimes.value.length
+
+  // 找到开始节次：课程开始时间 <= 某节次结束时间
+  for (let i = 0; i < courseTimes.value.length; i++) {
+    const periodEndMinutes = parseTimeStr(courseTimes.value[i].end)
+    if (classBeginMinutes <= periodEndMinutes) {
+      startPeriod = i + 1
+      break
+    }
+  }
+
+  // 找到结束节次：课程结束时间 >= 某节次开始时间
+  for (let i = courseTimes.value.length - 1; i >= 0; i--) {
+    const periodStartMinutes = parseTimeStr(courseTimes.value[i].start)
+    if (classEndMinutes >= periodStartMinutes) {
+      endPeriod = i + 1
+      break
+    }
+  }
+
+  const span = Math.max(1, endPeriod - startPeriod + 1)
+  return { startPeriod, span }
+}
 
 // 切换显示模式
 const toggleDisplayMode = (mode: 'current' | 'all') => {
@@ -388,6 +445,11 @@ const formatTimeRange = (periods: number[]): string => {
   return `第${startPeriod}-${endPeriod}节    ${startTime}-${endTime}`
 }
 
+// 格式化自定义时间显示
+const formatCustomTimeRange = (time: customTime): string => {
+  return `${time.classBeginTime}-${time.classEndTime}`
+}
+
 // 打开课程详情
 const openCourseDetail = (course: CourseData) => {
   selectedCourse.value = course
@@ -415,13 +477,17 @@ const copyCourseInfo = (type: 'name' | 'full') => {
       course.dayTime
         .map((dt) => {
           const dayName = weekDays[dt.day - 1] || ''
+          if (typeof dt.time === 'object' && !Array.isArray(dt.time)) {
+            const customTimeData = dt.time as customTime
+            return `${dayName} ${formatCustomTimeRange(customTimeData)}`
+          }
           return `${dayName} ${formatTimeRange(dt.time as number[])}`
         })
         .join('\n'),
       `地点: @${course.location}`,
       course.teachers?.length ? `教师: ${course.teachers.join(', ')}` : '',
       course.credit ? `学分: ${course.credit}` : '',
-      course.remarks?.length ? `备注: ${course.remarks.join('\n')}` : '',
+      course.remarks ? `备注: ${course.remarks}` : '',
     ].filter(Boolean)
     text = lines.join('\n')
   }
@@ -540,6 +606,7 @@ const copyCourseInfo = (type: 'name' | 'full') => {
                 >
                   <div class="course-type-badge">{{ block.course.type }}</div>
                   <div class="course-name">{{ block.course.name }}</div>
+                  <div v-if="block.customTime" class="course-custom-time">{{ formatCustomTimeRange(block.customTime) }}</div>
                   <div class="course-teacher">{{ block.course.teachers?.join(', ') }}</div>
                   <div class="course-location">@{{ block.course.location }}</div>
                 </div>
@@ -585,9 +652,26 @@ const copyCourseInfo = (type: 'name' | 'full') => {
                 </span>
                 <span class="modal-value">
                   <div v-for="(dt, idx) in selectedCourse.dayTime" :key="idx">
-                    {{ weekDays[dt.day - 1] }} {{ formatTimeRange(dt.time as number[]) }}
+                    {{ weekDays[dt.day - 1] }}
+                    <template v-if="typeof dt.time === 'object' && !Array.isArray(dt.time)">
+                      {{ formatCustomTimeRange(dt.time as customTime) }}
+                    </template>
+                    <template v-else>
+                      {{ formatTimeRange(dt.time as number[]) }}
+                    </template>
                   </div>
                 </span>
+              </div>
+              <div class="modal-item" v-if="selectedCourse.remarks">
+                <span class="modal-icon">
+                  <svg viewBox="0 0 24 24" width="16" height="16">
+                    <path
+                      fill="currentColor"
+                      d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"
+                    />
+                  </svg>
+                </span>
+                <span class="modal-value">{{ selectedCourse.remarks }}</span>
               </div>
               <div class="modal-item">
                 <span class="modal-icon">
@@ -621,17 +705,6 @@ const copyCourseInfo = (type: 'name' | 'full') => {
                   </svg>
                 </span>
                 <span class="modal-value">{{ selectedCourse.credit }}</span>
-              </div>
-              <div class="modal-item" v-if="selectedCourse.remarks?.length">
-                <span class="modal-icon">
-                  <svg viewBox="0 0 24 24" width="16" height="16">
-                    <path
-                      fill="currentColor"
-                      d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"
-                    />
-                  </svg>
-                </span>
-                <span class="modal-value">{{ selectedCourse.remarks.join('\n') }}</span>
               </div>
             </div>
             <div class="modal-footer">
@@ -979,6 +1052,12 @@ const copyCourseInfo = (type: 'name' | 'full') => {
   padding: 0 2px 2px 0;
 }
 
+// 每天列的容器，用于自定义时间课程定位
+.day-column {
+  position: relative;
+  grid-row: 1 / -1;
+}
+
 .grid-background {
   display: contents;
   pointer-events: none;
@@ -1010,6 +1089,7 @@ const copyCourseInfo = (type: 'name' | 'full') => {
     box-shadow 0.2s;
   outline-offset: -2px;
   cursor: pointer;
+  box-sizing: border-box;
 
   &:hover {
     transform: scale(1.02);
@@ -1044,6 +1124,15 @@ const copyCourseInfo = (type: 'name' | 'full') => {
     font-size: 11px;
     opacity: 0.9;
     margin-top: auto;
+  }
+
+  .course-custom-time {
+    font-size: 11px;
+    font-weight: 500;
+    opacity: 0.95;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 4px;
+    border-radius: 3px;
   }
 }
 
@@ -1225,6 +1314,10 @@ const copyCourseInfo = (type: 'name' | 'full') => {
     .course-location {
       font-size: 9px;
     }
+
+    .course-custom-time {
+      font-size: 8px;
+    }
   }
 }
 
@@ -1322,6 +1415,10 @@ const copyCourseInfo = (type: 'name' | 'full') => {
 
     .course-location {
       font-size: 8px;
+    }
+
+    .course-custom-time {
+      font-size: 7px;
     }
   }
 }

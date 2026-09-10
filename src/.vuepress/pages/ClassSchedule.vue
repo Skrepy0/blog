@@ -4,13 +4,7 @@ import { useRouter } from 'vue-router'
 import { CourseData, customTime } from '../utils/interface.js'
 
 interface ScheduleConfig {
-  firstCourseBeginTime: string
-  courseDuration: number
-  forenoonCourseCount: number
-  firstAfternoonCourseBeginTime: string
-  afternoonCourseCount: number
-  eveningCourseCount: number
-  firstEveningCourseBeginTime: string
+  schedules: { id: number; time: string }[]
   firstWeekBeginTime: string
   totalWeek: number
 }
@@ -48,51 +42,19 @@ const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '�
 // 计算总节数
 const totalCourses = computed(() => {
   if (!scheduleConfig.value) return 0
-  return scheduleConfig.value.forenoonCourseCount + scheduleConfig.value.afternoonCourseCount + scheduleConfig.value.eveningCourseCount
+  return scheduleConfig.value.schedules.length
 })
 
 // 计算每节课的开始和结束时间
 const courseTimes = computed(() => {
   const times: { start: string; end: string }[] = []
   if (!scheduleConfig.value) return times
-
-  const config = scheduleConfig.value
-  const parseTime = (time: string) => {
-    const [h, m] = time.split(':').map(Number)
-    return h * 60 + m
-  }
-  const formatTime = (minutes: number) => {
-    const h = Math.floor(minutes / 60)
-    const m = minutes % 60
-    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`
-  }
-
-  // 上午课程
-  let startTime = parseTime(config.firstCourseBeginTime)
-  for (let i = 0; i < config.forenoonCourseCount; i++) {
-    const start = formatTime(startTime)
-    const end = formatTime(startTime + config.courseDuration)
+  scheduleConfig.value.schedules.forEach((schedule) => {
+    let start: string
+    let end: string
+    ;[start, end] = schedule.time.split('-')
     times.push({ start, end })
-    startTime += config.courseDuration + 10 // 10分钟休息
-  }
-
-  // 下午课程
-  startTime = parseTime(config.firstAfternoonCourseBeginTime)
-  for (let i = 0; i < config.afternoonCourseCount; i++) {
-    const start = formatTime(startTime)
-    const end = formatTime(startTime + config.courseDuration)
-    times.push({ start, end })
-    startTime += config.courseDuration + 10
-  }
-
-  // 晚上课程
-  startTime = parseTime(config.firstEveningCourseBeginTime)
-  for (let i = 0; i < config.eveningCourseCount; i++) {
-    const start = formatTime(startTime)
-    const end = formatTime(startTime + config.courseDuration)
-    times.push({ start, end })
-    startTime += config.courseDuration + 10
-  }
+  })
 
   return times
 })

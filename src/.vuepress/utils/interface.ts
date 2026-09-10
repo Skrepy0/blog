@@ -1,3 +1,5 @@
+import { isEqual } from './functions.js'
+
 export interface customTime {
   classBeginTime: string
   classEndTime: string

@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { CourseData, customTime } from '../utils/interface.js'
+import { isSameCourse } from '../utils/functions.js'
 
 interface ScheduleConfig {
   schedules: { id: number; time: string }[]
@@ -109,6 +110,8 @@ interface CourseBlock {
   day: number
   isActiveWeek: boolean // 当前周是否上这门课
   customTime?: customTime // 自定义时间（可选）
+  customTop?: number // 自定义时间课程的像素级 top 位置
+  customHeight?: number // 自定义时间课程的像素级高度
   columnIndex?: number // 重叠时所在的列索引
   columnTotal?: number // 重叠时总列数
 }
@@ -126,7 +129,7 @@ const courseBlocks = computed(() => {
       if (isCustomTime) {
         // 自定义时间课程，根据时间计算对应的节次范围
         const customTimeData = dt.time as customTime
-        const { startPeriod, span } = calculateCustomTimeRange(customTimeData)
+        const { startPeriod, span, top, height } = calculateCustomTimeRange(customTimeData)
         blocks.push({
           course,
           startPeriod,
@@ -134,6 +137,8 @@ const courseBlocks = computed(() => {
           day: dt.day,
           isActiveWeek,
           customTime: customTimeData,
+          customTop: top,
+          customHeight: height,
         })
       } else {
         const times = [...(dt.time as number[])].sort((a: number, b: number) => a - b)
@@ -267,7 +272,7 @@ const getMaxConcurrency = (cluster: CourseBlock[]): number => {
 const blocksOverlap = (a: CourseBlock, b: CourseBlock): boolean => {
   if (a.day !== b.day) return false
   // 同一课程不算重叠
-  if (a.course.name === b.course.name) return false
+  if (isSameCourse(a.course, b.course)) return false
   const aStart = a.startPeriod
   const aEnd = a.startPeriod + a.span
   const bStart = b.startPeriod
@@ -276,9 +281,9 @@ const blocksOverlap = (a: CourseBlock, b: CourseBlock): boolean => {
 }
 
 // 根据自定义时间计算对应的节次范围
-const calculateCustomTimeRange = (customTime: customTime): { startPeriod: number; span: number } => {
+const calculateCustomTimeRange = (customTime: customTime): { startPeriod: number; span: number; top: number; height: number } => {
   if (!scheduleConfig.value || !courseTimes.value.length) {
-    return { startPeriod: 1, span: 1 }
+    return { startPeriod: 1, span: 1, top: 0, height: 80 }
   }
 
   const parseTimeStr = (time: string) => {
@@ -289,12 +294,79 @@ const calculateCustomTimeRange = (customTime: customTime): { startPeriod: number
   const classBeginMinutes = parseTimeStr(customTime.classBeginTime)
   const classEndMinutes = parseTimeStr(customTime.classEndTime)
 
+  // 计算每个节次的起始和结束分钟数
+  const periodStarts = courseTimes.value.map((t) => parseTimeStr(t.start))
+  const periodEnds = courseTimes.value.map((t) => parseTimeStr(t.end))
+
+  // 获取当前行高（响应式）
+  const getRowHeight = (): number => {
+    const width = window.innerWidth
+    if (width <= 480) return 50
+    if (width <= 768) return 60
+    return 80
+  }
+  const getRowGap = (): number => {
+    const width = window.innerWidth
+    if (width <= 480) return 1
+    return 2
+  }
+
+  const ROW_HEIGHT = getRowHeight()
+  const ROW_GAP = getRowGap()
+  const ROW_TOTAL = ROW_HEIGHT + ROW_GAP
+
+  // 计算 top：基于每节的起始位置 + 节内偏移
+  let top = 0
+  for (let i = 0; i < periodStarts.length; i++) {
+    if (classBeginMinutes <= periodStarts[i]) {
+      // 在当前节开始之前或正好开始
+      if (i === 0) {
+        top = Math.max(0, ((classBeginMinutes - periodStarts[0]) / (periodEnds[0] - periodStarts[0])) * ROW_HEIGHT)
+      } else {
+        // 在上一节结束和当前节开始之间（课间），吸附到当前节开始
+        top = i * ROW_TOTAL
+      }
+      break
+    }
+    if (classBeginMinutes < periodEnds[i]) {
+      // 在节内
+      const fraction = (classBeginMinutes - periodStarts[i]) / (periodEnds[i] - periodStarts[i])
+      top = i * ROW_TOTAL + fraction * ROW_HEIGHT
+      break
+    }
+    if (i === periodStarts.length - 1) {
+      // 在最后一节之后
+      const fraction = (classBeginMinutes - periodStarts[i]) / (periodEnds[i] - periodStarts[i])
+      top = i * ROW_TOTAL + fraction * ROW_HEIGHT
+    }
+  }
+
+  // 计算 height：从 top 到结束时间的像素高度
+  let bottom = 0
+  for (let i = 0; i < periodStarts.length; i++) {
+    if (classEndMinutes <= periodStarts[i]) {
+      bottom = i * ROW_TOTAL
+      break
+    }
+    if (classEndMinutes <= periodEnds[i]) {
+      const fraction = (classEndMinutes - periodStarts[i]) / (periodEnds[i] - periodStarts[i])
+      bottom = i * ROW_TOTAL + fraction * ROW_HEIGHT
+      break
+    }
+    if (i === periodStarts.length - 1) {
+      const fraction = (classEndMinutes - periodStarts[i]) / (periodEnds[i] - periodStarts[i])
+      bottom = i * ROW_TOTAL + fraction * ROW_HEIGHT
+    }
+  }
+
+  const height = Math.max(20, bottom - top)
+
   let startPeriod = 1
   let endPeriod = courseTimes.value.length
 
   // 找到开始节次：课程开始时间 <= 某节次结束时间
   for (let i = 0; i < courseTimes.value.length; i++) {
-    const periodEndMinutes = parseTimeStr(courseTimes.value[i].end)
+    const periodEndMinutes = periodEnds[i]
     if (classBeginMinutes <= periodEndMinutes) {
       startPeriod = i + 1
       break
@@ -303,7 +375,7 @@ const calculateCustomTimeRange = (customTime: customTime): { startPeriod: number
 
   // 找到结束节次：课程结束时间 >= 某节次开始时间
   for (let i = courseTimes.value.length - 1; i >= 0; i--) {
-    const periodStartMinutes = parseTimeStr(courseTimes.value[i].start)
+    const periodStartMinutes = periodStarts[i]
     if (classEndMinutes >= periodStartMinutes) {
       endPeriod = i + 1
       break
@@ -311,7 +383,62 @@ const calculateCustomTimeRange = (customTime: customTime): { startPeriod: number
   }
 
   const span = Math.max(1, endPeriod - startPeriod + 1)
-  return { startPeriod, span }
+  return { startPeriod, span, top, height }
+}
+
+// 生成课程块样式
+const getBlockStyle = (block: CourseBlock): Record<string, string> => {
+  const baseStyle: Record<string, string> = {
+    backgroundColor: block.course.displayColor,
+    opacity: block.isActiveWeek ? '1' : '0.3',
+    outline: block.isActiveWeek ? '2px solid rgba(255, 255, 255, 0.5)' : '3px solid rgba(39, 38, 38, 0.8)',
+  }
+
+  // 获取当前响应式 gap
+  const getGap = (): number => {
+    const width = window.innerWidth
+    if (width <= 480) return 1
+    return 2
+  }
+  const gap = getGap()
+
+  // 自定义时间课程：使用绝对定位，精确计算 top 和 height
+  if (block.customTime) {
+    const totalCols = block.columnTotal || 1
+    const colIndex = block.columnIndex || 0
+    // 列宽度 = (100% - gap * 6) / 7
+    const colWidth = `(100% - ${gap * 6}px) / 7`
+    // 列总偏移（含gap）= colWidth * (day-1) + gap * (day-1)
+    const colOffset = `calc(${colWidth} * ${block.day - 1} + ${gap}px * ${block.day - 1})`
+    // 列内块宽度 = (colWidth - gap * (totalCols-1)) / totalCols
+    const blockWidth = `calc((${colWidth} - ${gap}px * ${totalCols - 1}) / ${totalCols})`
+    // 列内偏移 = blockWidth * colIndex + gap * colIndex
+    const innerOffset = `calc(${blockWidth} * ${colIndex} + ${gap}px * ${colIndex})`
+
+    return {
+      ...baseStyle,
+      position: 'absolute',
+      left: `calc(${colOffset} + ${innerOffset})`,
+      width: blockWidth,
+      top: `${block.customTop || 0}px`,
+      height: `${block.customHeight || 80}px`,
+      zIndex: block.columnTotal && block.columnTotal > 1 ? `${5 + (block.columnIndex ?? 0)}` : '1',
+    }
+  }
+
+  // 普通课程：使用 grid 布局
+  return {
+    ...baseStyle,
+    gridColumn: `${block.day}`,
+    gridRow: `${block.startPeriod} / span ${block.span}`,
+    ...(block.columnTotal && block.columnTotal > 1
+      ? {
+          width: `calc((100% - ${gap}px * ${block.columnTotal - 1}) / ${block.columnTotal})`,
+          marginLeft: `calc((100% - ${gap}px * ${block.columnTotal - 1}) / ${block.columnTotal} * ${block.columnIndex} + ${gap}px * ${block.columnIndex})`,
+          zIndex: `${5 + (block.columnIndex ?? 0)}`,
+        }
+      : {}),
+  }
 }
 
 // 切换显示模式
@@ -665,20 +792,7 @@ const copyCourseInfo = (type: 'name' | 'full') => {
                   :key="`${block.course.name}-${block.day}-${block.startPeriod}`"
                   class="course-block"
                   :class="{ overlapping: block.columnTotal && block.columnTotal > 1 }"
-                  :style="{
-                    gridColumn: block.day,
-                    gridRow: `${block.startPeriod} / span ${block.span}`,
-                    backgroundColor: block.course.displayColor,
-                    opacity: block.isActiveWeek ? 1 : 0.3,
-                    outline: block.isActiveWeek ? `2px solid rgba(255, 255, 255, 0.5)` : `3px solid rgba(39, 38, 38, 0.8)`,
-                    ...(block.columnTotal && block.columnTotal > 1
-                      ? {
-                          width: `calc((100% - 2px * ${block.columnTotal - 1}) / ${block.columnTotal})`,
-                          marginLeft: `calc((100% - 2px * ${block.columnTotal - 1}) / ${block.columnTotal} * ${block.columnIndex} + 2px * ${block.columnIndex})`,
-                          zIndex: 5 + (block.columnIndex ?? 0),
-                        }
-                      : {}),
-                  }"
+                  :style="getBlockStyle(block)"
                   @click.stop="openCourseDetail(block.course)"
                 >
                   <div class="course-type-badge">{{ block.course.type }}</div>

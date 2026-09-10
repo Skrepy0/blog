@@ -94,8 +94,8 @@
     "location": "研C103"
   },
   {
-    "name": "算法设计与分析",
-    "displayColor": "#19DAFC",
+    "name": "数字电路与逻辑设计",
+    "displayColor": "#16E116",
     "credit": 4,
     "type": "专业核心",
     "weekTime": [6, 8, 12, 14],
@@ -107,6 +107,21 @@
     ],
     "teachers": ["胡红平"],
     "location": "研C102"
+  },
+  {
+    "name": "算法设计与分析",
+    "displayColor": "#19DAFC",
+    "credit": 4,
+    "type": "专业核心",
+    "weekTime": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+    "dayTime": [
+      {
+        "day": 4,
+        "time": [7, 8]
+      }
+    ],
+    "teachers": ["吴帆"],
+    "location": "综215"
   },
   {
     "name": "概率论与数理统计A",

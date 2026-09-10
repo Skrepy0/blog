@@ -35,12 +35,15 @@ export const isSameCourse = (a: CourseData, b: CourseData) => {
     a.name !== b.name ||
     a.displayColor !== b.displayColor ||
     a.credit !== b.credit ||
-    !isEqual(a.weekTime, b.weekTime, false) ||
-    !isEqual(a.dayTime, b.dayTime, false) ||
+    !isEqual(a.weekTime, b.weekTime) ||
+    !isEqual(a.dayTime, b.dayTime) ||
     a.location !== b.location ||
     a.remarks !== b.remarks
   )
     return false
+  if (a.teachers && b.teachers) {
+    if (!isEqual(a.teachers, b.teachers)) return false
+  }
   if (
     !isEqual(a.dayTime, b.dayTime, false, (t1: DayTime, t2: DayTime) => {
       if (t1.day !== t2.day) return false
@@ -58,5 +61,6 @@ export const isSameCourse = (a: CourseData, b: CourseData) => {
       return true
     })
   )
-    return true
+    return false
+  return true
 }

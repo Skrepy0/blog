@@ -3,6 +3,7 @@ title: 列车车厢重排问题
 icon: pixelarticons:algorithm
 date: 2026-04-09
 star: false
+order: 3
 excerpt: 列车车厢重排问题为什么和最长递增子序列有关?
 category:
   - 学习

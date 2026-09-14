@@ -3,6 +3,7 @@ title: 红黑树入门
 icon: carbon:data-structured
 date: 2026-04-18
 star: false
+order: 4
 excerpt: 既要范围查询，又要频繁增删改？也许你应该了解下红黑树。
 category:
   - 学习

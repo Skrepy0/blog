@@ -2,6 +2,7 @@
 icon: solar:notes-outline
 date: 2026-04-04
 star: false
+order: 5
 excerpt: 线性代数部分公式（期末粥）
 category:
   - 学习

@@ -5,6 +5,7 @@ import navbar from './navbar.js'
 import sidebar from './sidebar.js'
 
 export default hopeTheme({
+  sidebarSorter: ['order', 'readme', 'title', 'filename'],
   fullscreen: true,
   hostname: 'https://blog.skrepy.dpdns.org',
   darkmode: 'switch',

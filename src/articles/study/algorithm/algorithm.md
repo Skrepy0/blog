@@ -438,3 +438,116 @@ void linearSieve(int n) {
     }
 }
 ```
+
+## 基本算法
+
+### 最长递增子序列（LIS）
+
+在一个序列中，找出一个严格递增的子序列（不一定连续），让其长度最大
+
+#### 方法一，动归
+
+定义 $dp[i]$ 表示以 $a[i]$ 结尾的最长递增子序列长度
+不难发现，以 $a[i]$ 结尾的最长递增子序列长度等于 $a[i]$ 前面比他小的数的最长递增子序列长度的最大值加一，即：
+
+$$
+dp[i]=max(dp[j],j<i,a[i]>a[j])
+$$
+
+答案就是 $max(dp[i])$
+
+```cpp
+int LIS(vector<int>& a) {
+    int n = a.size();
+    vector<int> dp(n, 1);// 初始值全是1
+    int ans = 0;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < i; j++) {
+            if (a[j] < a[i])
+                dp[i] = max(dp[i], dp[j] + 1);
+        }
+        ans = max(ans, dp[i]);
+    }
+    return ans;
+}
+```
+
+时间复杂度： $O(n^2)$
+
+### 方法二，贪心＋二分查找
+
+核心：维护一个数组 `tails`，`tails[k]` = 长度为 k+1 的递增子序列的最小结尾值。
+
+`tails` 一定是严格递增的，所以可以二分。
+
+遍历每个 x：
+
+- 如果 `x > tails.back()`，直接追加到末尾（LIS 长度 +1）。
+- 否则，用 `lower_bound` 找到第一个 ≥ x 的位置，替换成 x。
+
+```cpp
+int LIS(vector<int>& a) {
+    vector<int> tails;
+    for (int x : a) {
+        auto it = lower_bound(tails.begin(), tails.end(), x);
+        if (it == tails.end())
+            tails.push_back(x);
+        else
+            *it = x;
+    }
+    return tails.size();
+}
+```
+
+- 时间：$O(n \log n)$。
+
+注意：`tails` 本身**不是 LIS**，只是长度正确。要还原具体序列需要额外记录。
+
+### 还原具体序列
+
+需要额外记录每个元素在 `tails` 中的位置和「前驱」。
+
+```cpp
+vector<int> getLIS(vector<int>& a) {
+    int n = a.size();
+    vector<int> tails;               // 最小结尾
+    vector<int> tailsIdx;            // tails[k] 对应原数组下标
+    vector<int> pre(n, -1);          // 前驱下标
+    vector<int> pos(n, -1);          // 每个元素在 tails 中的位置
+
+    for (int i = 0; i < n; i++) {
+        auto it = lower_bound(tails.begin(), tails.end(), a[i]);
+        int k = it - tails.begin();
+        if (it == tails.end()) {
+            tails.push_back(a[i]);
+            tailsIdx.push_back(i);
+        } else {
+            *it = a[i];
+            tailsIdx[k] = i;
+        }
+        pos[i] = k;
+        if (k > 0) pre[i] = tailsIdx[k - 1];
+    }
+
+    // 回溯
+    vector<int> res;
+    for (int i = tailsIdx.back(); i != -1; i = pre[i])
+        res.push_back(a[i]);
+    reverse(res.begin(), res.end());
+    return res;
+}
+```
+
+### 严格递增 vs 非严格递增
+
+关键在于二分的函数：
+
+| 要求                       | 写法                                       |
+| -------------------------- | ------------------------------------------ |
+| 严格递增（a[j] < a[i]）    | lower_bound(tails.begin(), tails.end(), x) |
+| 非严格递增（a[j] <= a[i]） | upper_bound(tails.begin(), tails.end(), x) |
+
+例：[2, 2, 2]
+
+- 严格递增：LIS = 1
+- 非严格递增：LIS = 3

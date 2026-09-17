@@ -5,7 +5,7 @@ index: false
 article: false
 timeline: false
 icon: lucide:wheat
-category: ""
+category: ''
 ---
 
 <Catalog />

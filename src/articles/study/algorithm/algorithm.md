@@ -224,13 +224,31 @@ int main() {
 
 ## 常用简单算法
 
+### GCD & LCM
+
+#### GCD 最大公因数
+
+```cpp
+inline int gcd(int x, int y){
+    return y ? gcd(y , x % y) : x;
+}
+```
+
+#### LCM 最小公倍数
+
+```cpp
+inline int lcm(int x, int y){
+    return n * m / gcd(x, y);
+}
+```
 
 ### 快速幂
+
 快速幂核心思想：把指数 b 二进制拆分，每次把底数平方，遇到二进制位为 1 就乘进答案，复杂度 O(\log b)。
 
 1. 整数快速幂（取模版）
 
-竞赛最常用，防溢出用 __int128。
+竞赛最常用，防溢出用 \_\_int128。
 
 ```cpp
 // 计算 (a^b) % mod
@@ -275,6 +293,7 @@ long long qpow(long long a, long long b, long long mod) {
 ```
 
 ### 素数判断
+
 #### 试除法（最常用，适合 n ≤ 1e12）
 
 用 6k±1 优化，复杂度 $O(\sqrt{n})$。
@@ -352,7 +371,9 @@ bool isPrime(int64 n) {
     return true;
 }
 ```
+
 #### 埃氏筛（多组询问，预处理 n 以内所有素数）
+
 是求 $2\sim n$之间所有素数的经典算法
 适合 $n \le 10^7$ 左右。
 
@@ -388,6 +409,7 @@ for (int p : primes) cout << p << ' ';
 ---
 
 #### 线性筛（O(n)，适合更大范围）
+
 埃氏筛存在一些问题：一个合数会被多个质数反复筛
 线性筛的做法：
 
@@ -416,4 +438,3 @@ void linearSieve(int n) {
     }
 }
 ```
-

@@ -5,7 +5,7 @@ index: false
 article: false
 timeline: false
 icon: hugeicons:algorithm
-category: ""
+category: ''
 ---
 
 <Catalog />

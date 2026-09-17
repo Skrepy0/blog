@@ -5,7 +5,7 @@ index: false
 article: false
 timeline: false
 icon: ic:baseline-key
-category: ""
+category: ''
 ---
 
 <Catalog />

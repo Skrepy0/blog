@@ -1,7 +1,7 @@
 ---
 icon: ic:outline-bug-report
 date: 2026-04-04
-star: true   # 星标测试QAQ
+star: true # 星标测试QAQ
 excerpt: Blog测试-摘要
 category:
   - 开发
@@ -11,9 +11,11 @@ tag:
 ---
 
 # Blog测试
+
 **我的第一篇Blog，献给了debug \(**
 
 ## 自定义组件测试：
+
 <p style="text-align:center">
 计数器：<Test/>
 <br>
@@ -29,40 +31,50 @@ tag:
 <TotalWords />
 
 ## MarkDown测试：
+
 ### 标题
+
 # h1
+
 ## h2
+
 ### h3
+
 #### h4
+
 ##### h5
+
 ###### h6
 
 ### 格式化
- 
->引用
 
-**加粗**，*倾斜*，==高亮==，~~删除~~
+> 引用
+
+**加粗**，_倾斜_，==高亮==，~~删除~~
 
 #### 无序列表
+
 - 1
 - 2
 - 3
 
 #### 有序列表
+
 1. 1
 2. 2
 3. 3
 
 ### 代码块
+
 ```java
-static boolean isPrime(int n) {  
-    if (n <= 1) return false;  
-    if (n == 2) return true;  
-    if (n % 2 == 0) return false;  
-    for (int i = 3; i * i <= n; i += 2) {  
-        if (n % i == 0) return false;  
-    }  
-    return true;  
+static boolean isPrime(int n) {
+    if (n <= 1) return false;
+    if (n == 2) return true;
+    if (n % 2 == 0) return false;
+    for (int i = 3; i * i <= n; i += 2) {
+        if (n % i == 0) return false;
+    }
+    return true;
 }
 ```
 
@@ -89,6 +101,7 @@ npm i -D vuepress-theme-hope
 :::
 
 ### LaTex语法测试
+
 $$
 E = \left[\begin{matrix}
 1&0&0\\
@@ -101,29 +114,32 @@ $$
 \frac {\partial^r} {\partial \omega^r} \left(\frac {y^{\omega}} {\omega}\right)
 = \left(\frac {y^{\omega}} {\omega}\right) \left\{(\log y)^r + \sum_{i=1}^r \frac {(-1)^i r \cdots (r-i+1) (\log y)^{r-i}} {\omega^i} \right\}
 $$
+
 ::: warning
 这里查出Bug，已经修复
 :::
+
 ### 表格测试
-| 序号  | B   | C   | G   | H   | 条件 1 | 条件 2 | 条件 3 | 条件 4 | 全部满足 |
-| --- | --- | --- | --- | --- | ---- | ---- | ---- | ---- | ---- |
-| 1   | T   | T   | T   | T   | F    | F    | T    | F    | ❌    |
-| 2   | T   | T   | T   | F   | F    | F    | T    | T    | ❌    |
-| 3   | T   | T   | F   | T   | F    | T    | T    | F    | ❌    |
-| 4   | T   | T   | F   | F   | F    | T    | F    | T    | ❌    |
-| 5   | T   | F   | T   | T   | F    | T    | T    | T    | ❌    |
-| 6   | T   | F   | T   | F   | F    | T    | T    | T    | ❌    |
-| 7   | T   | F   | F   | T   | F    | T    | T    | T    | ❌    |
-| 8   | T   | F   | F   | F   | F    | T    | F    | T    | ❌    |
-| 9   | F   | T   | T   | T   | T    | F    | T    | F    | ❌    |
-| 10  | F   | T   | T   | F   | T    | F    | T    | T    | ❌    |
-| 11  | F   | T   | F   | T   | T    | T    | T    | F    | ❌    |
-| 12  | F   | T   | F   | F   | T    | T    | F    | T    | ❌    |
-| 13  | F   | F   | T   | T   | T    | T    | T    | T    | ✅    |
-| 14  | F   | F   | T   | F   | T    | T    | T    | T    | ✅    |
-| 15  | F   | F   | F   | T   | T    | T    | T    | T    | ✅    |
-| 16  | F   | F   | F   | F   | T    | T    | F    | T    | ❌    |
-|     |     |     |     |     |      |      |      |      |      |
+
+| 序号 | B   | C   | G   | H   | 条件 1 | 条件 2 | 条件 3 | 条件 4 | 全部满足 |
+| ---- | --- | --- | --- | --- | ------ | ------ | ------ | ------ | -------- |
+| 1    | T   | T   | T   | T   | F      | F      | T      | F      | ❌       |
+| 2    | T   | T   | T   | F   | F      | F      | T      | T      | ❌       |
+| 3    | T   | T   | F   | T   | F      | T      | T      | F      | ❌       |
+| 4    | T   | T   | F   | F   | F      | T      | F      | T      | ❌       |
+| 5    | T   | F   | T   | T   | F      | T      | T      | T      | ❌       |
+| 6    | T   | F   | T   | F   | F      | T      | T      | T      | ❌       |
+| 7    | T   | F   | F   | T   | F      | T      | T      | T      | ❌       |
+| 8    | T   | F   | F   | F   | F      | T      | F      | T      | ❌       |
+| 9    | F   | T   | T   | T   | T      | F      | T      | F      | ❌       |
+| 10   | F   | T   | T   | F   | T      | F      | T      | T      | ❌       |
+| 11   | F   | T   | F   | T   | T      | T      | T      | F      | ❌       |
+| 12   | F   | T   | F   | F   | T      | T      | F      | T      | ❌       |
+| 13   | F   | F   | T   | T   | T      | T      | T      | T      | ✅       |
+| 14   | F   | F   | T   | F   | T      | T      | T      | T      | ✅       |
+| 15   | F   | F   | F   | T   | T      | T      | T      | T      | ✅       |
+| 16   | F   | F   | F   | F   | T      | T      | F      | T      | ❌       |
+|      |     |     |     |     |        |        |        |        |          |
 
 #### 提示容器
 
@@ -138,7 +154,7 @@ $$
 信息容器，包含 `代码` 与 [链接](#提示容器)。
 
 ```js
-const a = 1;
+const a = 1
 ```
 
 :::
@@ -166,6 +182,7 @@ const a = 1;
 详情容器
 
 :::
+
 ### 选项卡测试
 
 ::: tabs#fruit
@@ -233,24 +250,21 @@ end
 
 <iframe src="https://plugin-md-enhance-demo.vuejs.press/snippet/playground.html" width="100%" height="480"/>
 
-
 #### Kotlin 交互演示
 
 <iframe src="https://plugin-md-enhance-demo.vuejs.press/snippet/kotlin-playground.html" width="100%" height="220"/>
 
-
 #### Sandpack 交互演示
 
 <iframe src="https://plugin-md-enhance-demo.vuejs.press/snippet/sandpack.html" width="100%" height="380"/>
-
 
 #### Vue 交互演示
 
 <iframe src="https://plugin-md-enhance-demo.vuejs.press/snippet/vue-playground.html" width="100%" height="380"/>
 
 ### 插件测试
-<BiliBili bvid="BV1UT42167xb" />
 
+<BiliBili bvid="BV1UT42167xb" />
 
 #### 标题徽章 <Badge text="新" type="tip" /> <Badge text="Test" color="grey" />
 
@@ -263,6 +277,7 @@ end
 <Badge text="note" type="note" />
 
 #### chart.js测试
+
 ::: chartjs 一个块状图案例
 
 ```json
@@ -307,13 +322,17 @@ end
 :::
 
 ### Vue语法测试
+
 ```vue
 一加一等于: {{ 1 + 1 }}
 <span v-for="i in 3"> span: {{ i }} </span>
 ```
+
 一加一等于: {{ 1 + 1 }}
 <span v-for="i in 3"> span: {{ i }} </span>
+
 ### 其他测试
+
 此文字有脚注[^asd].
 [^asd]: 这是脚注内容
 

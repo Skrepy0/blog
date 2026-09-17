@@ -159,8 +159,8 @@ m,n分别是A,B的阶数
 则：
 
 $$
-A^{-1}=\left(\begin{matrix}&&&A_n\\&&A_{n-1}\\&...\\A_1\end{matrix}\right)$$
-
+A^{-1}=\left(\begin{matrix}&&&A_n\\&&A_{n-1}\\&...\\A_1\end{matrix}\right)
+$$
 
 ::: warning 安全声明
 

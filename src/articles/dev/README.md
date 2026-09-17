@@ -5,7 +5,7 @@ index: false
 article: false
 timeline: false
 icon: laptop-code
-category: ""
+category: ''
 ---
 
 <Catalog />

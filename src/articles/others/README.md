@@ -5,7 +5,7 @@ order: 5
 article: false
 timeline: false
 icon: ic:baseline-category
-category: ""
+category: ''
 ---
 
 <Catalog />

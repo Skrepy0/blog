@@ -5,7 +5,7 @@ index: false
 article: false
 timeline: false
 icon: solar:notes-outline
-category: ""
+category: ''
 ---
 
 <Catalog />

@@ -6,7 +6,7 @@ title: 主页
 heroImage: avatar.png
 heroText: 这里是Skrepy~
 heroFullScreen: true
-bgImage: https://bingw.jasonzeng.dev
+bgImage: https://bz.w3h5.com/img/uhd
 tagline: 
 projects:
   - icon: house

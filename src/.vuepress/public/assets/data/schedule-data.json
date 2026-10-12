@@ -303,5 +303,24 @@
     "teachers": ["褚鑫睿"],
     "location": "物B102",
     "remarks": "座位号:12"
+  },
+  {
+    "name": "红外物理特性及应用",
+    "displayColor": "#FF7700",
+    "credit": 6,
+    "type": "实验",
+    "weekTime": [12],
+    "dayTime": [
+      {
+        "day": 2,
+        "time": {
+          "classBeginTime": "13:00",
+          "classEndTime": "17:00"
+        }
+      }
+    ],
+    "teachers": ["冼铭华"],
+    "location": "物B103",
+    "remarks": "座位号:2"
   }
 ]

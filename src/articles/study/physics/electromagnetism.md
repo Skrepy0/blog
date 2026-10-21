@@ -499,10 +499,10 @@ $$
 
 ---
 
-设导体某点处的体电荷密度大小为 $\rho$ ,电荷定向移动速度是 $\vec v$ ，则在 $dt$ 时间内，通过该点处电流方向垂直的面元 $dS_{\prep}$ 的电量为 $\rho dS_{\prep} v dt$ ,电流：
+设导体某点处的体电荷密度大小为 $\rho$ ,电荷定向移动速度是 $\vec v$ ，则在 $dt$ 时间内，通过该点处电流方向垂直的面元 $dS_{\perp}$ 的电量为 $\rho dS_{\perp} v dt$ ,电流：
 
 $$
-I=\frac{\rho dS_{\prep} v dt}{dt}=\rho dS_{\prep} v
+I=\frac{\rho dS_{\perp} v dt}{dt}=\rho dS_{\perp} v
 $$
 
 即:

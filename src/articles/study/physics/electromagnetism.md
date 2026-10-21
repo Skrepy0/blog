@@ -762,3 +762,156 @@ $$
 | $\vec p_m=IS\vec n$ | $\vec p_e=q\vec l$|
 | $\vec M = \vec p_m \times \vec B$ | $\vec M = \vec p_e \times \vec E$ |
 |在均匀磁场中 $\vec F_{\text{和}}=\vec 0$ ;合力矩一般不为0 |在均匀电场中 $\vec F_{\text{和}}=\vec 0$ ;和力矩一般不为0|
+
+#### 磁力的功
+
+##### 安培力对载流导线做的功
+
+<Picture
+url="/assets/articles/study/electromagnetism/15.23.webp"
+height=260
+/>
+
+ab边受到的安培力：
+
+$$
+F=IBl
+$$
+
+$$
+dA=Fdx=IBldx=Id(Blx)=Id\Phi_m
+$$
+
+> $d\Phi_m$ 为ab边移动 $dx$ 过程中回路中磁通量的增量
+
+##### 磁力矩对载流线圈所做的功
+
+<Picture
+url="/assets/articles/study/electromagnetism/15.24.webp"
+height=260
+/>
+
+$\vec p_m$ 和 $\vec B$ 之间的夹角为 $\varphi$ ，增至 $\varphi+d\varphi$ 时，磁力矩做功：
+
+$$
+dA=-\vec M d\varphi=-p_m B \sin \varphi d\varphi=-ISB\sin \varphi d\varphi=Id(BS\cos \varphi)=Id\Phi_m
+$$
+
+若载流线圈在磁场中运动，通过线圈回路的磁通量从 $\Phi_{m1}$ 变到 $\Phi_{m2}$ ,则磁力或磁力矩做的总功为：
+
+$$
+A=\int_{\Phi_{m1}}^{\Phi_{m2}} Id\Phi_m
+$$
+
+> 可以证明，任一载流平面线圈在磁场中的位置、方向或形状发生改变时，磁力或磁力矩所做的功都能用上式计算
+
+$\varphi$ 由 $\varphi_1$ 变成 $\varphi_2$ 时，磁力矩做的功：
+
+$$
+A=p_mB\cos \varphi_2-p_mB\cos \varphi_1
+$$
+
+规定 $\varphi=\pi/2$ 的位置的磁势能为0，则 $\vec p_m$ 和 $\vec B$ 之间的夹角为 $\varphi$ 时的磁势能为：
+
+$$
+E_p=-\vec p_m\cdot \vec B
+$$
+
+在非均匀磁场中，载流线圈所受磁力一般不为0，如磁场在 $z$ 方向不均匀分布，则上式可写成 $E_p=-\vec p_m\cdot \vec B=-p_{mz}B$ , 式中 $p_{mz}$ 是磁矩在 $z$ 方向的分量.线圈受力:
+
+$$
+F=-\frac{\partial E_p}{\partial z}=p_{mz}\frac{dB}{dz}
+$$
+
+### 带电粒子在磁场中的运动
+
+#### 洛伦兹力
+
+运动电荷在磁场中会受到磁力的作用，该力被称为**洛伦兹力**
+
+$$
+\vec f_m = q\vec v \times \vec B
+$$
+
+> $q$ 带符号
+
+洛伦兹力 $\vec f_m$ 的方向总是和带电粒子的速度 $\vec v$ 的方向垂直，故**洛伦兹力不做功**，不能改变粒子的速度大小，只能改变粒子的运动的速度方向
+
+若空间中同时存在电场和磁场，则运动电荷既受电场力也受磁力，受到的电磁力：
+
+$$
+\vec f=\vec f_e+\vec f_m=q\vec E+q\vec v \times \vec B
+$$
+
+上式也称为**洛伦兹关系**。和牛顿第二定律结合：
+
+$$
+m\frac{d^2\vec r}{dt^2}=q\vec E+q\frac{d\vec r}{dt}\times \vec B
+$$
+
+上式为带电粒子在电磁场中运动的微分方程
+
+#### 带电粒子在磁场中的运动
+
+若 $\vec v$ 与 $\vec B$ 同向，则 $\vec f_m=\vec 0$，粒子做匀速直线运动
+
+若 $\vec v$ 与 $\vec B$ 垂直时，洛伦兹力提供向心力，粒子做匀速圆周运动
+
+$$
+qvB=m\frac{v^2}{R}
+$$
+
+得：
+
+$$
+R=\frac{mv}{qB},
+T=\frac{2\pi m}{qB}
+$$
+
+一般情况下，粒子运动的速度 $\vec v$ 与磁感应强度 $\vec B$的夹角为 $\theta$ .此时将速度分解成垂直磁场方向的 $v\sin \theta$ 和平行与磁场方向的 $v\cos \theta$,前者让粒子做圆周运动：
+
+$$
+R=\frac{mv\sin \theta}{qB}
+$$
+
+后者让粒子沿着磁场方向做匀速直线运动。上述两个分运动的合运动是一个以磁场方向为轴线的螺旋运动，螺距是:
+
+$$
+h=(v\cos \theta)T=\frac{2\pi m}{qB}v\cos \theta
+$$
+
+##### 磁聚焦 磁镜 磁瓶
+
+P79
+
+#### 霍尔效应
+
+<Picture
+url="/assets/articles/study/electromagnetism/15.30.webp"
+height=260
+/>
+
+**霍尔效应**：将已知尺寸的导电片放入均匀磁场 $\vec B$ 中，并使磁场方向与导电片表面垂直，当通入图示方向的电流 $I$ 时，发现导电片上线表面间出现电压.
+出现的电势差称为**霍尔电压**( $U_{H}$ ),其符号与载流子电荷的正、负有关，大小为
+
+$$
+U_{H}=R_H\frac{IB}{b}
+$$
+
+> $R_H$ 为**霍尔系数**，$R_H=\frac{1}{nq}$
+
+平衡条件：
+
+$$
+qE=qvB
+$$
+
+$$
+U_{H}=Eh=vBh
+$$
+
+将 $I=nqvS=nqvhb$ 带入
+
+$$
+U_{H}=\frac{1}{nq}\frac{IB}{b}
+$$

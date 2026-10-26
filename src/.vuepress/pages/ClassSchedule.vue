@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { CourseData, customTime } from '../utils/interface.js'
 import { isSameCourse } from '../utils/functions.js'
@@ -13,6 +13,22 @@ interface ScheduleConfig {
 const scheduleConfig = ref<ScheduleConfig | null>(null)
 const courseData = ref<CourseData[]>([])
 const router = useRouter()
+const viewportWidth = ref(0)
+const updateViewportWidth = () => {
+  viewportWidth.value = window.innerWidth
+}
+onMounted(() => {
+  updateViewportWidth()
+  window.addEventListener('resize', updateViewportWidth)
+})
+onUnmounted(() => window.removeEventListener('resize', updateViewportWidth))
+
+// Parse date-only configuration as a local calendar date, not UTC midnight.
+const parseLocalDate = (value: string): Date => {
+  const [year, month, day] = value.split('-').map(Number)
+  return new Date(year, month - 1, day)
+}
+const calendarDay = (date: Date): number => Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 86400000
 
 // 返回首页
 const goHome = () => {
@@ -63,10 +79,9 @@ const courseTimes = computed(() => {
 // 计算当前周数
 const currentWeek = computed(() => {
   if (!scheduleConfig.value) return 1
-  const firstDay = new Date(scheduleConfig.value.firstWeekBeginTime)
+  const firstDay = parseLocalDate(scheduleConfig.value.firstWeekBeginTime)
   const today = new Date()
-  const diffTime = today.getTime() - firstDay.getTime()
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
+  const diffDays = calendarDay(today) - calendarDay(firstDay)
   const week = Math.floor(diffDays / 7) + 1
   return Math.max(1, Math.min(week, scheduleConfig.value.totalWeek))
 })
@@ -81,9 +96,11 @@ const displayWeek = computed(() => {
 // 当前查看周的日期范围
 const weekDateRange = computed(() => {
   if (!scheduleConfig.value) return ''
-  const firstDay = new Date(scheduleConfig.value.firstWeekBeginTime)
-  const monday = new Date(firstDay.getTime() + (displayWeek.value - 1) * 7 * 24 * 60 * 60 * 1000)
-  const sunday = new Date(monday.getTime() + 6 * 24 * 60 * 60 * 1000)
+  const firstDay = parseLocalDate(scheduleConfig.value.firstWeekBeginTime)
+  const monday = new Date(firstDay)
+  monday.setDate(monday.getDate() + (displayWeek.value - 1) * 7)
+  const sunday = new Date(monday)
+  sunday.setDate(sunday.getDate() + 6)
   const formatDate = (d: Date) => `${d.getMonth() + 1}/${d.getDate()}`
   return `${formatDate(monday)} - ${formatDate(sunday)}`
 })
@@ -91,8 +108,9 @@ const weekDateRange = computed(() => {
 // 当前月份（根据显示周的周一所在月份）
 const currentMonth = computed(() => {
   if (!scheduleConfig.value) return ''
-  const firstDay = new Date(scheduleConfig.value.firstWeekBeginTime)
-  const monday = new Date(firstDay.getTime() + (displayWeek.value - 1) * 7 * 24 * 60 * 60 * 1000)
+  const firstDay = parseLocalDate(scheduleConfig.value.firstWeekBeginTime)
+  const monday = new Date(firstDay)
+  monday.setDate(monday.getDate() + (displayWeek.value - 1) * 7)
   return `${monday.getMonth() + 1}月`
 })
 
@@ -182,6 +200,20 @@ const resolveOverlaps = (blocks: CourseBlock[]): CourseBlock[] => {
   const dayGroups: Map<number, CourseBlock[]> = new Map()
   blocks.forEach((block) => {
     const day = block.day
+    // Only collapse identical records at the same occurrence, not all same-name courses.
+    if (
+      dayGroups
+        .get(day)
+        ?.some(
+          (existing) =>
+            existing.startPeriod === block.startPeriod &&
+            existing.span === block.span &&
+            existing.customTime?.classBeginTime === block.customTime?.classBeginTime &&
+            existing.customTime?.classEndTime === block.customTime?.classEndTime &&
+            isSameCourse(existing.course, block.course)
+        )
+    )
+      return
     if (!dayGroups.has(day)) {
       dayGroups.set(day, [])
     }
@@ -220,59 +252,25 @@ const resolveOverlaps = (blocks: CourseBlock[]): CourseBlock[] => {
 
     // 处理每个簇
     clusters.forEach((cluster) => {
-      // 按课程名去重，保留第一个
-      const uniqueBlocks: CourseBlock[] = []
-      const seenNames = new Set<string>()
-      cluster.forEach((block) => {
-        if (!seenNames.has(block.course.name)) {
-          seenNames.add(block.course.name)
-          uniqueBlocks.push(block)
-        }
+      // Sort by start time and reuse a column once its previous course has ended.
+      const sorted = [...cluster].sort((a, b) => a.startPeriod - b.startPeriod || b.span - a.span)
+      const columnEnds: number[] = []
+      const assigned = sorted.map((block) => {
+        let columnIndex = columnEnds.findIndex((end) => end <= block.startPeriod)
+        if (columnIndex === -1) columnIndex = columnEnds.length
+        columnEnds[columnIndex] = block.startPeriod + block.span
+        return { ...block, columnIndex }
       })
-
-      if (uniqueBlocks.length === 1) {
-        result.push(uniqueBlocks[0])
-      } else {
-        // 计算最大并发重叠数
-        const maxConcurrency = getMaxConcurrency(uniqueBlocks)
-        // 将重叠课程并排显示
-        uniqueBlocks.forEach((block, index) => {
-          result.push({
-            ...block,
-            columnIndex: index,
-            columnTotal: maxConcurrency,
-          })
-        })
-      }
+      assigned.forEach((block) => result.push({ ...block, columnTotal: columnEnds.length }))
     })
   })
 
   return result
 }
 
-// 计算课程簇中的最大并发重叠数
-const getMaxConcurrency = (cluster: CourseBlock[]): number => {
-  const events: { time: number; delta: number }[] = []
-  cluster.forEach((block) => {
-    events.push({ time: block.startPeriod, delta: 1 })
-    events.push({ time: block.startPeriod + block.span, delta: -1 })
-  })
-  events.sort((a, b) => a.time - b.time)
-
-  let max = 0
-  let current = 0
-  events.forEach((e) => {
-    current += e.delta
-    max = Math.max(max, current)
-  })
-  return max
-}
-
-// 判断两个课程块是否重叠（同一课程不算重叠）
+// 判断两个课程块是否重叠
 const blocksOverlap = (a: CourseBlock, b: CourseBlock): boolean => {
   if (a.day !== b.day) return false
-  // 同一课程不算重叠
-  if (isSameCourse(a.course, b.course)) return false
   const aStart = a.startPeriod
   const aEnd = a.startPeriod + a.span
   const bStart = b.startPeriod
@@ -300,13 +298,13 @@ const calculateCustomTimeRange = (customTime: customTime): { startPeriod: number
 
   // 获取当前行高（响应式）
   const getRowHeight = (): number => {
-    const width = window.innerWidth
+    const width = viewportWidth.value
     if (width <= 480) return 50
     if (width <= 768) return 60
     return 80
   }
   const getRowGap = (): number => {
-    const width = window.innerWidth
+    const width = viewportWidth.value
     if (width <= 480) return 1
     return 2
   }
@@ -396,7 +394,7 @@ const getBlockStyle = (block: CourseBlock): Record<string, string> => {
 
   // 获取当前响应式 gap
   const getGap = (): number => {
-    const width = window.innerWidth
+    const width = viewportWidth.value
     if (width <= 480) return 1
     return 2
   }

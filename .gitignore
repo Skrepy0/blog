@@ -7,4 +7,4 @@ src/.vuepress/dist/
 .vercel
 .env*.local
 .env
-
+.taste-skill/

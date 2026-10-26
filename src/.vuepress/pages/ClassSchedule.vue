@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { CourseData, customTime } from '../utils/interface.js'
 import { isSameCourse } from '../utils/functions.js'
@@ -451,140 +451,109 @@ const handleClickOutside = () => {
   showDropdown.value = false
 }
 
-// 滑动切换周数 - 胶片效果
+// Week changes use two one-way slides, with an unanimated reposition between them.
 const touchStartX = ref(0)
 const touchStartY = ref(0)
 const isSwiping = ref(false)
 const swipeOffset = ref(0)
 const isAnimating = ref(false)
+const transitionDisabled = ref(false)
+const SLIDE_DURATION = 300
+let slideTimer: ReturnType<typeof setTimeout> | undefined
+let slideFrame: number | undefined
+let slideDisposed = false
+
+onUnmounted(() => {
+  slideDisposed = true
+  clearTimeout(slideTimer)
+  if (slideFrame !== undefined) cancelAnimationFrame(slideFrame)
+})
+
+const resetSwipe = () => {
+  if (isAnimating.value) return
+  // An incomplete or unavailable gesture resets immediately, without a rebound.
+  transitionDisabled.value = true
+  swipeOffset.value = 0
+  isSwiping.value = false
+}
+
+const changeWeek = (direction: -1 | 1) => {
+  if (isAnimating.value) return
+  const targetWeek = displayWeek.value + direction
+  if (!scheduleConfig.value || targetWeek < 1 || targetWeek > scheduleConfig.value.totalWeek) {
+    resetSwipe()
+    return
+  }
+
+  isAnimating.value = true
+  isSwiping.value = false
+  transitionDisabled.value = false
+  const distance = window.innerWidth
+  swipeOffset.value = -direction * distance
+
+  slideTimer = setTimeout(async () => {
+    // Teleport the new week offscreen without animating across the viewport.
+    transitionDisabled.value = true
+    viewWeek.value += direction
+    swipeOffset.value = direction * distance
+    await nextTick()
+    if (slideDisposed) return
+
+    // Give the browser a painted frame at the entry position before enabling motion.
+    slideFrame = requestAnimationFrame(() => {
+      slideFrame = requestAnimationFrame(() => {
+        transitionDisabled.value = false
+        swipeOffset.value = 0
+        slideTimer = setTimeout(() => {
+          isAnimating.value = false
+        }, SLIDE_DURATION)
+      })
+    })
+  }, SLIDE_DURATION)
+}
 
 const handleTouchStart = (e: TouchEvent) => {
   if (isAnimating.value) return
   touchStartX.value = e.touches[0].clientX
   touchStartY.value = e.touches[0].clientY
   isSwiping.value = true
+  transitionDisabled.value = false
   swipeOffset.value = 0
 }
 
 const handleTouchMove = (e: TouchEvent) => {
   if (!isSwiping.value || isAnimating.value) return
-  const currentX = e.touches[0].clientX
-  const currentY = e.touches[0].clientY
-  const diffX = currentX - touchStartX.value
-  const diffY = currentY - touchStartY.value
-
-  // 如果垂直滑动更大，取消水平滑动
+  const diffX = e.touches[0].clientX - touchStartX.value
+  const diffY = e.touches[0].clientY - touchStartY.value
   if (Math.abs(diffY) > Math.abs(diffX)) {
+    resetSwipe()
     return
   }
-
-  // 添加阻尼效果，使滑动更自然
-  const damping = 0.4
-  swipeOffset.value = diffX * damping
+  const direction = diffX < 0 ? 1 : -1
+  const targetWeek = displayWeek.value + direction
+  if (!scheduleConfig.value || targetWeek < 1 || targetWeek > scheduleConfig.value.totalWeek) return
+  swipeOffset.value = diffX * 0.4
 }
 
 const handleTouchEnd = (e: TouchEvent) => {
   if (!isSwiping.value || isAnimating.value) return
-  isSwiping.value = false
-  isAnimating.value = true
-
-  const touchEndX = e.changedTouches[0].clientX
-  const touchEndY = e.changedTouches[0].clientY
-  const diffX = touchEndX - touchStartX.value
-  const diffY = touchEndY - touchStartY.value
-
-  // 水平滑动距离大于50且大于垂直滑动距离
+  const diffX = e.changedTouches[0].clientX - touchStartX.value
+  const diffY = e.changedTouches[0].clientY - touchStartY.value
   if (Math.abs(diffX) > 50 && Math.abs(diffX) > Math.abs(diffY)) {
-    // 计算目标偏移量（滑出屏幕）
-    const targetOffset = diffX < 0 ? -window.innerWidth : window.innerWidth
-
-    // 第一阶段：当前内容滑出屏幕
-    swipeOffset.value = targetOffset
-
-    // 动画结束后切换数据
-    setTimeout(() => {
-      // 直接修改 viewWeek，不调用 prevWeek/nextWeek（避免重复动画）
-      if (diffX < 0 && scheduleConfig.value && displayWeek.value < scheduleConfig.value.totalWeek) {
-        viewWeek.value += 1
-      } else if (diffX > 0 && displayWeek.value > 1) {
-        viewWeek.value -= 1
-      }
-
-      // 第二阶段：新内容从反方向滑入
-      swipeOffset.value = diffX < 0 ? window.innerWidth : -window.innerWidth
-
-      // 强制重绘后开始滑入动画
-      requestAnimationFrame(() => {
-        swipeOffset.value = 0
-        setTimeout(() => {
-          isAnimating.value = false
-        }, 300)
-      })
-    }, 300)
+    changeWeek(diffX < 0 ? 1 : -1)
   } else {
-    // 滑动距离不够，回弹
-    swipeOffset.value = 0
-    setTimeout(() => {
-      isAnimating.value = false
-    }, 200)
+    resetSwipe()
   }
 }
 
-// 上一周（按钮点击）
-const prevWeek = () => {
-  if (!scheduleConfig.value || isAnimating.value) return
-  if (displayWeek.value >= scheduleConfig.value.totalWeek) return
+// Keep existing button bindings: the right arrow advances, the left goes back.
+const prevWeek = () => changeWeek(1)
+const nextWeek = () => changeWeek(-1)
 
-  isAnimating.value = true
-
-  // 第一阶段：当前内容向左滑出
-  swipeOffset.value = -window.innerWidth
-
-  setTimeout(() => {
-    viewWeek.value += 1
-
-    // 第二阶段：新内容从右侧滑入
-    swipeOffset.value = window.innerWidth
-
-    requestAnimationFrame(() => {
-      swipeOffset.value = 0
-      setTimeout(() => {
-        isAnimating.value = false
-      }, 300)
-    })
-  }, 300)
-}
-
-// 下一周（按钮点击）
-const nextWeek = () => {
-  if (isAnimating.value) return
-  if (displayWeek.value <= 1) return
-
-  isAnimating.value = true
-
-  // 第一阶段：当前内容向右滑出
-  swipeOffset.value = window.innerWidth
-
-  setTimeout(() => {
-    viewWeek.value -= 1
-
-    // 第二阶段：新内容从左侧滑入
-    swipeOffset.value = -window.innerWidth
-
-    requestAnimationFrame(() => {
-      swipeOffset.value = 0
-      setTimeout(() => {
-        isAnimating.value = false
-      }, 300)
-    })
-  }, 300)
-}
-
-// 回到当前周
 const goToCurrentWeek = () => {
-  if (viewWeek.value !== 0) {
-    viewWeek.value = 0
-  }
+  if (isAnimating.value) return
+  resetSwipe()
+  viewWeek.value = 0
 }
 
 // 课程详情弹窗
@@ -760,10 +729,11 @@ const copyCourseInfo = (type: 'name' | 'full') => {
           <!-- 课程行 -->
           <div
             class="grid-body"
-            :class="{ swiping: isSwiping }"
+            :class="{ swiping: isSwiping, repositioning: transitionDisabled }"
             @touchstart.passive="handleTouchStart"
             @touchmove="handleTouchMove"
             @touchend="handleTouchEnd"
+            @touchcancel="resetSwipe"
           >
             <!-- 左侧节数和时间列 -->
             <div class="time-column">
@@ -1179,7 +1149,8 @@ const copyCourseInfo = (type: 'name' | 'full') => {
   }
 
   // 滑动过程中禁用过渡，实现实时跟随
-  &.swiping {
+  &.swiping,
+  &.repositioning {
     .course-grid-wrapper,
     .time-column {
       transition: none;

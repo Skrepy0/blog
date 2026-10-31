@@ -990,3 +990,60 @@ I_m=\oint_L \vec M \times d\vec l
 $$
 
 > 闭合回路 $L$ 所包围的总磁化电流等于 $\vec M$ 绕该闭合回路的线积分
+
+### 有磁介质时的安培环路定理
+
+在外磁场中磁化了的磁介质会产生磁化电流 $I_m$,磁化电流也会产生磁场，因此磁介质内任一点处的磁场 $\vec B$ 应该是外磁场 $\vec B_0$ 与 磁化电流 $I_m$ 产生的附加磁场 $\vec B'$ 的矢量和：
+
+$$
+\vec B= \vec B_0 + \vec B'
+$$
+
+有磁介质时，安培环路定理是：
+
+$$
+\oint_L \vec B \cdot d\vec l=\oint_L (\vec B_0 + \vec B') \cdot d\vec l=\mu_0(\sum I_0+I_m)
+$$
+
+> $\sum I_0, I_m$ 分别是闭合回路L所包围的传导电流代数和及总磁化电流
+
+结合 $\oint_L \vec M \cdot d\vec l=I_m$,有：
+
+$$
+\oint_L (\frac{\vec B}{\mu_0}-\vec M)\cdot d\vec l=\sum I_0
+$$
+
+引入物理量 $\vec H$ (磁化强度),其定义为：
+
+$$
+\vec H=\frac{\vec B}{\mu_0} - \vec M
+$$
+
+> 磁场强度在国际单位制中的单位为安\[培\]每米(A/m)
+
+则有磁介质时的安培环路定理可表示为
+
+$$
+\oint_L \vec H \cdot d\vec l = \sum I_0
+$$
+
+磁化强度 $\vec M$ 与磁场强度 $\vec H$ 的关系
+
+$$
+\vec M = \chi_m \vec H
+$$
+
+> $\chi_m$ 称为**磁化率**，是量纲为一的量
+
+$$\vec B=\mu_0(1+\chi_m)\vec H$$
+
+记 $\mu_r=1+\chi_m$ $\mu_r$ 为前面引入的**相对磁导率**
+
+$$
+\vec B=\mu_0\mu_r \vec H=\mu \vec H
+$$
+
+磁介质不同，其 $\mu_r$, $\mu$, $\chi_m$ 一般也不同。
+顺磁质的 $\chi_m$ 为正，数量级为 $10^{-4}$
+抗磁质的 $\chi_m$ 为负，数量级为 $10^{-5}$
+铁磁质的相对磁导率 $\mu_r>>1$,常在 $10^2\sim 10^6$ 之间，甚至更大

@@ -980,7 +980,7 @@ $$
 磁化面电流密度：
 
 $$
-\vec j_m=\vec M \times \vec n
+\vec j_m=\vec M \cdot \vec n
 $$
 
 > $\vec n$ 为磁介质表面外法线方向上的单位矢量
@@ -1013,7 +1013,7 @@ $$
 \oint_L (\frac{\vec B}{\mu_0}-\vec M)\cdot d\vec l=\sum I_0
 $$
 
-引入物理量 $\vec H$ (磁化强度),其定义为：
+引入物理量 $\vec H$ (磁场强度),其定义为：
 
 $$
 \vec H=\frac{\vec B}{\mu_0} - \vec M
@@ -1051,3 +1051,22 @@ $$
 ### 铁磁质
 
 P101
+
+:::info 相关知识与结论
+磁矩 $m=MV$
+
+> $M$是磁化强度，$V$ 是介质的体积
+
+磁场能量密度 $\omega_m=\int H \cdot dB$
+在真空或线性介质中 $\omega_m=\frac{1}{2}\vec B \cdot \vec H=\frac{B^2}{2\mu}=\frac{1}{2}\mu H^2$
+空间区域 $V$ 中的总磁场能量为 $U_m=\int_V \omega_m dV$
+
+$B,H,M$ 之间的关系：
+
+$$
+(\mu_r-1)H=M,\quad B=\mu_0(H+M),\quad B=\mu H
+$$
+
+> 只在线性、各向同性、无剩磁、$\mu_r$ 为标量常数的磁介质中作为材料本构关系成立
+
+:::

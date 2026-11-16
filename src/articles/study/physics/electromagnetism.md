@@ -227,7 +227,7 @@ $d\vec l$ 沿电场线方向时，电势变化率有最大值，这个最大值�
 #### 场强与电势的微分关系
 
 $$
-\vec E=(\frac{\partial U}{\partial x}\vec i+\frac{\partial U}{\partial y}\vec j+\frac{\partial U}{\partial z}\vec k)=-\nabla U
+\vec E=-(\frac{\partial U}{\partial x}\vec i+\frac{\partial U}{\partial y}\vec j+\frac{\partial U}{\partial z}\vec k)=-\nabla U
 $$
 
 ## 静电场中的导体和电介质

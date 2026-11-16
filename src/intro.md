@@ -21,18 +21,18 @@ titles:
 <!--START_SECTION:waka-->
 
 ```txt
-From: 01 November 2026 - To: 08 November 2026
+From: 08 November 2026 - To: 15 November 2026
 
-Total Time: 14 hrs 59 mins
+Total Time: 10 hrs 46 mins
 
-Markdown         8 hrs 24 mins         ░░░░░░░░░░░▒█████████████   46.74 %
-Python           4 hrs 50 mins         ░░░░░░▒██████████████████   26.97 %
-Other            2 hrs 59 mins         ░░░░█████████████████████   16.60 %
-JSON             30 mins               ▒████████████████████████   02.85 %
-Vue              29 mins               ▒████████████████████████   02.75 %
-TOML             12 mins               ▓████████████████████████   01.12 %
-PowerShell       10 mins               ▓████████████████████████   01.01 %
-Git Config       9 mins                ▓████████████████████████   00.84 %
+C++                3 hrs 35 mins         ░░░░░░░░█████████████████   32.57 %
+Markdown           2 hrs 43 mins         ░░░░░░▓██████████████████   24.77 %
+JSON               1 hr 21 mins          ░░░██████████████████████   12.27 %
+Python             1 hr 14 mins          ░░▒██████████████████████   11.27 %
+JavaScript         45 mins               ░▒███████████████████████   06.87 %
+TOML               28 mins               ░████████████████████████   04.28 %
+Text               15 mins               ▒████████████████████████   02.37 %
+Other              14 mins               ▒████████████████████████   02.17 %
 ```
 
 <!--END_SECTION:waka-->
